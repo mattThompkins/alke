@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<textarea id="myText">
+    I think Outborn has serious potential!
+</textarea>
+<button onclick="sendMail(); return false">Send</button>
+<body>
+
+<h1>MoBsid Comics</h1>
+<br>
+</br>
+<br>
+<input type= "image" id="Rightbutton " style="height:20px;width:20px;position:relative;right:-780px;top:2px" onclick="Rbutton()" class="rbutton" src="right.png" >
+
+<textarea id="pagenumber" style="height:20px;width:20px;position:relative;right:-380px;top:2px">
+</textarea>
+
+<input type= "image" id="Leftbutton" style="height:20px;width:20px;position:relative;left:0px;top:2px" onclick="Lbutton()" class="lbutton" src="left.png" >
+</br>
+
+
+
+</style>
+<br>
+<div>
+<img src="1.png" id="mainimage" style="width:304px;height:228px;position:relative;right:-360px;top:2px">	
+</div>
+</br>
+
+<script type="text/javascript">
+
+var pageHaoma = 0; 
+	
+function Rbutton () {
+		console.log('love');
+		
+		if (pageHaoma <20) {
+			pageHaoma +=1;
+			var translation= pageHaoma.toString(); 
+			document.getElementById("pagenumber").value = translation;
+
+		}
+		if (pageHaoma == 1) {
+			document.getElementById('mainimage').src = "1.png";
+			console.log('equals 1');
+		}
+		if (pageHaoma == 2) {
+			document.getElementById('mainimage').src = "2.png";
+			console.log('equals 2');
+		}
+		if (pageHaoma == 3) {
+			document.getElementById('mainimage').src = "3.png";
+			console.log('equals 3');
+		}
+		if (pageHaoma == 4) {
+			document.getElementById('mainimage').src = "4.png";
+		}
+		if (pageHaoma == 5) {
+			document.getElementById('mainimage').src = "5.png";
+		}
+		if (pageHaoma > 5) {
+			document.getElementById('mainimage').src = "kenan.png";
+		}
+
+	}
+
+	function Lbutton () {
+		console.log('bliss');
+		
+		if (pageHaoma >0) {
+			pageHaoma -=1;
+			var translation= pageHaoma.toString(); 
+			document.getElementById("pagenumber").value = translation;
+
+		}
+		if (pageHaoma == 1) {
+			document.getElementById('mainimage').src = "1.png";
+		}
+		if (pageHaoma == 2) {
+			document.getElementById('mainimage').src = "2.png";
+		}
+		if (pageHaoma == 3) {
+			document.getElementById('mainimage').src = "3.png";
+		}
+		if (pageHaoma == 4) {
+			document.getElementById('mainimage').src = "4.png";
+		}
+		if (pageHaoma == 5) {
+			document.getElementById('mainimage').src = "5.png";
+		}
+if (pageHaoma > 5) {
+			document.getElementById('mainimage').src = "kenan.png";
+		}
+
+
+	}
+
+
+
+	function sendMail() {
+    var link = "mailto:mattaculer@gmail.com"
+             + "?cc=ejeafields@gmail.com"
+             + "&subject=" + escape("This is my subject")
+             + "&body=" + escape(document.getElementById('myText').value)
+    ;
+
+    window.location.href = link;
+}
+
+</script>
+</body>
+
+</html>
