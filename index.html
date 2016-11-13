@@ -5,9 +5,11 @@
 </head>
 
 <body>
-<body bgcolor="#0FF">
+<body bgcolor="#03031A">
 <body>
-<h1>MoBsid Comics</h1>
+<h1 style="color:#FF8C00;position:relative;right:-380px;top:2px" >MobSid</h1>
+
+
 <br>
 </br>
 <br>
@@ -24,13 +26,13 @@
 </style>
 <br>
 <div>
-<img src="kenan.png" id="mainimage" style="width:304px;height:228px;position:relative;right:-360px;top:2px">	
+<img src="Outborn Page 1_2.png" id="mainimage" style="width:404px;height:628px;position:relative;right:-260px;top:2px">	
 </div>
 </br>
-<textarea id="myText" style="width:304px;height:228px;position:relative;right:-680px;top:8px">
-    I think Outborn has serious potential!
+<textarea id="myText" style="width:304px;height:228px;position:relative;right:-780px;top:-450px">
+    Please TYPE IN YOUR FEEDBACK AND CLICK SEND. Thank you!
 </textarea>
-<button  style="position:relative;right:-680px;top:8px" onclick="sendMail(); return false">Send</button>
+<button  style="position:relative;right:-780px;top:-450px" onclick="sendMail(); return false">Send</button>
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis.min.js"></script>
 
 <script type="text/javascript">
@@ -70,32 +72,43 @@ var pageHaoma = 0;
 function Rbutton () {
 		console.log('love');
 		
-		if (pageHaoma <20) {
+		if (pageHaoma <10) {
 			pageHaoma +=1;
 			var translation= pageHaoma.toString(); 
 			document.getElementById("pagenumber").value = translation;
 
 		}
 		if (pageHaoma == 1) {
-			document.getElementById('mainimage').src = "1.png";
+			document.getElementById('mainimage').src = "Outborn Page 2.png";
 			console.log('equals 1');
 		}
 		if (pageHaoma == 2) {
-			document.getElementById('mainimage').src = "2.png";
+			document.getElementById('mainimage').src = "Outborn Page 3.png";
 			console.log('equals 2');
 		}
 		if (pageHaoma == 3) {
-			document.getElementById('mainimage').src = "3.png";
+			document.getElementById('mainimage').src = "Outborn Page 4.png";
 			console.log('equals 3');
 		}
 		if (pageHaoma == 4) {
-			document.getElementById('mainimage').src = "4.png";
+			document.getElementById('mainimage').src = "Outborn Page 5.png";
 		}
 		if (pageHaoma == 5) {
-			document.getElementById('mainimage').src = "5.png";
+			document.getElementById('mainimage').src = "Outborn Page 6.png";
 		}
-		if (pageHaoma > 5) {
-			document.getElementById('mainimage').src = "kenan.png";
+		if (pageHaoma == 6) {
+			document.getElementById('mainimage').src = "Outborn Page 7.png";
+		}
+
+		if (pageHaoma == 7) {
+			document.getElementById('mainimage').src = "Outborn Page 8.png";
+		}
+		if (pageHaoma == 8) {
+			document.getElementById('mainimage').src = "Outborn Page 9.png";
+		}
+
+        if (pageHaoma == 9) {
+			document.getElementById('mainimage').src = "Outborn Page 10.png";
 		}
 
 	}
@@ -109,45 +122,62 @@ function Rbutton () {
 			document.getElementById("pagenumber").value = translation;
 
 		}
+			if (pageHaoma == 0) {
+			document.getElementById('mainimage').src = "Outborn Page 1_2.png";
+			console.log('equals 1');
+		}
 		if (pageHaoma == 1) {
-			document.getElementById('mainimage').src = "1.png";
+			document.getElementById('mainimage').src = "Outborn Page 2.png";
+			console.log('equals 1');
 		}
 		if (pageHaoma == 2) {
-			document.getElementById('mainimage').src = "2.png";
+			document.getElementById('mainimage').src = "Outborn Page 3.png";
+			console.log('equals 2');
 		}
 		if (pageHaoma == 3) {
-			document.getElementById('mainimage').src = "3.png";
+			document.getElementById('mainimage').src = "Outborn Page 4.png";
+			console.log('equals 3');
 		}
 		if (pageHaoma == 4) {
-			document.getElementById('mainimage').src = "4.png";
+			document.getElementById('mainimage').src = "Outborn Page 5.png";
 		}
 		if (pageHaoma == 5) {
-			document.getElementById('mainimage').src = "5.png";
+			document.getElementById('mainimage').src = "Outborn Page 6.png";
 		}
-if (pageHaoma > 5) {
-			document.getElementById('mainimage').src = "kenan.png";
+		if (pageHaoma == 6) {
+			document.getElementById('mainimage').src = "Outborn Page 7.png";
 		}
 
+		if (pageHaoma == 7) {
+			document.getElementById('mainimage').src = "Outborn Page 8.png";
+		}
+		if (pageHaoma == 8) {
+			document.getElementById('mainimage').src = "Outborn Page 9.png";
+		}
+
+        if (pageHaoma == 9) {
+			document.getElementById('mainimage').src = "Outborn Page 10.png";
+		}
 
 	}
 
 
 
 	function sendMail() {
-    // var link = "mailto:mattaculer@gmail.com"
-    //          + "?cc=ejeafields@gmail.com"
-    //          + "&subject=" + escape("This is my subject")
-    //          + "&body=" + escape(document.getElementById('myText').value)
-    // ;
+    var link = "mailto:mattaculer@gmail.com"
+             + "?cc=ejeafields@gmail.com"
+             + "&subject=" + escape("Feedback Mobsid")
+             + "&body=" + escape(document.getElementById('myText').value)
+    ;
 
-    // window.location.href = link;
-    var fieldvalue = document.getElementById('myText').value;
-var nummy =localStorage.length;
-nummy +=1;
-localStorage.setItem(nummy , fieldvalue);
+    window.location.href = link;
+//     var fieldvalue = document.getElementById('myText').value;
+// var nummy =localStorage.length;
+// nummy +=1;
+// localStorage.setItem(nummy , fieldvalue);
 
-var taste = localStorage.getItem(nummy);
-console.log(localStorage.length);
+// var taste = localStorage.getItem(nummy);
+// console.log(localStorage.length);
 
 // function load (){
 // 	var storedValue = localStorage.getItem('textarea');
