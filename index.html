@@ -3,12 +3,10 @@
 <head>
 <title>Page Title</title>
 </head>
-<textarea id="myText">
-    I think Outborn has serious potential!
-</textarea>
-<button onclick="sendMail(); return false">Send</button>
-<body>
 
+<body>
+<body bgcolor="#0FF">
+<body>
 <h1>MoBsid Comics</h1>
 <br>
 </br>
@@ -26,11 +24,46 @@
 </style>
 <br>
 <div>
-<img src="1.png" id="mainimage" style="width:304px;height:228px;position:relative;right:-360px;top:2px">	
+<img src="kenan.png" id="mainimage" style="width:304px;height:228px;position:relative;right:-360px;top:2px">	
 </div>
 </br>
+<textarea id="myText" style="width:304px;height:228px;position:relative;right:-680px;top:8px">
+    I think Outborn has serious potential!
+</textarea>
+<button  style="position:relative;right:-680px;top:8px" onclick="sendMail(); return false">Send</button>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis.min.js"></script>
 
 <script type="text/javascript">
+var options = {};
+var data = new vis.DataSet(options);
+
+
+// var config = {
+//     apiKey: "AIzaSyBA1zN9fWE8BY1nisk65Te77KGwfwZeDR0",
+//     authDomain: "mobsidian-262f9.firebaseapp.com",
+//     databaseURL: "https://mobsidian-262f9.firebaseio.com",
+//     storageBucket: "",
+//     messagingSenderId: "812445897675"
+//   };
+//   firebase.initializeApp(config);
+
+// var name = 'gg';
+// var email = 'cat';
+// writeUserData();
+// function writeUserData(userId, name, email) {
+//   firebase.database().ref('comments' + userId).set({
+//     username: name,
+//     email: email,
+    
+//   });
+// }
+
+
+// var datastructure = firebase.database().ref.child('comments');
+
+// //sync data
+// dbRefObject.on('value', snap => console.log(snap.val()));
+
 
 var pageHaoma = 0; 
 	
@@ -101,13 +134,38 @@ if (pageHaoma > 5) {
 
 
 	function sendMail() {
-    var link = "mailto:mattaculer@gmail.com"
-             + "?cc=ejeafields@gmail.com"
-             + "&subject=" + escape("This is my subject")
-             + "&body=" + escape(document.getElementById('myText').value)
-    ;
+    // var link = "mailto:mattaculer@gmail.com"
+    //          + "?cc=ejeafields@gmail.com"
+    //          + "&subject=" + escape("This is my subject")
+    //          + "&body=" + escape(document.getElementById('myText').value)
+    // ;
 
-    window.location.href = link;
+    // window.location.href = link;
+    var fieldvalue = document.getElementById('myText').value;
+var nummy =localStorage.length;
+nummy +=1;
+localStorage.setItem(nummy , fieldvalue);
+
+var taste = localStorage.getItem(nummy);
+console.log(localStorage.length);
+
+// function load (){
+// 	var storedValue = localStorage.getItem('textarea');
+// 	if (storedValue) {
+// 		document.getElementById('myText').value = storedValue;
+// 	}
+// }
+// var actualdata= document.getElementById('myText').value;
+
+//     data.add([
+//   {id: 1, text: 'item 1', date: new Date(2016, 11, 13), group: 1, first: true},
+
+// ]);
+
+//     var nummy=0;
+// nummy = data.length;
+
+// console.log(data);
 }
 
 </script>
