@@ -3,202 +3,521 @@
 <head>
 <title>Page Title</title>
 </head>
-
-<body>
-<body bgcolor="#03031A">
-<body>
-<h1 style="color:#FF8C00;position:relative;right:-380px;top:2px" >MobSid</h1>
-
-
-<br>
-</br>
-<br>
-<input type= "image" id="Rightbutton " style="height:20px;width:20px;position:relative;right:-780px;top:2px" onclick="Rbutton()" class="rbutton" src="right.png" >
-
-<textarea id="pagenumber" style="height:20px;width:20px;position:relative;right:-380px;top:2px">
-</textarea>
-
-<input type= "image" id="Leftbutton" style="height:20px;width:20px;position:relative;left:0px;top:2px" onclick="Lbutton()" class="lbutton" src="left.png" >
-</br>
-
-
-
+<style type="text/css">
+	canvas { border: 1px solid #ccc }
 </style>
-<br>
-<div>
-<img src="Outborn Page 1_2.png" id="mainimage" style="width:404px;height:628px;position:relative;right:-260px;top:2px">	
-</div>
-</br>
-<textarea id="myText" style="width:304px;height:228px;position:relative;right:-780px;top:-450px">
-    Please TYPE IN YOUR FEEDBACK AND CLICK SEND. Thank you!
-</textarea>
-<button  style="position:relative;right:-780px;top:-450px" onclick="sendMail(); return false">Send</button>
-<script src = "https://cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis.min.js"></script>
+<canvas id="c" width="1000" height="500"></canvas>
+<!-- <input x-webkit-speech> -->
+<button onclick="mmw()">AI draw</button>
+<button onclick="aidraw()">See data</button>
 
-<script type="text/javascript">
-var options = {};
-var data = new vis.DataSet(options);
+<!-- <textarea id="results" cols="80" rows="5"></textarea>
+<button onclick="startDictation()">Start</button> -->
+<!-- <input type="text" id="speech" style="font-size: 40px;"  name="speech" size="50" /> -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 
-// var config = {
-//     apiKey: "AIzaSyBA1zN9fWE8BY1nisk65Te77KGwfwZeDR0",
-//     authDomain: "mobsidian-262f9.firebaseapp.com",
-//     databaseURL: "https://mobsidian-262f9.firebaseio.com",
-//     storageBucket: "",
-//     messagingSenderId: "812445897675"
-//   };
-//   firebase.initializeApp(config);
-
-// var name = 'gg';
-// var email = 'cat';
-// writeUserData();
-// function writeUserData(userId, name, email) {
-//   firebase.database().ref('comments' + userId).set({
-//     username: name,
-//     email: email,
-    
-//   });
-// }
-
-
-// var datastructure = firebase.database().ref.child('comments');
-
-// //sync data
-// dbRefObject.on('value', snap => console.log(snap.val()));
-
-
-var pageHaoma = 0; 
-	
-function Rbutton () {
-		console.log('love');
-		
-		if (pageHaoma <10) {
-			pageHaoma +=1;
-			var translation= pageHaoma.toString(); 
-			document.getElementById("pagenumber").value = translation;
-
-		}
-		if (pageHaoma == 1) {
-			document.getElementById('mainimage').src = "Outborn Page 2.png";
-			console.log('equals 1');
-		}
-		if (pageHaoma == 2) {
-			document.getElementById('mainimage').src = "Outborn Page 3.png";
-			console.log('equals 2');
-		}
-		if (pageHaoma == 3) {
-			document.getElementById('mainimage').src = "Outborn Page 4.png";
-			console.log('equals 3');
-		}
-		if (pageHaoma == 4) {
-			document.getElementById('mainimage').src = "Outborn Page 5.png";
-		}
-		if (pageHaoma == 5) {
-			document.getElementById('mainimage').src = "Outborn Page 6.png";
-		}
-		if (pageHaoma == 6) {
-			document.getElementById('mainimage').src = "Outborn Page 7.png";
-		}
-
-		if (pageHaoma == 7) {
-			document.getElementById('mainimage').src = "Outborn Page 8.png";
-		}
-		if (pageHaoma == 8) {
-			document.getElementById('mainimage').src = "Outborn Page 9.png";
-		}
-
-        if (pageHaoma == 9) {
-			document.getElementById('mainimage').src = "Outborn Page 10.png";
-		}
-
-	}
-
-	function Lbutton () {
-		console.log('bliss');
-		
-		if (pageHaoma >0) {
-			pageHaoma -=1;
-			var translation= pageHaoma.toString(); 
-			document.getElementById("pagenumber").value = translation;
-
-		}
-			if (pageHaoma == 0) {
-			document.getElementById('mainimage').src = "Outborn Page 1_2.png";
-			console.log('equals 1');
-		}
-		if (pageHaoma == 1) {
-			document.getElementById('mainimage').src = "Outborn Page 2.png";
-			console.log('equals 1');
-		}
-		if (pageHaoma == 2) {
-			document.getElementById('mainimage').src = "Outborn Page 3.png";
-			console.log('equals 2');
-		}
-		if (pageHaoma == 3) {
-			document.getElementById('mainimage').src = "Outborn Page 4.png";
-			console.log('equals 3');
-		}
-		if (pageHaoma == 4) {
-			document.getElementById('mainimage').src = "Outborn Page 5.png";
-		}
-		if (pageHaoma == 5) {
-			document.getElementById('mainimage').src = "Outborn Page 6.png";
-		}
-		if (pageHaoma == 6) {
-			document.getElementById('mainimage').src = "Outborn Page 7.png";
-		}
-
-		if (pageHaoma == 7) {
-			document.getElementById('mainimage').src = "Outborn Page 8.png";
-		}
-		if (pageHaoma == 8) {
-			document.getElementById('mainimage').src = "Outborn Page 9.png";
-		}
-
-        if (pageHaoma == 9) {
-			document.getElementById('mainimage').src = "Outborn Page 10.png";
-		}
-
-	}
+<script>
 
 
 
-	function sendMail() {
-    var link = "mailto:mattaculer@gmail.com"
-             + "?cc=ejeafields@gmail.com"
-             + "&subject=" + escape("Feedback Mobsid")
-             + "&body=" + escape(document.getElementById('myText').value)
-    ;
+var startgo=0; 
 
-    window.location.href = link;
-//     var fieldvalue = document.getElementById('myText').value;
-// var nummy =localStorage.length;
-// nummy +=1;
-// localStorage.setItem(nummy , fieldvalue);
+ var recognizer = null;
+recognize();
+var whatusersays='';
+            function recognize()
+            {
+                //speechRecognization interface is the heart of recognization API
+                window.speechRecognition = window.speechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.webkitSpeechRecognition;
 
-// var taste = localStorage.getItem(nummy);
-// console.log(localStorage.length);
+                if(window.speechRecognition == undefined)
+                {
+                    // alert("Speech Recogniztion API Not Supported");
+                }
+                else
+                {
+                    //create a speechRecognization object
+                    recognizer = new speechRecognition();
 
-// function load (){
-// 	var storedValue = localStorage.getItem('textarea');
-// 	if (storedValue) {
-// 		document.getElementById('myText').value = storedValue;
-// 	}
-// }
-// var actualdata= document.getElementById('myText').value;
+                    //If set to "false" then recognizer stops listening automatically when user stops speaking the first sentence.
+                    recognizer.continuous = true;
 
-//     data.add([
-//   {id: 1, text: 'item 1', date: new Date(2016, 11, 13), group: 1, first: true},
+                    //specify the language of speech. langauge must be in BCP 47 standard.
+                    recognizer.lang = "en-US";
 
-// ]);
+                    //it set to true then onresult callback is fired after every word spoken by the user. Otherwise after end of sentence.
+                    recognizer.interimResults = true;
 
-//     var nummy=0;
-// nummy = data.length;
 
-// console.log(data);
+                    //fired when speech recognization starts listening.
+                    recognizer.onstart = function(){
+                       // alert("Recogniztion API started");
+                    }
+
+                    //fired everytime user stops speaking.
+                    recognizer.onresult = function(event){  
+                        //event.resultIndex returns the index of first word spoken in the currently stoped sentence.
+                        //event.results.length is the total number of words spoken in this session.
+                        for(var count = event.resultIndex; count < event.results.length; count++)
+                        {
+                            //event.results array contains a array of word objects.
+                            //event.results[count][number], here 2D represents the most probable work for the spoken word.
+                            //event.result[count][number].transscript returns word string of the most probable word of the select word index.  
+                            // document.getElementById("output").innerHTML +=
+                            console.log(event.results[count][0].transcript);
+                            whatusersays=event.results[count][0].transcript;
+                            console.log('what the heck',whatusersays)
+ if (whatusersays.indexOf('start') > -1) {
+  console.log('start baby')
+  startgo=1;
+ }
+  if (whatusersays.indexOf('stop') > -1) {
+  console.log('stop')
+  startgo=0;
+ }
+                        }
+                    }
+
+                    //fired when recognization is stopped manually or automatically.
+                    recognizer.onend = function(){
+                        recognizer = null;
+                        //alert("Recogniztion API stopped");
+                    }
+
+                    recognizer.start();
+                }
+            }
+
+            function stop()
+            {
+                if(recognizer != null)
+                {
+                    //stop it manually
+                    recognizer.stop();
+                    //alert("Recognization API stopped");
+                }
+            }
+
+///
+
+
+var secretArrayX=[];
+var secretArrayY=[];
+
+ var negate=0; 
+   var el = document.getElementById('c');
+var ctx = el.getContext('2d');
+//    el.onmouseup = function(e) {
+// negate=0;
+// console.log('wo kao')
+//     }
+jQuery(function($) {
+
+ 
+
+    var currentMousePos = { x: -1, y: -1 };
+    $(document).mousemove(function(event) {
+        currentMousePos.x = event.pageX;
+        currentMousePos.y = event.pageY;
+
+         ctx.lineWidth = 10;
+  ctx.lineJoin = ctx.lineCap = 'round';
+       ctx.lineTo(currentMousePos.x,  currentMousePos.y);
+ 
+
+        ctx.stroke();
+
+        // $(document).mousedown(function(event) {  //if you want to draw by making the shape first and then clicking and then the shape appears. 
+        //    ctx.stroke();
+        // });
+     
+   
+       
+if (negate==0) {
+   //console.log(currentMousePos.x)
+          //console.log(currentMousePos.y)
+          if (startgo==1) {
+              secretArrayX.push(currentMousePos.x);
+         secretArrayY.push(currentMousePos.y);
+          }
+ 
+}
+      
+
+    });
+
+    // ELSEWHERE, your code that needs to know the mouse position without an event
+    if (currentMousePos.x < 10) {
+        // ....
+    }
+});
+
+function aidraw() {
+// if (startgo==1) {
+   console.log(secretArrayX);
+console.log(secretArrayY);
+
+ 
 }
 
-</script>
-</body>
 
+function mmw() {
+  ctx.clearRect(0, 0, el.width, el.height);
+   console.log(secretArrayX.length);
+console.log(secretArrayY.length);
+var idleInterval = setInterval(timetoDraw, 8000); 
+// timetoDraw();
+}
+
+
+
+
+function timetoDraw () {
+
+
+  ctx.lineWidth = 10;
+  ctx.lineJoin = ctx.lineCap = 'round';
+  for(var i=0; i<secretArrayX.length; i++) {
+    var xpos = secretArrayX[i];
+    var ypos = secretArrayY[i];
+       ctx.lineTo(xpos, ypos);
+    ctx.stroke();
+startgo=0;
+   //ctx.drawImage(xpos, ypos);
+  }
+   
+    // masterPointsX.push(e.clientX);
+    // masterPointsY.push(e.clientY);
+    //  secretx = base_image.offsetX;
+  //   base_image2 = new Image();
+  // base_image2.src = 'blackma.png';
+
+
+}
+
+
+
+
+// var el = document.getElementById('c');
+// var ctx = el.getContext('2d');
+// var isDrawing;
+// var masterPointsX = new Array;
+// var masterPointsY = new Array;
+// var flag = 0;
+// var flag2=0;
+//  var xx = new Array;
+//   var yy =  new Array;
+// //var masterPointsC = new Array;
+// el.onmousedown = function(e) {
+//   isDrawing = true;
+// //setInterval(getMousePosition, 100);
+//   ctx.lineWidth = 10;
+//   flag2=1;
+//   ctx.lineJoin = ctx.lineCap = 'round';
+//   ctx.moveTo(e.clientX, e.clientY);
+
+//   // console.log(masterPointsX);
+//   //   console.log(masterPointsY);
+//   // masterPoints.push(e.clientX, e.clientY);
+//   //  console.log(masterPoints);
+// };
+// var base_image2;
+// var secretx;
+// el.onmousemove = function(e) {
+
+//   if (isDrawing) {
+//     flag=1;
+//     ctx.lineTo(e.clientX, e.clientY);
+//     ctx.stroke();
+//     masterPointsX.push(e.clientX);
+//     masterPointsY.push(e.clientY);
+//      secretx = base_image.offsetX;
+//   //   base_image2 = new Image();
+//   // base_image2.src = 'blackma.png';
+
+
+//   //   ctx.drawImage(base_image2, masterPointsX, masterPointsY);
+
+//     //masterPointsC.push(e.clientX,e.clientY);
+//     if (flag == 1) {
+//   // onmousemove = function(p){console.log("mouse location:", p.clientX, p.clientY)}
+ 
+//  }
+//   }
+// };
+
+
+
+// //experiment
+
+
+
+// el.onmouseup = function(e) {
+//  xx = e.clientX;
+//  yy =e.clientY;
+//   if (flag==1) {
+
+//       negate();
+   
+//   }
+
+
+// 	flag=0;
+//   isDrawing = false;
+//    // var rect = base_image.getBoundingClientRect();
+//   //  var rect2 = base_image2.getBoundingClientRect();
+
+
+// // console.log(rect.top, rect.right, rect.bottom, rect.left);
+// // console.log(rect2.top, rect2.right, rect2.bottom, rect2.left);
+// //   if (base_image.y<masterPointsY && base_image.x>masterPointsX) {
+// //     console.log('exciting!!!!!');
+// //   }
+// //    //  if (masterPointsX == ) {
+// //    //  console.log('complete');
+// //    // }
+// //      console.log('dippin',base_image.xvalue,base_image.y, rect2.xvalue);
+// //      var position = getPosition(base_image);
+// // console.logx("The image is located at: " + position.x + ", " + position.y);
+// };
+// make_base();
+// var base_image;
+// function make_base()
+// {
+
+
+//   base_image = new Image();
+//   base_image.src = 'blackma.png';
+// //   window.setInterval(mili, 1000);
+// //   ctx.drawImage(base_image, 150, 100);
+// //  function mili(){
+// //   var flakes = [];
+// //     for (var i = 0; i < 50; i++) {
+// //   //base_image.x=i;
+// //     ctx.drawImage(base_image, i, i);
+// //     console.log(base_image.x)
+
+    
+// //   }
+// //   requestAnimationFrame(mili);
+// // }
+//   base_image.onload = function(){
+   
+//     ctx.drawImage(base_image, 30, 50);
+   
+//     var tri = base_image.y;
+// console.log('got it', tri);
+  
+// }
+
+//  }
+
+
+// function negate()
+// {
+   
+
+
+// //var elt = element.closest(selectors);
+//   var beginx =masterPointsX[0];
+//   var beginy =masterPointsY[0];
+// var finalx = masterPointsX.slice(-1)[0];
+// var finaly =masterPointsY.slice(-1)[0];
+
+//   base_image2 = new Image();
+//   base_image2.src = 'blackma.png';
+
+
+// console.log(gotem, 'hmm');
+//     ctx.drawImage(base_image2, finalx, finaly);
+//  var pen= document.elementFromPoint(finalx, finaly);
+// console.log(pen);
+// //alert('Element is ' + offset + ' vertical pixels from <body>');
+//    //var data = base_image.getImageData(x, y, 1, 1).data;
+// //var pos = base_image2.pageX;
+//   console.log('ramses',beginx,finalx,beginy,finaly);
+//   var p = $( base_image2 );
+// var position = p.position();
+//    console.log('gam');
+
+// CheckDiv();
+//   function CheckDiv()
+// {
+// var ediv1 = base_image;
+// var ediv2 = base_image2;
+
+//  ediv1.top = $(ediv1).offset().top;
+//  ediv1.left = $(ediv1).offset().left;
+//  ediv1.right = Number($(ediv1).offset().left) + Number($(ediv1).width());
+//  ediv1.bottom = Number($(ediv1).offset().top) + Number($(ediv1).height());
+
+//  ediv2.top = $(ediv2).offset().top;
+//  ediv2.left = $(ediv2).offset().left;
+//  ediv2.right = Number($(ediv2).offset().left) + Number($(ediv2).width());
+//  ediv2.bottom = Number($(ediv2).offset().top) + Number($(ediv2).height());
+// console.log(ediv1.right, ediv2.left)
+// if (ediv1.right > ediv2.left && ediv1.left < ediv2.right && ediv1.top < ediv2.bottom && ediv1.bottom > ediv2.top)
+//  {
+// alert("hi");
+// }
+
+// if (ediv1.left > ediv2.left && ediv1.top > ediv2.top && ediv1.right < ediv2.right && ediv1.bottom < ediv2.bottom)
+//  {
+// alert("hello");
+//     }
+// }
+
+// //    boathit();
+// // function boathit() {
+// //    // var rect = new Rectangle(base_image.x, base_image.y, base_image.width, base_image.height);
+
+    
+// //         //var rect2 = new Rectangle(base_image2.x, base_image2.y, base_image2.width, base_image2.height);
+
+// //         var rect2 = base_image.getBoundingClientRect();
+// //         var rect1 = base_image2.getBoundingClientRect();
+
+// // if (base_image.x < base_image2.x + base_image2.width  && base_image.x + base_image.width  > base_image2.x &&
+// //     base_image.y < base_image2.y + base_image2.height && base_image.y + base_image.height > base_image2.y) {
+// // console.log('The objects are touching')
+// // }
+// // }
+
+
+// var conditionx =0;
+// var conditiony =0;
+// if (finalx>beginx) {
+// if (finalx == beginx || finalx - beginx <=20) {
+//   conditionx =1; 
+// }
+// }
+
+// if (finalx<beginx) {
+// if (finalx == beginx ||beginx - finalx <=20) {
+//   conditionx = 1; 
+// }
+// }
+
+// if (finalx == beginx) {
+//   conditionx=1;
+//   console.log('special1');
+// }
+// ///y
+// if (finaly>beginy) {
+// if (finaly == beginy || finaly - beginy <=20) {
+//   conditiony =1; 
+ 
+// }
+// }
+
+// if (finaly<beginy) {
+// if (finaly == beginy||beginy - finaly <=20) {
+//   conditiony = 1; 
+  
+// }
+// }
+// if (finaly == beginy) {
+//   conditiony=1;
+//     console.log('special2');
+// }
+
+// if (conditionx==1 && conditiony ==1) {
+//   console.log('scored POINT!');
+// }
+// //    base_image2.addEventListener("mouseover", function() {   
+// //     // highlight the mouseover target
+// //     //event.target.style.color = "orange";
+// // console.log('ramses');
+// //     // reset the color after a short delay
+// //     // setTimeout(function() {
+// //     //   event.target.style.color = "";
+// //     // }
+
+// //   })
+
+//  }
+
+// function mmw() {
+//     ctx.clearRect(0, 0, c.width, c.height);
+    
+// //var GrandMaster = new Array;
+
+// // if (masterPointsX.length > masterPointsY) {
+// // GrandMaster = masterPointsX;
+
+// // } else {
+// // 	GrandMaster = masterPointsY;
+// // }
+
+// }
+
+// function aidraw() {
+
+// var xvalue = 0;
+// var yvalue = 0;
+
+//    // for (var i = 0; i < masterPointsX.length; ++i) {
+    	 
+       
+   
+    	
+//     // 	  setTimeout( xis, 20000000 * i );
+//     // 	  function xis() {
+//     //          xvalue = masterPointsX[i];
+//     //          yvalue = masterPointsY[i];
+//     //          ctx.lineTo(xvalue, yvalue);
+//     //            ctx.stroke();
+             
+//     // 	  }
+
+//     // }
+
+//  var inty;
+// for (var inty = 0, j = 1; inty <= 3; inty++, j++) {
+//     setTimeout(function() {
+//         battle();
+//     }.bind(inty), j * 7000);
+// }
+
+// //     var inty = 0;
+// //      for (inty = 0; inty < masterPointsX.length ; inty++) {
+// //     (function(index) {
+// //         setTimeout(function() { battle(); }, 100, inty);
+// //         console.log(inty);
+    
+// //     })(inty);
+// // }
+//     	 function battle (){
+
+//              xvalue = masterPointsX[0];
+//              yvalue = masterPointsY[0];
+//              ctx.lineTo(xvalue, yvalue);
+//                ctx.stroke();
+//                    console.log(inty);
+//                    //console.log(yvalue);
+//        }
+    	  
+    
+// //xvalue = masterPointsX[0];
+// //yvalue = masterPointsY[0];
+// //console.log(xvalue);
+//    // console.log(yvalue);
+// //ctx.moveTo(0, 0);
+
+// masterPointsX = [];
+// masterPointsY = [];
+   
+// }
+</script>
+<body>
+
+<h1>Say Start to begin</h1>
+<p>Say stop when you are finished drawing</p>
+
+
+
+
+</body>
 </html>
