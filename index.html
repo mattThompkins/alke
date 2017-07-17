@@ -248,6 +248,8 @@ console.log(secretArrayY);
 var didi=0; 
 var it2=0;
 function timetoDraw () {//
+     var el2 = document.getElementById('c');
+var ctx2 = el2.getContext('2d');
 var times = 0;
 
   //ctx.lineWidth = 10;
@@ -258,57 +260,53 @@ var times = 0;
 
 // var f1=orginacoordinateY[m];
 
+    function remove(array, element) {
+    return array.filter(e => e !== element);
+}
+
 var xx;
 var yy;
 var xpos;
  var ypos;
 pupos();
-function pupos () {
 
+function pupos () {
+console.log('cake')
    // for(var q=0; q<agentX.length; q++) {
 
         xx =orginacoordinateX[0];
         yy=orginacoordinateY[0];
 didi++;
 console.log('creator',didi)
-//        if (yy=='YY') {
-//   var it= orginacoordinateY.indexOf('YY');
-//   it=it-1;
-//   yy=orginacoordinateY[it]
-//   console.log(yy)
-//   // it++
-//   // console.log('text',orginacoordinateY);
-//   // orginacoordinateY = orginacoordinateY.slice(it, orginacoordinateY.length); 
-//   //  console.log('trer',orginacoordinateY);
 
-  
-// }
-
-//       if (xx=='XX') {
-//          var it= orginacoordinateX.indexOf('XX');
-//   it=it-1;
-//   xx=orginacoordinateX[it]
-//   console.log(xx)
-//   // var it= orginacoordinateX.indexOf('XX');
-//   // it++
-//   // orginacoordinateX = orginacoordinateX.slice(it, orginacoordinateX.length); 
-  
-// }
-// console.log('first pupos',orginacoordinateX, orginacoordinateY )
-// console.log('why twice')
 
 console.log('pupos',times,xx, yy)
 
-var it= orginacoordinateX.indexOf(xx);
-  orginacoordinateX.splice(it, 1);
+// var it= orginacoordinateX.indexOf(xx);
+//   orginacoordinateX.splice(it, 1);
 
-  var it2= orginacoordinateY.indexOf(yy);
-    orginacoordinateY.splice(it, 1);
+//   var it2= orginacoordinateY.indexOf(yy);
+//     orginacoordinateY.splice(it, 1);
+
+
+
+    var randominput;
+     var randominput2;
+     randominput = orginacoordinateX[0];
+var vowels = remove(orginacoordinateX, randominput);
+orginacoordinateX=vowels;
+
+
+randominput2 = orginacoordinateY[0];
+var vowels2 = remove(orginacoordinateY, randominput2);
+orginacoordinateY=vowels2;
+     
+
 
 
 console.log('ordinary',orginacoordinateX, orginacoordinateY)
-       ctx.beginPath();
-         ctx.moveTo(xx, yy);
+       ctx2.beginPath();
+         ctx2.moveTo(xx, yy);
           racken();
    // }
 
@@ -323,23 +321,10 @@ console.log('ordinary',orginacoordinateX, orginacoordinateY)
 
 
 function racken () {//
-if (secretArrayX.length>1) {//
-    console.log('harmony', secretArrayX.length)
+
+    console.log('harmony', times)
   for(var i=0; i<secretArrayX.length; i++) {//
-    //ctx.save()
-    //console.log(secretArrayX.length);
-    //console.log('count',i)
-    // if (i<orginacoordinateX.length && startgo==0) {
-    //   var xx =orginacoordinateX[i];
-    //    var yy=orginacoordinateY[i];
-    //    console.log('pupos',xx, yy)
-    //    ctx.beginPath();
-    //      ctx.moveTo(xx, yy);
-    //      startgo=1;
 
-    // }
-
-     
     xpos = secretArrayX[i];
    ypos = secretArrayY[i];
 var cloney='';
@@ -348,59 +333,68 @@ var xsample='XX'+didi;
 var ysample='YY'+didi;
 console.log('nothin',xsample);
 console.log('nothin',ysample);
-           if (xpos==xsample) {//
+           
+
+  if (xpos==xsample) {//
             clonex=xpos;
   var it= secretArrayX.indexOf(xpos);
-  var pro=it;
+  //var pro=it;
   it++
-   var string=secretArrayX[it];
-    it2= secretArrayX.indexOf(string);
-  console.log('before',pro,it,it2,string,'lazy',secretArrayX)
- secretArrayX = secretArrayX.slice(it, secretArrayX.length);  //0, it = good
+   secretArrayX = secretArrayX.slice(it, secretArrayX.length);  //0, it = good
  console.log('after',secretArrayX)
  xpos=secretArrayX[it];
+   // var string=secretArrayX[it];
+   //  it2= secretArrayX.indexOf(string);
+  //console.log('before',pro,it,it2,string,'lazy',secretArrayX)
+
  // startgo=0;
  //  console.log('finished', startgo)
 
   
 }//
-
-      if (ypos==ysample) {//
+if (ypos==ysample) {//
         cloney=ypos;
   var it= secretArrayY.indexOf(ypos);
   it++
   secretArrayY = secretArrayY.slice(it, secretArrayY.length); 
  ypos=secretArrayY[it];
-  
+  console.log(secretArrayY)
 }//
 
 
   
    
-     console.log('yeah',xpos,ypos)
+     //console.log('yeah',xpos,ypos)
 
 
     // ctx.moveTo(23, 35);
 
 //if (xpos>=1 && ypos>=1) {//
-     ctx.lineWidth = 10;
-ctx.lineJoin = ctx.lineCap = 'round';
-//ctx.strokeStyle = 'green';
-    ctx.lineTo(xpos, ypos);
-   //ctx.closePath();
-setTimeout(secondLayer,2000)
-    ctx.stroke();
-   // ctx.restore()
-console.log('i drew')
 
+   // ctx.restore()
+//console.log('i drew')
+
+       if (secretArrayY.length==0) {
+  times=1;
+  console.log('break here')
+  break;
   
+}
+console.log('wtf???', secretArrayY.length)
 
 //}//
-    if (cloney==ysample&&clonex==xsample) {//
+    if (cloney==ysample && clonex==xsample && secretArrayY.length>1 && times==0) {//
   pupos();
-  console.log('shun yi')
+  console.log('shun yi',secretArrayX)
 
 }//
+     ctx2.lineWidth = 10;
+ctx2.lineJoin = ctx2.lineCap = 'round';
+//ctx.strokeStyle = 'green';
+    ctx2.lineTo(xpos, ypos);
+   //ctx.closePath();
+
+    ctx2.stroke();
 
 
        //ctx.lineTo(xpos, ypos);
@@ -409,20 +403,12 @@ console.log('i drew')
    //ctx.drawImage(xpos, ypos);
   }
 
-}//
+
 
  
 }//
 
-function secondLayer () {
-      ctx.lineWidth = 10;
-ctx.lineJoin = ctx.lineCap = 'round';
-//ctx.strokeStyle = 'green';
-    ctx.lineTo(xpos, ypos);
-   //ctx.closePath();
 
-    ctx.stroke();
-}
 
 }//
 
