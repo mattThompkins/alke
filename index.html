@@ -383,11 +383,12 @@ console.log('nothin',ysample);
     // ctx.moveTo(23, 35);
 
 //if (xpos>=1 && ypos>=1) {//
-
-ctx.strokeStyle = 'green';
+     ctx.lineWidth = 10;
+ctx.lineJoin = ctx.lineCap = 'round';
+//ctx.strokeStyle = 'green';
     ctx.lineTo(xpos, ypos);
    //ctx.closePath();
-
+setTimeout(secondLayer,2000)
     ctx.stroke();
    // ctx.restore()
 console.log('i drew')
@@ -412,6 +413,16 @@ console.log('i drew')
 
  
 }//
+
+function secondLayer () {
+      ctx.lineWidth = 10;
+ctx.lineJoin = ctx.lineCap = 'round';
+//ctx.strokeStyle = 'green';
+    ctx.lineTo(xpos, ypos);
+   //ctx.closePath();
+
+    ctx.stroke();
+}
 
 }//
 
