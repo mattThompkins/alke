@@ -272,6 +272,7 @@ pupos();
 
 function pupos () {
 console.log('cake')
+console.log('wtf???', secretArrayY.length)
    // for(var q=0; q<agentX.length; q++) {
 
         xx =orginacoordinateX[0];
@@ -362,7 +363,11 @@ if (ypos==ysample) {//
 }//
 
 
-  
+      if (cloney==ysample && clonex==xsample && secretArrayY.length>1 && times==0) {//
+  pupos();
+  console.log('shun yi',secretArrayX)
+
+}//
    
      //console.log('yeah',xpos,ypos)
 
@@ -380,15 +385,11 @@ if (ypos==ysample) {//
   break;
   
 }
-console.log('wtf???', secretArrayY.length)
+
 
 //}//
-    if (cloney==ysample && clonex==xsample && secretArrayY.length>1 && times==0) {//
-  pupos();
-  console.log('shun yi',secretArrayX)
 
-}//
-     ctx2.lineWidth = 10;
+     ctx2.lineWidth = 5;
 ctx2.lineJoin = ctx2.lineCap = 'round';
 //ctx.strokeStyle = 'green';
     ctx2.lineTo(xpos, ypos);
