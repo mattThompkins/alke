@@ -257,14 +257,19 @@ console.log('exlusive', xsample, ysample)
 //     }
 // });
 
-
+var dataURL;
 function aidraw() {
 // if (startgo==1) {
+var image=new Image();
+image.onload=function(){
+    ctx.drawImage(image,0,0);
+}
+image.src=dataURL;
   
 //    console.log(secretArrayX.length);
 // console.log(secretArrayY.length);
 //var idleInterval = setInterval(timetoDraw, 2000); 
-timetoDraw();
+//timetoDraw();
  
 }
 
@@ -273,6 +278,8 @@ function checkdata() {
   console.log('i will draw this')
    console.log(secretArrayX);
 console.log(secretArrayY);
+  var el2 = document.getElementById('c');
+ dataURL=el2.toDataURL();
   ctx.clearRect(0, 0, el.width, el.height);
 
 // timetoDraw();
