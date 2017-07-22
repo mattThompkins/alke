@@ -10,6 +10,8 @@
 <!-- <input x-webkit-speech> -->
 <button onclick="aidraw()">AI draw</button>
 <button onclick="checkdata()">See data</button>
+<button onclick="thick()">Thick Line</button>
+<button onclick="thin()">Thin Line</button>
 
 <!-- <textarea id="results" cols="80" rows="5"></textarea>
 <button onclick="startDictation()">Start</button> -->
@@ -19,7 +21,7 @@
 
 
 <script>
-
+var thickthin=0;
 array = ['1', '2', '3', 'xx1', '4', '5', 'xx2', '6', '7', '8', 'xx3'];
 
 for(var i =0; i<array.length; i++) {
@@ -32,6 +34,8 @@ if (st=='xx1') {
 }
 
 }
+
+
 // var it= array.indexOf('xx');
 //it++
   //array.splice(it, 1);
@@ -132,6 +136,20 @@ var counter=0;
    var el = document.getElementById('c');
 var ctx = el.getContext('2d');
 
+ctx.save();
+function thick () {
+
+thickthin=1;
+
+}
+
+function thin () {
+
+thickthin=0;
+ctx.restore();
+ctx.save();
+console.log('lob',thickthin)
+}
 var isDrawing, points = [ ];
 
 el.onmousedown = function(e) {
@@ -144,6 +162,19 @@ el.onmousedown = function(e) {
 el.onmousemove = function(e) {
   if (!isDrawing) return;
 
+    if (thickthin==0) {
+    console.log('zob',thickthin)
+  
+
+//       ctx.lineWidth = 0;
+// ctx.lineJoin = ctx.lineCap = 'round';
+  }
+
+    if (thickthin==1) {
+    console.log('mob',thickthin)
+    ctx.lineWidth = 5;
+ctx.lineJoin = ctx.lineCap = 'round';
+  }
   //ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   points.push({ x: e.clientX, y: e.clientY });
 // console.log('baby',e.clientX, e.clientY)
@@ -151,6 +182,8 @@ secretArrayX.push(e.clientX);
      secretArrayY.push(e.clientY);
   ctx.beginPath();
   ctx.moveTo(points[0].x, points[0].y);
+
+
   //console.log(points[0].x, e.clientX)
   for (var i = 1; i < points.length; i++) {
     ctx.lineTo(points[i].x, points[i].y);
@@ -223,6 +256,7 @@ console.log('exlusive', xsample, ysample)
 //         // ....
 //     }
 // });
+
 
 function aidraw() {
 // if (startgo==1) {
