@@ -1,469 +1,561 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Page Title</title>
+<title>Quaine's Neural</title>
 </head>
 <style type="text/css">
 	canvas { border: 1px solid #ccc }
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+  .my_animation1{
+    animation: blink 3s 0.2s;
+    animation-iteration-count: infinite;
+}
+  .my_animation2{
+    animation: blink 3s 1s;
+    animation-iteration-count: infinite;
+}
+  .my_animation3{
+    animation: blink 3s 1.8s;
+    animation-iteration-count: infinite;
+}
 </style>
-<canvas id="c" width="1000" height="500"></canvas>
-<!-- <input x-webkit-speech> -->
-<button onclick="aidraw()">AI draw</button>
-<button onclick="checkdata()">See data</button>
-<button onclick="thick()">Thick Line</button>
-<button onclick="thin()">Thin Line</button>
+<!-- <canvas id="c" width="1000" height="500"></canvas> -->
 
-<!-- <textarea id="results" cols="80" rows="5"></textarea>
-<button onclick="startDictation()">Start</button> -->
-<!-- <input type="text" id="speech" style="font-size: 40px;"  name="speech" size="50" /> -->
+<div style="text-align: center; padding: 50px" onclick="test()">
+	<div style="display: inline-block; margin-right: 50px;position: absolute;left: 200px;top:200px">
+		<img src="greencircle.png" width="100" height="100" style="opacity:0.5" id="img1">
+	</div>
+	<div style="display: inline-block; margin-right: 50px;position: absolute;left: 400px;top:200px">
+		<img src="redcircle.png" width="100" height="100" style="opacity:0.5" id="img2">
+	</div>
+	<div style="display: inline-block;position: absolute;left: 600px;top:200px">
+		<img src="yellowcircle.png" width="100" height="100" style="opacity:0.5" id="img3">
+	</div>
+	<div>
+	<img src="brain-connectivity.png" width="700" height="500">
+
+	</div>
+
+
+</div>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 
 <script>
-var thickthin=0;
-array = ['1', '2', '3', 'xx1', '4', '5', 'xx2', '6', '7', '8', 'xx3'];
-
-for(var i =0; i<array.length; i++) {
-  var st= array[i];
-  var num= 'xx'+i;
-if (st=='xx1') {
-   var it= array.indexOf(st);
-  it++
- array = array.slice(it, array.length);
-}
-
-}
 
 
-// var it= array.indexOf('xx');
-//it++
-  //array.splice(it, 1);
-//it=it-1;
 
-//array = array.slice(it, array.length); //Need to assign it to the same or another variable
+var  yellow =0;
 
-console.log(array);
-
-var startgo=0; 
-
- var recognizer = null;
-recognize();
-var whatusersays='';
-            function recognize()
-            {
-                //speechRecognization interface is the heart of recognization API
-                window.speechRecognition = window.speechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.webkitSpeechRecognition;
-
-                if(window.speechRecognition == undefined)
-                {
-                    // alert("Speech Recogniztion API Not Supported");
-                }
-                else
-                {
-                    //create a speechRecognization object
-                    recognizer = new speechRecognition();
-
-                    //If set to "false" then recognizer stops listening automatically when user stops speaking the first sentence.
-                    recognizer.continuous = true;
-
-                    //specify the language of speech. langauge must be in BCP 47 standard.
-                    recognizer.lang = "en-US";
-
-                    //it set to true then onresult callback is fired after every word spoken by the user. Otherwise after end of sentence.
-                    recognizer.interimResults = true;
-
-
-                    //fired when speech recognization starts listening.
-                    recognizer.onstart = function(){
-                       // alert("Recogniztion API started");
-                    }
-
-                    //fired everytime user stops speaking.
-                    recognizer.onresult = function(event){  
-                        //event.resultIndex returns the index of first word spoken in the currently stoped sentence.
-                        //event.results.length is the total number of words spoken in this session.
-                        for(var count = event.resultIndex; count < event.results.length; count++)
-                        {
-                            //event.results array contains a array of word objects.
-                            //event.results[count][number], here 2D represents the most probable work for the spoken word.
-                            //event.result[count][number].transscript returns word string of the most probable word of the select word index.  
-                            // document.getElementById("output").innerHTML +=
-                           // console.log(event.results[count][0].transcript);
-                            whatusersays=event.results[count][0].transcript;
-                            //console.log('what the heck',whatusersays)
- if (whatusersays.indexOf('start') > -1) {
-  console.log('start baby')
-  startgo=1;
- }
-  if (whatusersays.indexOf('stop') > -1) {
-  console.log('stop')
-  startgo=0;
- }
-                        }
-                    }
-
-                    //fired when recognization is stopped manually or automatically.
-                    recognizer.onend = function(){
-                        recognizer = null;
-                        //alert("Recogniztion API stopped");
-                    }
-
-                    recognizer.start();
-                }
-            }
-
-            function stop()
-            {
-                if(recognizer != null)
-                {
-                    //stop it manually
-                    recognizer.stop();
-                    //alert("Recognization API stopped");
-                }
-            }
-
-///
-
-
-var secretArrayX=[];
-var secretArrayY=[];
-var orginacoordinateX=[];
-var orginacoordinateY=[];
-var agentX=[];  //clone of originacoordX
-var counter=0;
- var negate=0; 
-   var el = document.getElementById('c');
-var ctx = el.getContext('2d');
-
-ctx.save();
-function thick () {
-
-thickthin=1;
-
-}
-
-function thin () {
-
-thickthin=0;
-ctx.restore();
-ctx.save();
-console.log('lob',thickthin)
-}
-var isDrawing, points = [ ];
-
-el.onmousedown = function(e) {
-  isDrawing = true;
+var red =0; 
+var green=0;
+var stopanimation=0;
+test();
+   function test(){
+      if (stopanimation==1) {
+      	$("#img1").removeClass('my_animation1');
+      	$("#img2").removeClass('my_animation2');
+      	$("#img3").removeClass('my_animation3');
+      	var element = document.getElementById('img1');
+            element.style.opacity = "1.0";
+            var element2 = document.getElementById('img2');
+          element2.style.opacity = "1.0";
+       	var element3 = document.getElementById('img3');
+            element3.style.opacity = "1.0";
+      }
+      if (stopanimation==0) {
+      if (red==0 && yellow==0) {
+      	$("#img1").addClass('my_animation1');
+      }
      
-  points.push({ x: e.clientX, y: e.clientY });
-  //console.log('baby',points)
-};
+     if (red==1) {
+     	 $("#img2").addClass('my_animation2');
+     	 red=0;
+     }
+    if (yellow==1) {
+    	 $("#img3").addClass('my_animation3');
+    	 yellow=0;
+    }
 
-el.onmousemove = function(e) {
-  if (!isDrawing) return;
-
-    if (thickthin==0) {
-    console.log('zob',thickthin)
-  
-
-//       ctx.lineWidth = 0;
-// ctx.lineJoin = ctx.lineCap = 'round';
-  }
-
-    if (thickthin==1) {
-    console.log('mob',thickthin)
-    ctx.lineWidth = 5;
-ctx.lineJoin = ctx.lineCap = 'round';
-  }
-  //ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-  points.push({ x: e.clientX, y: e.clientY });
-// console.log('baby',e.clientX, e.clientY)
-secretArrayX.push(e.clientX);
-     secretArrayY.push(e.clientY);
-  ctx.beginPath();
-  ctx.moveTo(points[0].x, points[0].y);
-
-
-  //console.log(points[0].x, e.clientX)
-  for (var i = 1; i < points.length; i++) {
-    ctx.lineTo(points[i].x, points[i].y);
-  }
-  ctx.stroke();
-};
-
-el.onmouseup = function() {
-  isDrawing = false;
-  console.log('switz', points)
-  orginacoordinateX.push(points[0].x)
-  agentX=orginacoordinateX;
-  orginacoordinateY.push(points[0].y)
-  //orginacoordinateX.push('XX');
-  //orginacoordinateY.push('YY')
-counter+=1;
-var xsample = 'XX'+counter
-var ysample = 'YY'+counter
-console.log('exlusive', xsample, ysample)
-  secretArrayX.push(xsample);
-  secretArrayY.push(ysample)
-  console.log('wo de', orginacoordinateX,orginacoordinateY)
-  console.log('baby',secretArrayX,secretArrayY)
-
-  points.length = 0;
-};
-//    el.onmouseup = function(e) {
-// negate=0;
-// console.log('wo kao')
-//     }
-// jQuery(function($) {
-
- 
-
-//     var currentMousePos = { x: -1, y: -1 };
-//     $(document).mousemove(function(event) {
-       
- 
-
-        
-
-//         // $(document).mousedown(function(event) {  //if you want to draw by making the shape first and then clicking and then the shape appears. 
-//         //    ctx.stroke();
-//         // });
-     
-   
-       
-// if (negate==0) {
-//    //console.log(currentMousePos.x)
-//           //console.log(currentMousePos.y)
-//           if (startgo==1) {
-//              currentMousePos.x = event.pageX;
-//         currentMousePos.y = event.pageY;
-
-//          ctx.lineWidth = 10;
-//   ctx.lineJoin = ctx.lineCap = 'round';
-//        ctx.lineTo(currentMousePos.x,  currentMousePos.y);
-//             ctx.stroke();
-//               secretArrayX.push(currentMousePos.x);
-//          secretArrayY.push(currentMousePos.y);
-//           }
- 
-// }
-      
-
-//     });
-
-//     // ELSEWHERE, your code that needs to know the mouse position without an event
-//     if (currentMousePos.x < 10) {
-//         // ....
-//     }
-// });
-
-var dataURL;
-function aidraw() {
-// if (startgo==1) {
-var image=new Image();
-image.onload=function(){
-    ctx.drawImage(image,0,0);
 }
-image.src=dataURL;
-  
-//    console.log(secretArrayX.length);
-// console.log(secretArrayY.length);
-//var idleInterval = setInterval(timetoDraw, 2000); 
-//timetoDraw();
- 
-}
-
-
-function checkdata() {
-  console.log('i will draw this')
-   console.log(secretArrayX);
-console.log(secretArrayY);
-  var el2 = document.getElementById('c');
- dataURL=el2.toDataURL();
-  ctx.clearRect(0, 0, el.width, el.height);
-
-// timetoDraw();
-}
-
-
-var didi=0; 
-var it2=0;
-function timetoDraw () {//
-     var el2 = document.getElementById('c');
-var ctx2 = el2.getContext('2d');
-var times = 0;
-
-  //ctx.lineWidth = 10;
-  //ctx.lineJoin = ctx.lineCap = 'round';
-  console.log(secretArrayX.length);
-  console.log(secretArrayY.length);
-  //for(var m=0; m<orginacoordinateY.length; m++) {/////
-
-// var f1=orginacoordinateY[m];
-
-    function remove(array, element) {
-    return array.filter(e => e !== element);
-}
-
-var xx;
-var yy;
-var xpos;
- var ypos;
-pupos();
-
-function pupos () {
-console.log('cake')
-console.log('wtf???', secretArrayY.length)
-   // for(var q=0; q<agentX.length; q++) {
-
-        xx =orginacoordinateX[0];
-        yy=orginacoordinateY[0];
-didi++;
-console.log('creator',didi)
-
-
-console.log('pupos',times,xx, yy)
-
-// var it= orginacoordinateX.indexOf(xx);
-//   orginacoordinateX.splice(it, 1);
-
-//   var it2= orginacoordinateY.indexOf(yy);
-//     orginacoordinateY.splice(it, 1);
-
-
-
-    var randominput;
-     var randominput2;
-     randominput = orginacoordinateX[0];
-var vowels = remove(orginacoordinateX, randominput);
-orginacoordinateX=vowels;
-
-
-randominput2 = orginacoordinateY[0];
-var vowels2 = remove(orginacoordinateY, randominput2);
-orginacoordinateY=vowels2;
-     
-
-
-
-console.log('ordinary',orginacoordinateX, orginacoordinateY)
-       ctx2.beginPath();
-         ctx2.moveTo(xx, yy);
-          racken();
-   // }
-
-
-// if (didi==0) {
-
-  
-//   times++
-//   console.log('racken', times)
-// }
-}
-
-
-function racken () {//
-
-    console.log('harmony', times)
-  for(var i=0; i<secretArrayX.length; i++) {//
-
-    xpos = secretArrayX[i];
-   ypos = secretArrayY[i];
-var cloney='';
-var clonex='';
-var xsample='XX'+didi;
-var ysample='YY'+didi;
-console.log('nothin',xsample);
-console.log('nothin',ysample);
-           
-
-  if (xpos==xsample) {//
-            clonex=xpos;
-  var it= secretArrayX.indexOf(xpos);
-  //var pro=it;
-  it++
-   secretArrayX = secretArrayX.slice(it, secretArrayX.length);  //0, it = good
- console.log('after',secretArrayX)
- xpos=secretArrayX[it];
-   // var string=secretArrayX[it];
-   //  it2= secretArrayX.indexOf(string);
-  //console.log('before',pro,it,it2,string,'lazy',secretArrayX)
-
- // startgo=0;
- //  console.log('finished', startgo)
-
-  
-}//
-if (ypos==ysample) {//
-        cloney=ypos;
-  var it= secretArrayY.indexOf(ypos);
-  it++
-  secretArrayY = secretArrayY.slice(it, secretArrayY.length); 
- ypos=secretArrayY[it];
-  console.log(secretArrayY)
-}//
-
-
-      if (cloney==ysample && clonex==xsample && secretArrayY.length>1 && times==0) {//
-  pupos();
-  console.log('shun yi',secretArrayX)
-
-}//
-   
-     //console.log('yeah',xpos,ypos)
-
-
-    // ctx.moveTo(23, 35);
-
-//if (xpos>=1 && ypos>=1) {//
-
-   // ctx.restore()
-//console.log('i drew')
-
-       if (secretArrayY.length==0) {
-  times=1;
-  console.log('break here')
-  break;
-  
-}
-
-
-//}//
-
-     ctx2.lineWidth = 5;
-ctx2.lineJoin = ctx2.lineCap = 'round';
-//ctx.strokeStyle = 'green';
-    ctx2.lineTo(xpos, ypos);
-   //ctx.closePath();
-
-    ctx2.stroke();
-
-
-       //ctx.lineTo(xpos, ypos);
     
+   }
 
-   //ctx.drawImage(xpos, ypos);
+
+
+
+//vowels.toString(); 
+// var inputs  = [12 , 4];
+// var weights = [0.5, -1];
+
+// var sum = 0;
+// for (var i = 0; i < inputs.length; i++) {
+//   sum += inputs[i]*weights[i];
+// }
+ 
+//  console.log(sum)
+
+// var output = activate(sum);
+
+
+
+//30-39  = apples ; 40-49 = oranges
+
+//var inputs = [20,20,20,20,20,20,20,20,20,20,30,30,30,30,30,30,30,30,30,30,40,40,40,40,40,40,40,40,40,40, 50, 50, 50, 50,50,50,50,50,50,50];
+
+//33,41,35,38, 42, 45
+var inputs = [33,41,35,38, 42, 45]//33,41,35,38
+var trainingoutputs =[1,-1,1,1, -1, -1 ]
+
+//29,72,91,50, 65, 31, 33, 30
+//1,-1,1,1, -1, -1, -1,-1
+
+
+
+//var trainingoutputs =[1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4];
+console.log(inputs.length);
+console.log(trainingoutputs.length)
+var inputQ;  //predicter input
+
+
+var dontchangeweight=0;
+var remembermultiplier=[];
+var secretindex=[];
+var secretanswer=[];
+console.log(inputs, trainingoutputs)
+var weights =[]; 
+var originalweights=[];
+var masterweights=[];
+
+var secretweight=[];
+var totalerror=[];
+perception(); //generates the weights
+function perception () {
+weights = [];
+ for (var i = 0; i < inputs.length; i++) {
+var num = Math.random(Math.random() * -1 + 1);
+     weights.push(num);
+      originalweights.push(num);
+      // weights[i] = random(-1,1);
+    }
+    //originalweights=weights;
+console.log('normal weight', originalweights)
+}
+
+
+
+
+  var sum = 0;
+ var massivesum=[];
+  feedforward();
+ 
+function feedforward () {
+  // console.log('tho9', weights)
+    for (var i = 0; i < weights.length; i++) {
+      sum = inputs[i]*weights[i];//if no +  i had sum+=1
+      //console.log('tho9', inputs[i], 'tho9', weights[i],'sum', sum)
+//console.log(massivesum.length)
+if (sum > 0) {
+ 
+  output='output is 1';
+  var array=[1, 2, 3, 4];
+ var randy= array[Math.floor(Math.random()*array.length)];
+remembermultiplier.push(randy);
+
+//console.log('why',remembermultiplier);
+//  if (dontchangeweight==1) {
+//  	if (remembermultiplier.length==1) {
+//  	randy=remembermultiplier[0];
+// }
+// if (remembermultiplier.length>1) {
+//  randy = remembermultiplier[remembermultiplier.length - 1];
+// }
+
+// //console.log('why2',randy);
+
+//  }
+  var kid=1;
+
+   massivesum.push(kid);
+   //console.log('result', output);
+}
+
+
+if (sum< 0) {
+   output='output is -1';
+  var array=[-1, -2, -3, -4];
+
+ var randy= array[Math.floor(Math.random()*array.length)];
+//  remembermultiplier.push(randy);
+//  if (dontchangeweight==1) {
+//  	if (remembermultiplier.length==1) {
+//  	randy=remembermultiplier[0];
+// }
+// if (remembermultiplier.length>1) {
+//  randy = remembermultiplier[remembermultiplier.length - 1];
+// }
+
+// }
+  var kid=-1;
+  //console.log('randy',kid)
+massivesum.push(kid);
+//console.log('result', output);
+}
+
+dontchangeweight=0; 
+//console.log('annoy',sum)
+
+// if (sum<=1) {
+// 	 output='output is 1';
+//   var kid=1;
+// console.log('first',sum)
+//    massivesum.push(kid);
+// }
+
+// if (sum>1 && sum<=2) {
+// 	 output='output is 2';
+//   var kid=2;
+// console.log('second',sum)
+//    massivesum.push(kid);
+// }
+
+// if (sum>2 && sum<=3) {
+// 	 output='output is 3';
+// 	 console.log('third',sum)
+//   var kid=3;
+
+//    massivesum.push(kid);
+// }
+
+
+// if (sum>=4) {
+// 	 output='output is 4';
+// 	 console.log('fourth',sum)
+//   var kid=4;
+
+//    massivesum.push(kid);
+// }
+
+
+
+         // massivesum.push(sum);
+
+    }
+
+    // var randominput = inputs[Math.floor(Math.random()*inputs.length)];
+    // var randomweight = weights[Math.floor(Math.random()*weights.length)];
+// console.log('guesses', massivesum)
+// console.log('desired', trainingoutputs)
+
+	train();
+
+
+    //sum=0; 
+    // console.log('randominput', randominput)
+    //   console.log('randomweight', randomweight)
+    //sum += randominput*randomweight;
+
+        //return activate(sum);
+}
+
+
+var output='';
+function activate (sum) {
+  console.log('boogie',sum)
+if (sum > 0) {
+ 
+  output='output is 1';
+  var kid=1;
+  console.log('result', output);
+
+   //massivesum.push(kid);
+}
+else
+
+ output='output is -1';
+var kid = -1;
+console.log('result', output);
+//massivesum.push(kid);
+}
+
+
+
+
+
+///training 
+
+
+
+
+
+// for(var i=0; i>-100; i++) {
+  
+// }
+
+
+function train () {
+var learningrate = 0.09;
+ //totalerror=[];
+  //console.log('massive',massivesum.length)
+  for(var m = 0; m<massivesum.length; m++) {//
+var guess = massivesum[m];
+var desired = trainingoutputs[m];
+var error = desired - guess;
+if (totalerror.length<inputs.length) {
+totalerror.push(error);
+}
+if (totalerror.length==weights.length) {
+	var index = totalerror[m];
+
+var nono=0;
+index=parseInt(index)
+if (index==0) {
+	
+	nono=1;
+	}
+
+	if (nono==0) {
+		//console.log(index)
+		totalerror[m] = error;
+	}
+   
+}
+
+
+
+ // for (var i = 0; i < weights.length; i++) {
+ //    weights[i] += learningrate * error * inputs[i];//massivesum
+ //  }
+
+  }//
+ 
+   //console.log('total error', totalerror, 'length',weights.length)
+
+  // //if error is zero, don't adjust the weight
+  //  console.log('adjusted weights', weights)
+
+   //feedforward();
+
+     var checkItem = totalerror[0];
+     //check when total error = 0;
+var isSame = 0;
+for (var i = 0; i < totalerror.length; i++) {
+isSame=1;
+  if (totalerror[i] != checkItem) {
+    isSame = 0;
+    break;
   }
 
 
+}
+// return isSame;
+if (isSame==1) {
+  console.log('finish')
+  stopanimation=1;
+  test();
+inputQ=30;//47对   100-129  wrong 30000- midpoint calculations
+  setTimeout(predict,1000)
+}
 
- 
-}//
+if (isSame==0) {
+  setTimeout(dontchange,1000)
+
+}
+
+
+}
 
 
 
-}//
+
+function dontchange () {
+//   console.log('what',originalweights)
+// weights=originalweights;
+//console.log('what222',weights)
+var newweights=[];
+//console.log(totalerror)
+
+ for (var i = 0; i < totalerror.length; i++) {
+var dd=0;
+//console.log('bott',weights.length)
+  var st=totalerror[i];
+  //var st2=weights[i];
+  var st3=weights[i];
+  // if (newweights.length>1) {
+  //   st2=newweights[i];
+  //   console.log('ryu', st2)
+  // }
+  //st=parseInt(st)
+//console.log('ss5',st)
+
+//console.log('pop', st, st3)
+  if (st=='0'||st==0) {
+  	//console.log('pop2',remembermultiplier)
+  	dontchangeweight=1;
+  	secretindex.push(st)
+  	//console.log('pop3',secretindex)
+
+dd=1;
+yellow=1;
+	var element3 = document.getElementById('img3');
+            element3.style.opacity = "1.0";
+test();
+    //console.log('dont change weight', st3)
+newweights.push(st3)//get original weight because not wrong
+
+  }
+  if (dd==0) {
+  	//console.log('pop3')
+  	red=1;
+  	test();
+  //console.log('change weight')
+   var pt;
+   if (secretweight.length==1) {
+    pt=secretweight[0];
+   }
+  if (secretweight.length>1) {
+     pt = secretweight[secretweight.length - 1];
+  }
+  
+st2 = Math.random(Math.random() * -1 + 1);   //if i put -1 it is a bias//-1
+
+var changeweight = pt-st2;
+var finalweight=Math.abs(changeweight);
+//console.log('that cookie',finalweight)
+if (finalweight<=0.5) {
+  st2=st2-0.5;
+  
+
+  //console.log('that brownie',st2)
+}
+secretweight.push(st2);
+  newweights.push(st2)
+}
+
+ }
+
+
+secretindex=[]
+remembermultiplier=[];
+
+ //console.log(newweights)
+  //console.log('still error', newweights)
+  weights=[];
+ weights=newweights;
+
+
+///newweights=[];
+ sum=0;
+ //totalerror=[];
+ massivesum=[];
+
+
+  //console.log('corrected weights',weights)
+
+  
+ feedforward();
+   
+
+     //setTimeout(train,5000)
+  
+
+
+}
+
+
+function predict () {
+  var differencearray=[];
+for(var i=0; i<inputs.length; i++) {
+    var int=inputs[i];
+   var num1 = inputQ-int;
+   var num2 =Math.abs(num1);
+   differencearray.push(num2);
+
+
+
+}
+    console.log(differencearray)
+
+    Array.min = function( array ){
+    return Math.min.apply( Math, array );
+};
+
+var minimum = Array.min(differencearray);
+console.log(minimum)
+
+var index= differencearray.indexOf(minimum);
+
+var orgininput=inputs[index];//input
+
+var thatweight = weights[index];
+
+console.log(weights);
+console.log(totalerror)
+
+
+var result= inputQ*thatweight;
+var thatanwser=trainingoutputs[index];
+console.log(orgininput,thatanwser)
+
+//result=Math.log(result);
+//result=Math.sqrt(result)
+console.log(result, thatweight, inputQ)
+
+if (result>0) {
+  console.log('1');
+}
+
+if (result<0) {
+  console.log('-1');
+}
+
+}
+
+// result=result-1;
+// if (result<=1) {
+
+// console.log('final answer = 1')
+  
+// }
+
+// if (result>1 && result<=2) {
+// 	console.log('final answer = 2')
+// }
+
+// if (result>2 && result<=3) {
+// console.log('final answer = 3')
+// }
+
+
+// if (result>=4) {
+// console.log('final answer = 4')
+// }
+
+// //error = var error = desired - guess;
+// }
+//error rate = desired output - guess output
+
+//ΔWEIGHT = ERROR * INPUT
+
+//Therefore:
+//error = desired result - guess
+//NEW WEIGHT = WEIGHT + ERROR * INPUT
+//NEW WEIGHT = WEIGHT + ERROR * INPUT * LEARNING CONSTANT  (option)
 
 
 
 </script>
-<body>
 
-<h1>Say Start to begin</h1>
-<p>Say stop when you are finished drawing</p>
-
-
-
-
-</body>
 </html>
