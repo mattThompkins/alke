@@ -41,7 +41,7 @@
 
 
 var iamerasing=0;
-
+var tellonce=0;
 
 //save
 
@@ -278,7 +278,12 @@ image.src=dataURL;
 
 function erase () {
   iamerasing=1;
-  
+  thickthin=0;
+
+if (tellonce==0) {
+  alert('Hold down mouse and hover over where you want to erase. Click thin line or thick line when you are done');
+  tellonce=1;
+  }
 }
 
 function checkdata() {
