@@ -10,11 +10,13 @@
 <!-- <input x-webkit-speech> -->
 <button onclick="thick()">Thick Line</button>
 <button onclick="thin()">Thin Line</button>
+<button onclick="erase()">Erase</button>
 <button onclick="aidraw()">AI draw</button>
 <button onclick="checkdata()">Clear Canvas</button>
 
 <button onclick="saveme()">Save Drawing</button>
 <button onclick="loadme()">Load Drawing</button>
+
 
 <!-- <textarea id="results" cols="80" rows="5"></textarea>
 <button onclick="startDictation()">Start</button> -->
@@ -38,7 +40,7 @@
   var database = firebase.database();
 
 
-
+var iamerasing=0;
 
 
 //save
@@ -120,13 +122,13 @@ var ctx = el.getContext('2d');
 
 ctx.save();
 function thick () {
-
+iamerasing=0;
 thickthin=1;
 
 }
 
 function thin () {
-
+iamerasing=0;
 thickthin=0;
 ctx.restore();
 ctx.save();
@@ -136,8 +138,13 @@ var isDrawing, points = [ ];
 
 el.onmousedown = function(e) {
   isDrawing = true;
-     
-  points.push({ x: e.clientX, y: e.clientY });
+     if (iamerasing==0) {
+        points.push({ x: e.clientX, y: e.clientY });
+     }
+
+    if (iamerasing==1) {
+    ctx.clearRect (0, 0, e.clientX, e.clientY);
+  }
   //console.log('baby',points)
 };
 
@@ -157,6 +164,12 @@ el.onmousemove = function(e) {
     ctx.lineWidth = 5;
 ctx.lineJoin = ctx.lineCap = 'round';
   }
+
+   if (iamerasing==1) {
+    ctx.clearRect (0, 0, e.clientX, e.clientY);
+  }
+
+if (iamerasing==0) {
   //ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   points.push({ x: e.clientX, y: e.clientY });
 // console.log('baby',e.clientX, e.clientY)
@@ -171,10 +184,14 @@ secretArrayX.push(e.clientX);
     ctx.lineTo(points[i].x, points[i].y);
   }
   ctx.stroke();
+
+}
 };
 
 el.onmouseup = function() {
   isDrawing = false;
+  
+if (iamerasing==0) {
   console.log('switz', points)
   orginacoordinateX.push(points[0].x)
   agentX=orginacoordinateX;
@@ -191,6 +208,8 @@ console.log('exlusive', xsample, ysample)
   console.log('baby',secretArrayX,secretArrayY)
 
   points.length = 0;
+}
+  iamerasing=0;
 };
 //    el.onmouseup = function(e) {
 // negate=0;
@@ -257,6 +276,10 @@ image.src=dataURL;
  
 }
 
+function erase () {
+  iamerasing=1;
+  
+}
 
 function checkdata() {
   console.log('i will draw this')
