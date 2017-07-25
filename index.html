@@ -8,11 +8,13 @@
 </style>
 <canvas id="c" width="1000" height="500"></canvas>
 <!-- <input x-webkit-speech> -->
-<button onclick="aidraw()">AI draw</button>
-<button onclick="checkdata()">See data</button>
 <button onclick="thick()">Thick Line</button>
 <button onclick="thin()">Thin Line</button>
+<button onclick="aidraw()">AI draw</button>
+<button onclick="checkdata()">Clear Canvas</button>
+
 <button onclick="saveme()">Save Drawing</button>
+<button onclick="loadme()">Load Drawing</button>
 
 <!-- <textarea id="results" cols="80" rows="5"></textarea>
 <button onclick="startDictation()">Start</button> -->
@@ -103,83 +105,7 @@ console.log(array);
 
 var startgo=0; 
 
- var recognizer = null;
-recognize();
-var whatusersays='';
-            function recognize()
-            {
-                //speechRecognization interface is the heart of recognization API
-                window.speechRecognition = window.speechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.webkitSpeechRecognition;
 
-                if(window.speechRecognition == undefined)
-                {
-                    // alert("Speech Recogniztion API Not Supported");
-                }
-                else
-                {
-                    //create a speechRecognization object
-                    recognizer = new speechRecognition();
-
-                    //If set to "false" then recognizer stops listening automatically when user stops speaking the first sentence.
-                    recognizer.continuous = true;
-
-                    //specify the language of speech. langauge must be in BCP 47 standard.
-                    recognizer.lang = "en-US";
-
-                    //it set to true then onresult callback is fired after every word spoken by the user. Otherwise after end of sentence.
-                    recognizer.interimResults = true;
-
-
-                    //fired when speech recognization starts listening.
-                    recognizer.onstart = function(){
-                       // alert("Recogniztion API started");
-                    }
-
-                    //fired everytime user stops speaking.
-                    recognizer.onresult = function(event){  
-                        //event.resultIndex returns the index of first word spoken in the currently stoped sentence.
-                        //event.results.length is the total number of words spoken in this session.
-                        for(var count = event.resultIndex; count < event.results.length; count++)
-                        {
-                            //event.results array contains a array of word objects.
-                            //event.results[count][number], here 2D represents the most probable work for the spoken word.
-                            //event.result[count][number].transscript returns word string of the most probable word of the select word index.  
-                            // document.getElementById("output").innerHTML +=
-                           // console.log(event.results[count][0].transcript);
-                            whatusersays=event.results[count][0].transcript;
-                            //console.log('what the heck',whatusersays)
- if (whatusersays.indexOf('start') > -1) {
-  console.log('start baby')
-  startgo=1;
- }
-  if (whatusersays.indexOf('stop') > -1) {
-  console.log('stop')
-  startgo=0;
- }
-                        }
-                    }
-
-                    //fired when recognization is stopped manually or automatically.
-                    recognizer.onend = function(){
-                        recognizer = null;
-                        //alert("Recogniztion API stopped");
-                    }
-
-                    recognizer.start();
-                }
-            }
-
-            function stop()
-            {
-                if(recognizer != null)
-                {
-                    //stop it manually
-                    recognizer.stop();
-                    //alert("Recognization API stopped");
-                }
-            }
-
-///
 
 
 var secretArrayX=[];
@@ -405,8 +331,8 @@ orginacoordinateY=vowels2;
 
 
 console.log('ordinary',orginacoordinateX, orginacoordinateY)
-       //ctx2.beginPath();
-         //ctx2.moveTo(xx, yy);
+       ctx2.beginPath();
+         ctx2.moveTo(xx, yy);
           racken();
    // }
 
@@ -431,8 +357,8 @@ var cloney='';
 var clonex='';
 var xsample='XX'+didi;
 var ysample='YY'+didi;
-console.log('nothin',xsample);
-console.log('nothin',ysample);
+// console.log('nothin',xsample);
+// console.log('nothin',ysample);
            
 
   if (xpos==xsample) {//
@@ -441,7 +367,7 @@ console.log('nothin',ysample);
   //var pro=it;
   it++
    secretArrayX = secretArrayX.slice(it, secretArrayX.length);  //0, it = good
- console.log('after',secretArrayX)
+// console.log('after',secretArrayX)
  xpos=secretArrayX[it];
    // var string=secretArrayX[it];
    //  it2= secretArrayX.indexOf(string);
@@ -458,13 +384,13 @@ if (ypos==ysample) {//
   it++
   secretArrayY = secretArrayY.slice(it, secretArrayY.length); 
  ypos=secretArrayY[it];
-  console.log(secretArrayY)
+ // console.log(secretArrayY)
 }//
 
 
       if (cloney==ysample && clonex==xsample && secretArrayY.length>1 && times==0) {//
   pupos();
-  console.log('shun yi',secretArrayX)
+  //console.log('shun yi',secretArrayX)
 
 }//
    
@@ -480,7 +406,7 @@ if (ypos==ysample) {//
 
        if (secretArrayY.length==0) {
   times=1;
-  console.log('break here')
+  //console.log('break here')
   break;
   
 }
@@ -490,13 +416,14 @@ if (ypos==ysample) {//
 //}//
 
 //firebase save xcoord and y coord
-//      ctx2.lineWidth = 5;
-// ctx2.lineJoin = ctx2.lineCap = 'round';
-
-//     ctx2.lineTo(xpos, ypos);
+     // ctx2.lineWidth = 1;
+//ctx2.lineJoin = ctx2.lineCap = 'round';
+ctx2.globalAlpha=0.1;
+ctx2.strokeStyle = "rgba(0, 0, 0, 0.4)";
+    ctx2.lineTo(xpos, ypos);
  
 
-//     ctx2.stroke();
+    ctx2.stroke();
 
 
   }
@@ -533,6 +460,62 @@ var data = {
   coordsy:secretArrayY
 }
 ref.push(data)
+}
+
+
+function loadme () {
+
+     msg = window.prompt("Please write the name of the past drawing", "Name");
+ 
+
+  console.log(msg)
+setTimeout(load,2000)
+
+
+
+
+function load() {///
+
+  var ref = database.ref(msg)
+ref.on('value',gotData, errData);
+
+function gotData(data) {
+console.log(data.val())
+var coordinates =data.val();
+
+var keys = Object.keys(coordinates)
+console.log(coordinates)
+for(var i=0; i<keys.length;i++) {
+console.log('inside')
+  var p=keys[i];
+
+var shuju=coordinates[p].coordsx;
+var shujunames=coordinates[p].coordsy;
+secretArrayX=shuju;
+secretArrayY=shujunames;
+  console.log(p)
+    console.log(shuju,shujunames)
+    timetoDraw();
+}
+
+
+}
+
+
+function errData(err) {
+   console.log(err)
+}
+
+
+}///
+
+
+
+
+
+
+
+
 }
 
 
