@@ -16,7 +16,8 @@
 
 <button onclick="saveme()">Save Drawing</button>
 <button onclick="loadme()">Load Drawing</button>
-
+<!-- <button onclick="list()">List of my Drawings</button>
+ -->
 
 <!-- <textarea id="results" cols="80" rows="5"></textarea>
 <button onclick="startDictation()">Start</button> -->
@@ -26,6 +27,12 @@
 
 
 <script>
+
+   var el = document.getElementById('c');
+var ctx = el.getContext('2d');
+   // ctx.lineWidth = 5;
+// ctx.lineJoin = ctx.lineCap = 'round';
+
 //firebase
   var config = {
     apiKey: "AIzaSyBA1zN9fWE8BY1nisk65Te77KGwfwZeDR0",
@@ -79,7 +86,20 @@ var tellonce=0;
 
 ///////
 
+function list () {
+  var ref = database.ref('mobsidian-262f9')
+ var check = ref.orderByKey();
+console.log(check);
+var keys = Object.keys(check)
+var valus=coordinates =check.val();
+console.log(valus)
+ref.on('value',gotData, errData);
 
+// var ref = firebase.database().ref("mobsidian-262f9");
+// var usersQuery = ref.val();
+// console.log(usersQuery)
+
+}
 ///
 var thickthin=0;
 array = ['1', '2', '3', 'xx1', '4', '5', 'xx2', '6', '7', '8', 'xx3'];
@@ -211,52 +231,7 @@ console.log('exlusive', xsample, ysample)
 }
   iamerasing=0;
 };
-//    el.onmouseup = function(e) {
-// negate=0;
-// console.log('wo kao')
-//     }
-// jQuery(function($) {
 
- 
-
-//     var currentMousePos = { x: -1, y: -1 };
-//     $(document).mousemove(function(event) {
-       
- 
-
-        
-
-//         // $(document).mousedown(function(event) {  //if you want to draw by making the shape first and then clicking and then the shape appears. 
-//         //    ctx.stroke();
-//         // });
-     
-   
-       
-// if (negate==0) {
-//    //console.log(currentMousePos.x)
-//           //console.log(currentMousePos.y)
-//           if (startgo==1) {
-//              currentMousePos.x = event.pageX;
-//         currentMousePos.y = event.pageY;
-
-//          ctx.lineWidth = 10;
-//   ctx.lineJoin = ctx.lineCap = 'round';
-//        ctx.lineTo(currentMousePos.x,  currentMousePos.y);
-//             ctx.stroke();
-//               secretArrayX.push(currentMousePos.x);
-//          secretArrayY.push(currentMousePos.y);
-//           }
- 
-// }
-      
-
-//     });
-
-//     // ELSEWHERE, your code that needs to know the mouse position without an event
-//     if (currentMousePos.x < 10) {
-//         // ....
-//     }
-// });
 
 var dataURL;
 function aidraw() {
@@ -447,7 +422,7 @@ if (ypos==ysample) {//
      // ctx2.lineWidth = 1;
 //ctx2.lineJoin = ctx2.lineCap = 'round';
 ctx2.globalAlpha=0.1;
-ctx2.strokeStyle = "rgba(0, 0, 0, 0.4)";
+ctx2.strokeStyle = "rgba(0, 0, 0, 0.1)";
     ctx2.lineTo(xpos, ypos);
  
 
