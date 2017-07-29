@@ -50,6 +50,7 @@
 
 var iamerasing=0;
 var tellonce=0;
+var cancellightbrush=0; 
 
 //save
 
@@ -138,6 +139,7 @@ var orginacoordinateY=[];
 var agentX=[];  //clone of originacoordX
 var counter=0;
  var negate=0; 
+ var erasecounter=0;
    var el = document.getElementById('c');
 var ctx = el.getContext('2d');
 
@@ -164,14 +166,14 @@ el.onmousedown = function(e) {
      }
 
     if (iamerasing==1) {
-    ctx.clearRect (0, 0, e.clientX, e.clientY);
+    //ctx.clearRect (e.clientX, e.clientY, e.clientX, e.clientY);
   }
   //console.log('baby',points)
 };
 
 el.onmousemove = function(e) {
   if (!isDrawing) return;
-
+cancellightbrush=1;
     if (thickthin==0) {
     console.log('zob',thickthin)
   
@@ -187,9 +189,10 @@ ctx.lineJoin = ctx.lineCap = 'round';
   }
 
    if (iamerasing==1) {
-    ctx.clearRect (0, 0, e.clientX, e.clientY);
-  }
 
+    ctx.clearRect(0.5, 1, e.clientX, e.clientY);
+
+}
 if (iamerasing==0) {
   //ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   points.push({ x: e.clientX, y: e.clientY });
@@ -204,6 +207,8 @@ secretArrayX.push(e.clientX);
   for (var i = 1; i < points.length; i++) {
     ctx.lineTo(points[i].x, points[i].y);
   }
+  ctx.globalAlpha=1;
+ctx.strokeStyle = "rgba(0, 0, 0, 1)";
   ctx.stroke();
 
 }
@@ -230,7 +235,7 @@ console.log('exlusive', xsample, ysample)
 
   points.length = 0;
 }
-  iamerasing=0;
+  //iamerasing=0;
 };
 
 
@@ -422,8 +427,10 @@ if (ypos==ysample) {//
 //firebase save xcoord and y coord
      // ctx2.lineWidth = 1;
 //ctx2.lineJoin = ctx2.lineCap = 'round';
+if (cancellightbrush==0) {
 ctx2.globalAlpha=0.1;
 ctx2.strokeStyle = "rgba(0, 0, 0, 0.1)";
+}
     ctx2.lineTo(xpos, ypos);
  
 
@@ -468,6 +475,9 @@ ref.push(data)
 
 
 function loadme () {
+  if (cancellightbrush==1) {
+    cancellightbrush=0;
+  }
 
      msg = window.prompt("Please write the name of the past drawing", "Name");
  
@@ -526,7 +536,7 @@ function errData(err) {
 </script>
 <body>
 
-<h1>Welcome to Mobsid's Animation Platform</h1>
+<!-- <h1>Welcome to Mobsid's Animation Platform</h1> -->
 <p></p>
 
 
