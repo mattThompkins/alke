@@ -25,6 +25,8 @@
 
 <button onclick="saveme()">Save Drawing</button>
 <button onclick="loadme()">Load Drawing</button>
+
+<button onclick="cleanme()">Clean Drawing</button>
 <!-- <button onclick="list()">List of my Drawings</button>
  -->
 
@@ -60,6 +62,12 @@
 var iamerasing=0;
 var tellonce=0;
 var cancellightbrush=0; 
+var cleandrawingplease=0; 
+var newYxinarray=[];
+var xinarray =[];//x
+var newxinarray= new Array();
+var newxinYarray= new Array();
+
 
 //save
 
@@ -115,6 +123,8 @@ ref.on('value',gotData, errData);
 var thickthin=0;
 array = ['1', '2', '3', 'xx1', '4', '5', 'xx2', '6', '7', '8', 'xx3'];
 
+array = array.slice(2, array.length);
+console.log('one',array)
 for(var i =0; i<array.length; i++) {
   var st= array[i];
   var num= 'xx'+i;
@@ -198,8 +208,15 @@ ctx.lineJoin = ctx.lineCap = 'round';
   }
 
    if (iamerasing==1) {
+    ctx.globalCompositeOperation="copy";
+ctx.strokeStyle = "rgba(0,0,0,1)";
+ 
+ ctx.stroke();
+ //    ctx.strokeStyle = ("rgba(255,255,255,255)");
+ //    /* or */
+ //    ctx.fillStyle = "rgba(255,0,0,0)";
+  // ctx.clearRect(0, 0,e.clientX, e.clientY);
 
-    ctx.clearRect(0.5, 1, e.clientX, e.clientY);
 
 }
 if (iamerasing==0) {
@@ -226,6 +243,14 @@ ctx.strokeStyle = "rgba(0, 0, 0, 1)";
 el.onmouseup = function() {
   isDrawing = false;
   
+   var first=secretArrayY[0];
+
+ var last = secretArrayY[secretArrayY.length - 1];
+ var check = Math.abs(first-last);
+ console.log('wtf', check)
+ if (check<=20) {
+  console.log('touching points')
+ }
 if (iamerasing==0) {
   console.log('switz', points)
   orginacoordinateX.push(points[0].x)
@@ -241,6 +266,68 @@ console.log('exlusive', xsample, ysample)
   secretArrayY.push(ysample)
   console.log('wo de', orginacoordinateX,orginacoordinateY)
   console.log('baby',secretArrayX,secretArrayY)
+var pointarray=[];
+var pointarrayY=[];
+var truearray=[];
+var truearrayY=[];
+var point; 
+var pointY; 
+  for(var i=0; i<secretArrayX.length; i++) {
+
+       point=secretArrayX[i];
+      
+      pointY=secretArrayY[i];
+      
+
+      if (i<7) {
+         pointarray.push(point)
+
+
+         if (pointarray.length==2) {
+              var p1=pointarray[0];
+              var p2 = pointarray[1];
+       console.log(p1, p2)
+              var pdiff= Math.abs(p1-p2);
+              if (pdiff<=7) {
+
+                  truearray.push(pdiff);
+              }
+              pointarray=[];
+         }
+
+
+
+         ///y 
+
+
+            pointarrayY.push(pointY)
+
+         
+         if (pointarrayY.length==2) {
+              var p1=pointarrayY[0];
+              var p2 = pointarrayY[1];
+       console.log('y',p1, p2)
+              var pdiff= Math.abs(p1-p2);
+              if (pdiff<=10) {
+
+                  truearrayY.push(pdiff);
+              }
+              pointarrayY=[];
+         }
+
+
+
+       }
+
+
+
+
+  }
+  if (truearray.length==3) {
+    console.log('it is an arc')
+  }
+  console.log('my sunshine',truearray)
+  console.log('my sunshine y',truearrayY)
 
   points.length = 0;
 }
@@ -265,6 +352,179 @@ image.src=dataURL;
 //timetoDraw();
  
 }
+
+
+
+function cleanme () {///
+cleandrawingplease=1;
+///I need to create a new cartesian plane. Because when people draw, the lines, curves, circles, and all other shapes are not perfect. They appear perfect or "nice" to the naked eye, but it term of mathmatics, it is not.
+
+
+//if it completes a full shape, erase extra lines
+  console.log(secretArrayY,secretArrayX)
+  //change x array
+
+
+   var xx =orginacoordinateX[0];
+       var yy=orginacoordinateY[0];
+var sumx=0;
+var didi=0;
+//adddidi();
+var collectsumsx=[];
+var matrixX=secretArrayX;
+var matrixY=secretArrayY;
+// function adddidi () {
+//   didi+=1;
+// }
+console.log(secretArrayX.length)
+var newarr=[];
+var rememberlastone=[];
+ var lastnumber;
+for(var n=0; n<secretArrayX.length; n++){
+   
+if (rememberlastone.length>1) {
+    lastnumber = rememberlastone.slice(-1)[0];
+ }
+  var geta=secretArrayX[n];
+  var checkdifference =  Math.abs(geta-lastnumber);
+
+  if (checkdifference>10) {
+    console.log('change');
+    console.log('change drawing',rememberlastone)
+     editcurve();
+break;
+  }
+  rememberlastone.push(geta);
+
+
+} 
+
+// var xinarray =[];
+// var newYxinarray=[];
+  //var newxinarray=[];
+  var pheta;
+  var theta;
+function editcurve () {//
+   xinarray = secretArrayX.slice(rememberlastone.length, secretArrayX.length);
+  newYxinarray=secretArrayY.slice(rememberlastone.length, secretArrayY.length);
+  
+
+
+  console.log('new secretx', xinarray)
+  for(var e=0; e<xinarray.length; e++){//
+    pheta = xinarray[e];
+    theta=newYxinarray[e];
+console.log('DNA the number',pheta)
+    if (isNaN(pheta)==false) {//
+      var diff=Math.floor(Math.random() * 20) + 1  
+    pheta=pheta-20;
+    theta=theta-20;
+}
+
+
+if (isNaN(pheta)==true) {
+console.log('DNA',pheta)
+}
+
+// console.log('DNA the number',pheta)
+
+    newxinarray.push(pheta);
+newxinYarray.push(theta);
+  }//
+
+
+
+
+
+  timetoDraw();
+
+}//
+
+
+
+//   for(var i=0; i<secretArrayX.length; i++){
+//   var xpos = secretArrayX[i];
+//    var ypos = secretArrayY[i];
+//    console.log('didi', didi)
+//   var cloney='';
+// var clonex='';
+// var xsample='XX'+didi;
+// var ysample='YY'+didi;
+// // console.log('nothin',xsample);
+// // console.log('nothin',ysample);
+  
+
+
+//   if (xpos==xsample) {//
+// console.log('data',xpos,xsample)
+// console.log('array', secretArrayX)
+//             clonex=xpos;
+//   var it= secretArrayX.indexOf(xpos);
+//   //matrixX=[];
+//   matrixX=secretArrayX;
+//   console.log('coming in', matrixX)
+//   //var pro=it;
+//  // it++
+//  console.log('vegeta', it)
+//  if (didi==1) {
+//   console.log('i am annoying')
+//    matrixX = secretArrayX.slice(0, it); 
+//  }
+//  if (didi>1) {
+//  var tini=didi-1
+//   var sample = 'XX'+tini
+//    var pt= secretArrayX.indexOf(sample);
+//    pt++
+
+//     var zt= secretArrayX.indexOf(xsample);
+//    console.log('rox',pt)
+//    matrixX=secretArrayX;
+//     matrixX = secretArrayX.slice(pt, zt);
+
+// console.log('lol', matrixX)
+//  //var it= matrixX.indexOf(xsample);
+//   //it++
+//    //matrixX = secretArrayX.slice(0, it); 
+//  }
+//    //0, it = good //it, matrixX.length
+//    console.log('my array',didi,matrixX)
+//         sumx =  matrixX.reduce(function(a, b) { return a + b; }, 0);
+        
+//         collectsumsx.push(sumx)
+// console.log('tai yang',collectsumsx,i); 
+// didi+=1;
+
+// // console.log('after',secretArrayX)
+//  xpos=secretArrayX[it];
+
+  
+// }//
+// if (ypos==ysample) {//
+//         cloney=ypos;
+//   var it= secretArrayY.indexOf(ypos);
+//   it++
+//   secretArrayY = secretArrayY.slice(it, secretArrayY.length); 
+//  ypos=secretArrayY[it];
+//  // console.log(secretArrayY)
+
+//   }
+
+
+
+//   }
+
+
+
+// function add(a, b) {
+//     return a + b;
+// }
+
+
+
+
+
+
+}///
 
 function erase () {
   iamerasing=1;
@@ -302,6 +562,11 @@ var times = 0;
   //for(var m=0; m<orginacoordinateY.length; m++) {/////
 
 // var f1=orginacoordinateY[m];
+if (cleandrawingplease==1) {
+  ctx.clearRect(0, 0, el.width, el.height);
+  secretArrayX=newxinarray;
+  secretArrayY=newxinYarray;
+}
 
     function remove(array, element) {
     return array.filter(e => e !== element);
