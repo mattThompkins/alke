@@ -1,820 +1,1140 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Page Title</title>
+<title>Quaine's Neural</title>
 </head>
+  <meta charset="utf-8">
 <style type="text/css">
 	canvas { border: 1px solid #ccc }
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+  .my_animation1{
+    animation: blink 3s 0.2s;
+    animation-iteration-count: infinite;
+}
+  .my_animation2{
+    animation: blink 3s 1s;
+    animation-iteration-count: infinite;
+}
+  .my_animation3{
+    animation: blink 3s 1.8s;
+    animation-iteration-count: infinite;
+}
+
   .ribbon {
   position:absolute;
   top:0;
   right:0;
 }
+  .ribbon1 {
+  position:absolute;
+  top:100;
+  right:12;
+}
 </style>
-<canvas id="c" width="1000" height="500"></canvas>
-
+<!-- <canvas id="c" width="1000" height="500"></canvas> -->
 <div>
-<img src="MobSid_Company_Logo.png" width="100" height="100" class="ribbon">
+<!-- <button class="ribbon" onclick="check()">对</button>
+<button class="ribbon1" onclick="check2()">不对</button> -->
 </div>
-<!-- <input x-webkit-speech> -->
-<button onclick="thick()">Thick Line</button>
-<button onclick="thin()">Thin Line</button>
-<button onclick="erase()">Erase</button>
-<button onclick="aidraw()">AI draw</button>
-<button onclick="checkdata()">Clear Canvas</button>
 
-<button onclick="saveme()">Save Drawing</button>
-<button onclick="loadme()">Load Drawing</button>
+<div style="text-align: center; padding: 50px" >
+	<div style="display: inline-block; margin-right: 50px;position: absolute;left: 200px;top:200px">
+		<img src="greencircle.png" width="100" height="100" style="opacity:0.5" id="img1">
+	</div>
+	<div style="display: inline-block; margin-right: 50px;position: absolute;left: 400px;top:200px">
+		<img src="redcircle.png" width="100" height="100" style="opacity:0.5" id="img2">
+	</div>
+	<div style="display: inline-block;position: absolute;left: 600px;top:200px">
+		<img src="yellowcircle.png" width="100" height="100" style="opacity:0.5" id="img3">
+	</div>
+	<div>
+	<img src="brain-connectivity.png" width="700" height="500">
+  <textarea id="textarea" rows=10 cols=80></textarea>
+	</div>
 
-<button onclick="cleanme()">Clean Drawing</button>
-<!-- <button onclick="list()">List of my Drawings</button>
- -->
 
-<!-- <textarea id="results" cols="80" rows="5"></textarea>
-<button onclick="startDictation()">Start</button> -->
-<!-- <input type="text" id="speech" style="font-size: 40px;"  name="speech" size="50" /> -->
-<script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+<!-- </div>
+<b>CSV File</b> <input type="file" id="csvfile"> 
+<br />
+
+<b>Header</b> <select id="header">
+<option>true</option>
+<option>false</option>
+</select> 
+
+<br /> -->
+<!-- <button id="submitbutton" type="button">read.csv</button> -->
+
+<pre><code id="output"></code></pre>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.0.4/d3.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//cdn.opencpu.org/opencpu-0.4.js"></script>
 
-
+  <!-- <script type="text/javascript" src="static/js/read-csv.js"></script> -->
+    <input type="file" id="csvFileInput" onchange="handleFiles(this.files)"
+            accept=".csv">
 <script>
+var takeKeyonce=0; 
+var actualKey=[];
+var inputs =[];
+var trainingoutputs=[];
+var realoutputs=[];
+var determineoutput=0;
+var multivariable=0;
+  var arraypos=[];
+     var arrayneg=[];
 
-//    var el = document.getElementById('c');
-// var ctx = el.getContext('2d');
-   // ctx.lineWidth = 5;
-// ctx.lineJoin = ctx.lineCap = 'round';
+function handleFiles(files) {
+      // Check for the various File API support.
+      if (window.FileReader) {
+          // FileReader are supported.
+          getAsText(files[0]);
+      } else {
+          alert('FileReader are not supported in this browser.');
+      }
+    }
 
-
-//firebase
-  var config = {
-    apiKey: "AIzaSyBA1zN9fWE8BY1nisk65Te77KGwfwZeDR0",
-    authDomain: "mobsidian-262f9.firebaseapp.com",
-    databaseURL: "https://mobsidian-262f9.firebaseio.com",
-    projectId: "mobsidian-262f9",
-    storageBucket: "mobsidian-262f9.appspot.com",
-    messagingSenderId: "812445897675"
-  };
-  firebase.initializeApp(config);
-
-  var database = firebase.database();
-
-
-var iamerasing=0;
-var tellonce=0;
-var cancellightbrush=0; 
-var cleandrawingplease=0; 
-var newYxinarray=[];
-var xinarray =[];//x
-var newxinarray= new Array();
-var newxinYarray= new Array();
-
-
-//save
-
-//ref.push(data)
-
-///
+    function getAsText(fileToRead) {
+      var reader = new FileReader();
+      // Read file into memory as UTF-8      
+      reader.readAsText(fileToRead);
+      // Handle errors load
+      reader.onload = loadHandler;
+      reader.onerror = errorHandler;
+    }
 
 
-///retrieve
-// ref.on('value',gotData, errData);
+    function loadHandler(event) {
+      // var feels = d3.csv.parse(event.target.result)
 
-// function gotData(data) {
-// console.log(data.val())
-// var coordinates =data.val();
+      var csv = event.target.result;
+      processData(csv);
 
-// var keys = Object.keys(coordinates)
-// console.log(coordinates)
-// for(var i=0; i<keys.length;i++) {
-// console.log('inside')
-//   var p=keys[i];
+//       d3.csv(csv, function(rows) {
+//   console.log(rows)
+// });
 
-// var shuju=coordinates[p].coords;
-// var shujunames=coordinates[p].name;
-//   console.log(p)
-//     console.log(shuju,shujunames)
-// }
+    }
 
+var numberofvalues=[];
+    function processData(csv) {
+     var feels = d3.csv.parse(csv)
 
-// }
+for(var i=0; i<feels.length; i++) {
 
-
-// function errData(err) {
-//    console.log(err)
-// }
-
-///////
-
-function list () {
-  var ref = database.ref('mobsidian-262f9')
- var check = ref.orderByKey();
-console.log(check);
-var keys = Object.keys(check)
-var valus=coordinates =check.val();
-console.log(valus)
-ref.on('value',gotData, errData);
-
-// var ref = firebase.database().ref("mobsidian-262f9");
-// var usersQuery = ref.val();
-// console.log(usersQuery)
-
-}
-///
-var thickthin=0;
-array = ['1', '2', '3', 'xx1', '4', '5', 'xx2', '6', '7', '8', 'xx3'];
-
-array = array.slice(2, array.length);
-console.log('one',array)
-for(var i =0; i<array.length; i++) {
-  var st= array[i];
-  var num= 'xx'+i;
-if (st=='xx1') {
-   var it= array.indexOf(st);
-  it++
- array = array.slice(it, array.length);
-}
-
-}
-
-
-// var it= array.indexOf('xx');
-//it++
-  //array.splice(it, 1);
-//it=it-1;
-
-//array = array.slice(it, array.length); //Need to assign it to the same or another variable
-
-console.log(array);
-
-var startgo=0; 
-
-
-
-
-var secretArrayX=[];
-var secretArrayY=[];
-var orginacoordinateX=[];
-var orginacoordinateY=[];
-var agentX=[];  //clone of originacoordX
-var counter=0;
- var negate=0; 
- var erasecounter=0;
-   var el = document.getElementById('c');
-var ctx = el.getContext('2d');
-
-ctx.save();
-function thick () {
-iamerasing=0;
-thickthin=1;
-
-}
-
-function thin () {
-iamerasing=0;
-thickthin=0;
-ctx.restore();
-ctx.save();
-console.log('lob',thickthin)
-}
-var isDrawing, points = [ ];
-
-el.onmousedown = function(e) {
-  isDrawing = true;
-     if (iamerasing==0) {
-        points.push({ x: e.clientX, y: e.clientY });
-     }
-
-    if (iamerasing==1) {
-    //ctx.clearRect (e.clientX, e.clientY, e.clientX, e.clientY);
-  }
-  //console.log('baby',points)
-};
-
-el.onmousemove = function(e) {
-  if (!isDrawing) return;
-cancellightbrush=1;
-    if (thickthin==0) {
-    console.log('zob',thickthin)
-  
-
-//       ctx.lineWidth = 0;
-// ctx.lineJoin = ctx.lineCap = 'round';
-  }
-
-    if (thickthin==1) {
-    console.log('mob',thickthin)
-    ctx.lineWidth = 5;
-ctx.lineJoin = ctx.lineCap = 'round';
-  }
-
-   if (iamerasing==1) {
-    ctx.globalCompositeOperation="copy";
-ctx.strokeStyle = "rgba(0,0,0,1)";
+  var firstobject= feels[i];
  
- ctx.stroke();
- //    ctx.strokeStyle = ("rgba(255,255,255,255)");
- //    /* or */
- //    ctx.fillStyle = "rgba(255,0,0,0)";
-  // ctx.clearRect(0, 0,e.clientX, e.clientY);
-
-
-}
-if (iamerasing==0) {
-  //ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-  points.push({ x: e.clientX, y: e.clientY });
-// console.log('baby',e.clientX, e.clientY)
-secretArrayX.push(e.clientX);
-     secretArrayY.push(e.clientY);
-  ctx.beginPath();
-  ctx.moveTo(points[0].x, points[0].y);
-
-
-  //console.log(points[0].x, e.clientX)
-  for (var i = 1; i < points.length; i++) {
-    ctx.lineTo(points[i].x, points[i].y);
-  }
-  ctx.globalAlpha=1;
-ctx.strokeStyle = "rgba(0, 0, 0, 1)";
-  ctx.stroke();
-
-}
-};
-
-el.onmouseup = function() {
-  isDrawing = false;
-  
-   var first=secretArrayY[0];
-
- var last = secretArrayY[secretArrayY.length - 1];
- var check = Math.abs(first-last);
- console.log('wtf', check)
- if (check<=20) {
-  console.log('touching points')
- }
-if (iamerasing==0) {
-  console.log('switz', points)
-  orginacoordinateX.push(points[0].x)
-  agentX=orginacoordinateX;
-  orginacoordinateY.push(points[0].y)
-  //orginacoordinateX.push('XX');
-  //orginacoordinateY.push('YY')
-counter+=1;
-var xsample = 'XX'+counter
-var ysample = 'YY'+counter
-console.log('exlusive', xsample, ysample)
-  secretArrayX.push(xsample);
-  secretArrayY.push(ysample)
-  console.log('wo de', orginacoordinateX,orginacoordinateY)
-  console.log('baby',secretArrayX,secretArrayY)
-var pointarray=[];
-var pointarrayY=[];
-var truearray=[];
-var truearrayY=[];
-var point; 
-var pointY; 
-  for(var i=0; i<secretArrayX.length; i++) {
-
-       point=secretArrayX[i];
-      
-      pointY=secretArrayY[i];
-      
-
-      if (i<7) {
-         pointarray.push(point)
-
-
-         if (pointarray.length==2) {
-              var p1=pointarray[0];
-              var p2 = pointarray[1];
-       console.log(p1, p2)
-              var pdiff= Math.abs(p1-p2);
-              if (pdiff<=7) {
-
-                  truearray.push(pdiff);
-              }
-              pointarray=[];
-         }
-
-
-
-         ///y 
-
-
-            pointarrayY.push(pointY)
-
-         
-         if (pointarrayY.length==2) {
-              var p1=pointarrayY[0];
-              var p2 = pointarrayY[1];
-       console.log('y',p1, p2)
-              var pdiff= Math.abs(p1-p2);
-              if (pdiff<=10) {
-
-                  truearrayY.push(pdiff);
-              }
-              pointarrayY=[];
-         }
-
-
-
-       }
-
-
-
-
-  }
-  if (truearray.length==3) {
-    console.log('it is an arc')
-  }
-  console.log('my sunshine',truearray)
-  console.log('my sunshine y',truearrayY)
-
-  points.length = 0;
-}
-  //iamerasing=0;
-};
-
-
-var dataURL;
-function aidraw() {
-// if (startgo==1) {
-var image=new Image();
-image.onload=function(){
-    ctx.drawImage(image,0,0);
-}
-image.src=dataURL;
-
-
-    //setTimeout(saveme,2000)
-//    console.log(secretArrayX.length);
-// console.log(secretArrayY.length);
-//var idleInterval = setInterval(timetoDraw, 2000); 
-//timetoDraw();
- 
-}
-
-
-
-function cleanme () {///
-cleandrawingplease=1;
-///I need to create a new cartesian plane. Because when people draw, the lines, curves, circles, and all other shapes are not perfect. They appear perfect or "nice" to the naked eye, but it term of mathmatics, it is not.
-
-
-//if it completes a full shape, erase extra lines
-  console.log(secretArrayY,secretArrayX)
-  //change x array
-
-
-   var xx =orginacoordinateX[0];
-       var yy=orginacoordinateY[0];
-var sumx=0;
-var didi=0;
-//adddidi();
-var collectsumsx=[];
-var matrixX=secretArrayX;
-var matrixY=secretArrayY;
-// function adddidi () {
-//   didi+=1;
-// }
-console.log(secretArrayX.length)
-var newarr=[];
-var rememberlastone=[];
- var lastnumber;
-for(var n=0; n<secretArrayX.length; n++){
+  if (takeKeyonce==0) {
+    var keys = Object.keys(firstobject)
+    for(var p=0; p<keys.length;p++) {
+      one=keys[p]
+       actualKey.push(one);
+    }
    
-if (rememberlastone.length>1) {
-    lastnumber = rememberlastone.slice(-1)[0];
- }
-  var geta=secretArrayX[n];
-  var checkdifference =  Math.abs(geta-lastnumber);
-
-  if (checkdifference>10) {
-    console.log('change');
-    console.log('change drawing',rememberlastone)
-     editcurve();
-break;
+    takeKeyonce=1;
   }
-  rememberlastone.push(geta);
-
-
-} 
-
-// var xinarray =[];
-// var newYxinarray=[];
-  //var newxinarray=[];
-  var pheta;
-  var theta;
-function editcurve () {//
-   xinarray = secretArrayX.slice(rememberlastone.length, secretArrayX.length);
-  newYxinarray=secretArrayY.slice(rememberlastone.length, secretArrayY.length);
   
+   var values = Object.values(firstobject)
+  //console.log('glitter', actualKey)
+   //console.log('flowers', values)
 
-
-  console.log('new secretx', xinarray)
-  for(var e=0; e<xinarray.length; e++){//
-    pheta = xinarray[e];
-    theta=newYxinarray[e];
-console.log('DNA the number',pheta)
-    if (isNaN(pheta)==false) {//
-      var diff=Math.floor(Math.random() * 20) + 1  
-    pheta=pheta-20;
-    theta=theta-20;
+   var indexofchosen=keys.indexOf('product bought')
+   console.log(indexofchosen)
+for (m=0; m<values.length;m++) {
+  var searchnumber=values[m];
+  var searchoutput=values[indexofchosen]
+  //console.log(searchnumber)
+if (isNaN(searchnumber)==false) {
+  searchnumber=parseInt(searchnumber);
+  inputs.push(searchnumber);
+  trainingoutputs.push(searchoutput);
 }
 
 
-if (isNaN(pheta)==true) {
-console.log('DNA',pheta)
+
+
 }
 
-// console.log('DNA the number',pheta)
-
-    newxinarray.push(pheta);
-newxinYarray.push(theta);
-  }//
-
-
-
-
-
-  timetoDraw();
-
-}//
-
-
-
-//   for(var i=0; i<secretArrayX.length; i++){
-//   var xpos = secretArrayX[i];
-//    var ypos = secretArrayY[i];
-//    console.log('didi', didi)
-//   var cloney='';
-// var clonex='';
-// var xsample='XX'+didi;
-// var ysample='YY'+didi;
-// // console.log('nothin',xsample);
-// // console.log('nothin',ysample);
-  
-
-
-//   if (xpos==xsample) {//
-// console.log('data',xpos,xsample)
-// console.log('array', secretArrayX)
-//             clonex=xpos;
-//   var it= secretArrayX.indexOf(xpos);
-//   //matrixX=[];
-//   matrixX=secretArrayX;
-//   console.log('coming in', matrixX)
-//   //var pro=it;
-//  // it++
-//  console.log('vegeta', it)
-//  if (didi==1) {
-//   console.log('i am annoying')
-//    matrixX = secretArrayX.slice(0, it); 
-//  }
-//  if (didi>1) {
-//  var tini=didi-1
-//   var sample = 'XX'+tini
-//    var pt= secretArrayX.indexOf(sample);
-//    pt++
-
-//     var zt= secretArrayX.indexOf(xsample);
-//    console.log('rox',pt)
-//    matrixX=secretArrayX;
-//     matrixX = secretArrayX.slice(pt, zt);
-
-// console.log('lol', matrixX)
-//  //var it= matrixX.indexOf(xsample);
-//   //it++
-//    //matrixX = secretArrayX.slice(0, it); 
-//  }
-//    //0, it = good //it, matrixX.length
-//    console.log('my array',didi,matrixX)
-//         sumx =  matrixX.reduce(function(a, b) { return a + b; }, 0);
-        
-//         collectsumsx.push(sumx)
-// console.log('tai yang',collectsumsx,i); 
-// didi+=1;
-
-// // console.log('after',secretArrayX)
-//  xpos=secretArrayX[it];
-
-  
-// }//
-// if (ypos==ysample) {//
-//         cloney=ypos;
-//   var it= secretArrayY.indexOf(ypos);
-//   it++
-//   secretArrayY = secretArrayY.slice(it, secretArrayY.length); 
-//  ypos=secretArrayY[it];
-//  // console.log(secretArrayY)
-
-//   }
-
-
-
-//   }
-
-
-
-// function add(a, b) {
-//     return a + b;
-// }
-
-
-
-
-
-
-}///
-
-function erase () {
-  iamerasing=1;
-  thickthin=0;
-
-if (tellonce==0) {
-  alert('Hold down mouse and hover over where you want to erase. Click thin line or thick line when you are done');
-  tellonce=1;
-  }
 }
 
-function checkdata() {
-  console.log('i will draw this')
-   console.log(secretArrayX);
-console.log(secretArrayY);
-  var el2 = document.getElementById('c');
- dataURL=el2.toDataURL();
-  ctx.clearRect(0, 0, el.width, el.height);
-
-// timetoDraw();
-}
-
-
-var didi=0; 
-var it2=0;
-function timetoDraw () {//
-     var el2 = document.getElementById('c');
-var ctx2 = el2.getContext('2d');
-var times = 0;
-
-  //ctx.lineWidth = 10;
-  //ctx.lineJoin = ctx.lineCap = 'round';
-  console.log(secretArrayX.length);
-  console.log(secretArrayY.length);
-  //for(var m=0; m<orginacoordinateY.length; m++) {/////
-
-// var f1=orginacoordinateY[m];
-if (cleandrawingplease==1) {
-  ctx.clearRect(0, 0, el.width, el.height);
-  secretArrayX=newxinarray;
-  secretArrayY=newxinYarray;
-}
-
-    function remove(array, element) {
-    return array.filter(e => e !== element);
-}
-
-var xx;
-var yy;
-var xpos;
- var ypos;
-pupos();
-
-function pupos () {
-console.log('cake')
-console.log('wtf???', secretArrayY.length)
-   // for(var q=0; q<agentX.length; q++) {
-
-        xx =orginacoordinateX[0];
-        yy=orginacoordinateY[0];
-didi++;
-console.log('creator',didi)
-
-
-console.log('pupos',times,xx, yy)
-
-// var it= orginacoordinateX.indexOf(xx);
-//   orginacoordinateX.splice(it, 1);
-
-//   var it2= orginacoordinateY.indexOf(yy);
-//     orginacoordinateY.splice(it, 1);
-
-
-
-    var randominput;
-     var randominput2;
-     randominput = orginacoordinateX[0];
-var vowels = remove(orginacoordinateX, randominput);
-orginacoordinateX=vowels;
-
-
-randominput2 = orginacoordinateY[0];
-var vowels2 = remove(orginacoordinateY, randominput2);
-orginacoordinateY=vowels2;
      
 
+setTimeout(runcode,2000);
 
 
-console.log('ordinary',orginacoordinateX, orginacoordinateY)
-       ctx2.beginPath();
-         ctx2.moveTo(xx, yy);
-          racken();
-   // }
 
 
-// if (didi==0) {
+    }
 
-  
-//   times++
-//   console.log('racken', times)
-// }
+    function errorHandler(evt) {
+      if(evt.target.error.name == "NotReadableError") {
+          alert("Canno't read file !");
+      }
+    } 
+
+function runcode() {
+  console.log('the p', actualKey)
+   console.log('inputs', inputs)
+   console.log('outpus', trainingoutputs)
+realoutputs=trainingoutputs;
+   var counts = {};
+for (var i = 0; i < trainingoutputs.length; i++) {
+    counts[trainingoutputs[i]] = 1 + (counts[trainingoutputs[i]] || 0);
 }
+console.log('output count',Object.keys(counts))
+var testarray=trainingoutputs;
+var algoarr=[];
 
 
-function racken () {//
-
-    console.log('harmony', times)
-  for(var i=0; i<secretArrayX.length; i++) {//
-
-    xpos = secretArrayX[i];
-   ypos = secretArrayY[i];
-var cloney='';
-var clonex='';
-var xsample='XX'+didi;
-var ysample='YY'+didi;
-// console.log('nothin',xsample);
-// console.log('nothin',ysample);
-           
-
-  if (xpos==xsample) {//
-            clonex=xpos;
-  var it= secretArrayX.indexOf(xpos);
-  //var pro=it;
-  it++
-   secretArrayX = secretArrayX.slice(it, secretArrayX.length);  //0, it = good
-// console.log('after',secretArrayX)
- xpos=secretArrayX[it];
-   // var string=secretArrayX[it];
-   //  it2= secretArrayX.indexOf(string);
-  //console.log('before',pro,it,it2,string,'lazy',secretArrayX)
-
- // startgo=0;
- //  console.log('finished', startgo)
-
-  
-}//
-if (ypos==ysample) {//
-        cloney=ypos;
-  var it= secretArrayY.indexOf(ypos);
-  it++
-  secretArrayY = secretArrayY.slice(it, secretArrayY.length); 
- ypos=secretArrayY[it];
- // console.log(secretArrayY)
-}//
-
-
-      if (cloney==ysample && clonex==xsample && secretArrayY.length>1 && times==0) {//
-  pupos();
-  //console.log('shun yi',secretArrayX)
-
-}//
+///if only two outputs
+if (Object.keys(counts).length==2) {
+  trainingoutputs=[];
+  var start=0;
+   for(var b=0; b<testarray.length;b++) {
+       var bian=testarray[b];
    
-     //console.log('yeah',xpos,ypos)
+     if (start==1) {
+      var first=algoarr[0];
+      console.log('first', algoarr)
+      var equals=0;
+      if (first==bian) {
+      
+        equals=1;
+        trainingoutputs.push(1);
+      }
+      if (equals==0) {
+       
+        trainingoutputs.push(-1);
+      }
+    
+}
+if (start==0) {
+  start=1;
+  trainingoutputs.push(1);
+  algoarr.push(bian)
+}
+
+ 
+
+   }
+
+}
+
+var multiarray=[];
+var practiceoutputs=[];
+var zhongoutputs=[]; //details of the products
+var assciotedoutputs=[];
+//multi- variable outputs
 
 
-    // ctx.moveTo(23, 35);
+if (Object.keys(counts).length>2) {
+  multivariable=1;
+  trainingoutputs=[];
+  var start=0;
+  var segments;
+  console.log('starbucks', testarray)
+   for(var b=0; b<testarray.length;b++) {
+       var bian=testarray[b];
+       var wordCount = bian.match(/(\w+)/g).length;
+       zhongoutputs.push(wordCount)
+       //console.log('that word count', bian,wordCount)
+   if (bian.indexOf(',') > -1) {
+    console.log('try', bian)
 
-//if (xpos>=1 && ypos>=1) {//
+ bian = bian.replace(/,/g, " ");
+   console.log('sum me and divide me', bian)
 
-   // ctx.restore()
-//console.log('i drew')
+var tian = bian.split(" ");
+   for(var d=0; d<tian.length;d++){
+var final=tian[d]; //get each product in each bundle
 
-       if (secretArrayY.length==0) {
-  times=1;
-  //console.log('break here')
-  break;
+    practiceoutputs.push(final)
+    console.log('data', practiceoutputs)
+   }
+
+
+//get all the kinds of products in bundle
+         var counts = {};
+for (var i = 0; i < practiceoutputs.length; i++) {
+    counts[practiceoutputs[i]] = 1 + (counts[practiceoutputs[i]] || 0);
+}
+//console.log('output count',Object.keys(counts))
+multiarray=Object.keys(counts);
+
+
+
+
+   }
+
+   }
+   console.log('purple',multiarray)
+var nummer=0;
+for(var s=0; s<multiarray.length; s++) {
+  nummer+=1;
+assciotedoutputs.push(nummer)
+}
+console.log('new purple', assciotedoutputs)
+console.log('zhong', zhongoutputs)
+var cartoon=[];
+for(var a=0; a<practiceoutputs.length;a++) {
+   var haoma = practiceoutputs[a];
+
+   var index=multiarray.indexOf(haoma);
+
+   var fg=assciotedoutputs[index];
+   //console.log(index,haoma,fg)
+   cartoon.push(fg)
+
+
+}
+console.log('relax',cartoon)
+
+
+//zhongoutputs, cartoon    var arew= ["a","b","c","d","e"];
+//arew = arew.slice(0, 3);
+
+var tryp=0;
+var arew=[];
+var finalarray=[];
+for(var i=0; i<zhongoutputs.length; i++) {
+
+var tryp=zhongoutputs[i];
+
+   arew = cartoon.slice(0, tryp);
+cartoon=cartoon.slice(tryp, cartoon.length);
+var output =arew.reduce(function(a, b) { return a + b; }, 0);
+
+finalarray.push(output);
+}
+
+console.log('yi li',finalarray);
+ var array=[];
+  for(var p=0;p<inputs.length;p++) {
+var st=inputs[p];
+trainingoutputs.push(p)
+
+  }
+console.log('mariah',trainingoutputs)
+
+  for(var p=0;p<inputs.length;p++) {
+var st=inputs[p];
+arraypos.push(p)
+
+  }
+
+     
+  for(var p=0;p<inputs.length;p++) {
+var st=p;
+st=st*-1;
+
+arrayneg.push(st)
+
+  }
+  console.log(arraypos,'truth', arrayneg);
+//trainingoutputs=[1,2,3,4,5,6];
+//lord please let this chinese woman actually give me a shot. I really need this, i mean if I dont get this done then I mean gotdam. We would have to go back to Shanghai which is not bad, but I mean got damn. I mean I have to survive ocheng and make a million dollar platform. In the meantime neurical and my own stuff is up in the air. Mobsid is going extremely well, but it might take sometime. I also need to somehow make Frozen Indigo. But the one thing lord I know you can do is like when I go through a bunch of stupid shit, I know blessings come. God I've been through a lot. I could have just faded or made a big scene just now, but I kept my composure. So like like lord all I ask for is just a simple yes. A simple situation where I can have my own office, own life, own business, own paycheck, own everything. I just need some fucking support. My whole life, I've been dealing with assholes, and I've been cool. The least I can ask for is a simple yes for something that will help many people in my life and others. I just need someone to give me a shot, I am tired of delays. Because lord, you know I will put the work in. You know I will have the mp3 blasting Lavish and We on to get where you want me to get to. God please, please let me solve these problems and truly have a successful meeting tomorrow. I just need to win. Please Lore we've been at it for years now, I mean 9 years, since 18. Wow that is a long time to be working together. I been a good sport and I always completed my missions. Let the bad times passover and roll in the legacy. -马修金
+
+
+
+//matthew 
+}
+
+
+
+console.log('new train', trainingoutputs)
+neuralnetwork();
+}
+
+
+var startnetwork=0;
+
+
+
+
+
+
+var  aboutnumbers =["add", "subtract", "multiply", "sum", "number", "numbers", "find", "calculate", "calculator", "calculating", "amount"];
+var book="Addition is when you take two numbers and find the sum. The sum of two numbers is the result of the process or skill of calculating the total of two or more numbers or amounts. For example, 2+2 = 4. + is the symbol of addition.";//
+
+
+
+var foundation=[];
+var meaningequalsnumbers=0;
+var equal=["equal","equals","=","is","are"];
+
+book = book.split(" ");
+//for learning mathmatics
+for (var i=0; i<book.length; i++) {
+var passage=book[i];
+//console.log(passage)
+for(var m=0; m<aboutnumbers.length; m++) {
+
+  var value = aboutnumbers[m];
+
+  if (passage==value) {
+meaningequalsnumbers++;
+  }
+
+}
+if (isNaN(passage)==false) {
+  //it is a number
+//console.log('false', passage)
+}
+
+
+}
+
+//console.log('is it about numbers', meaningequalsnumbers)
+// input();
+// function input () {
+// console.log(meaningequalsnumbers)
+// var outty;
+// //number function
+//   if (meaningequalsnumbers>=3) {//
+//  var inputz="9+2";
+//  test();
+//  var operators = ["+", "-", "*", "/"];
+//  var inputnumbers=[];
+//   var summy=0;
+//   var kindofoperation='';
+
+// // var newinput= inputz.split(" ");
+// // console.log(newinput)
+//   for(var p=0; p<inputz.length;p++) {//
+// var trueinput=inputz[p];
+// console.log(trueinput)
+//    if (isNaN(trueinput)==false) {
+//     trueinput=parseInt(trueinput);
+//      inputnumbers.push(trueinput);
+// }
+// var num =  operators[Math.floor(Math.random()*operators.length)];
+// console.log(inputnumbers)
+// for(var g=0; g<inputnumbers.length;g++) {
+// // num="+";
+// red=1;
+//      if (num=="+") {//
+//        outty=inputnumbers.reduce(function(a, b) { return a + b; }, 0);
+//      kindofoperation='plus';
+
+// }//
+//      if (num=="-") {//
+//        outty=inputnumbers.reduce(function(a, b) { return a - b; }, 0);
+     
+// kindofoperation='minus';
+// }//
+//      if (num=="*") {//
+//        outty=inputnumbers.reduce(function(a,b){return a*b;});
+//      kindofoperation='multiply';
+
+// }//
+
+//      if (num=="/") {//
+//        outty=inputnumbers.reduce(function(a,b){return a/b;});
+//      kindofoperation='divide';
+
+// }//
+// yellow=1;
+// test();
+
+// }
+
+//   }//
+
+//   }//
+
+
+// console.log('outty',outty, kindofoperation)
+// stopanimation=1;
+
+// }
+
+
+
+// function check () {
+
+// alert('我明白怎么做')
+
+
+
+// }
+
+// function check2 () {
+
+// alert('我不明白，在次训练')
+
+// input();
+// }
+
+
+
+//for learning words
+
+for (var j=0; j<book.length; j++) {
+var word=book[j];
+
+
+
+
+}
+
+//console.log('hat',arraypractice)
+var arraypractice=["1", "2"]
+var zongshu =[];
+var gg=0;
+var coun=0;
+for(var i =0; i< arraypractice.length; i++) {
+
+   var ff = arraypractice[i];
+   ff = ff.replace(/,/g, "");
+   //console.log('ff',ff, coun)
+  for (var j=0; j < ff.length; j++) {
+    var Nummy=ff[j]
+    Nummy=parseInt(Nummy);
+    //console.log(ff.length)
+     //console.log(Nummy)
+      //var nummy = Num.charAt(j);
+coun+=1;
+ gg = gg + (Nummy /-0.819);
+ if (coun==ff.length) {
+ //console.log('champ',gg)
+      zongshu.push(gg);
+      coun=0;
+      gg=0;
+    }
+   }
+
+   }
+
+
+   if("我要订单") {
+  
+  var response = "可以，请输入你的手机号码"
+
+   }
+
+      if("我可以买东西吗") {
+  
+  var response = "可以，请输入你的手机号码"
+
+   }
+
+      if("我要订单") {
+  
+  var response = "可以，请输入你的手机号码"
+
+   }
+// for(var i =0; i< arraypractice.length; i++) {
+
+//   var ff = arraypractice[i];
+//   ff = ff.replace(/,/g, "");
+//   console.log(ff.length, ff)
+//   var ff1=ff.charAt(0);
+//   var ff2=ff.charAt(1);
+//   var ff3=ff.charAt(2);
+//   //var ff4=ff.charAt(3);
+// ff1=parseInt(ff1);
+// ff2=parseInt(ff2);
+// ff3=parseInt(ff3);
+// //ff4=parseInt(ff4);
+//   var gg=ff1+ff2+ff3;
+// zongshu.push(gg);
+
+// }
+//console.log(zongshu);
+var multiinput=1;
+
+
+
+
+
+
+var categories=[];
+// if (multiinput==1) {
+//   inputs=zongshu;
+// }
+
+
+//var trainingoutputs =[1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4];
+//1,-1,-1,-1,1,-1,1,-1, -1, -1,-1
+
+function createinput () {
+  console.log('riq',items);
+
+  for(var i=0; i<items.length;i++){
+
+    var first=items[i];
+
+    console.log(first)
+  }
+
+
+}
+
+
+
+function neuralnetwork () {
+  var  yellow =0;
+
+var red =0; 
+var green=0;
+var stopanimation=0;
+test();
+   function test(){
+
+      if (stopanimation==1) {
+        $("#img1").removeClass('my_animation1');
+        $("#img2").removeClass('my_animation2');
+        $("#img3").removeClass('my_animation3');
+        var element = document.getElementById('img1');
+            element.style.opacity = "1.0";
+            var element2 = document.getElementById('img2');
+          element2.style.opacity = "1.0";
+        var element3 = document.getElementById('img3');
+            element3.style.opacity = "1.0";
+      }
+      if (stopanimation==0) {
+      if (red==0 && yellow==0) {
+        $("#img1").addClass('my_animation1');
+        console.log('animation')
+      }
+     
+     if (red==1) {
+       $("#img2").addClass('my_animation2');
+       red=0;
+     }
+    if (yellow==1) {
+       $("#img3").addClass('my_animation3');
+       yellow=0;
+    }
+
+}
+    
+   }
+console.log(inputs.length);
+console.log(trainingoutputs.length)
+var inputQ;  //predicter input
+
+
+var dontchangeweight=0;
+var remembermultiplier=[];
+var secretindex=[];
+var secretanswer=[];
+console.log(inputs, trainingoutputs)
+var weights =[]; 
+var originalweights=[];
+var masterweights=[];
+
+var secretweight=[];
+var totalerror=[];
+perception(); //generates the weights
+
+
+//the orgin of thought, the brain. 
+function perception () {
+weights = [];
+ for (var i = 0; i < inputs.length; i++) {
+var num = Math.random(Math.random() * -1 + 1);
+     weights.push(num);
+      originalweights.push(num);
+      // weights[i] = random(-1,1);
+    }
+    //originalweights=weights;
+console.log('normal weight', originalweights)
+}
+
+
+
+
+  var sum = 0;
+ var massivesum=[];
+  feedforward();
+ 
+ //where the input collides with the generated thought/function/or weight. This is where the result is determined.
+function feedforward () {
+
+  // console.log('tho9', weights)
+    for (var i = 0; i < weights.length; i++) {
+      sum = inputs[i]*weights[i];//if no +  i had sum+=1
+      //console.log('tho9', inputs[i], 'tho9', weights[i],'sum', sum)
+//console.log(massivesum.length)
+if (sum > 0) {
+ 
+  output='output is 1';
+
+  //var array=[1, 2, 3, 4,5,6];
+ var randy= arraypos[Math.floor(Math.random()*arraypos.length)];
+remembermultiplier.push(randy);
+
+
+console.log('randy',randy,inputs[i])
+  var kid=randy;
+  if (multivariable==1) {
+    kid=randy;
+  }
+
+   massivesum.push(kid);
+   //console.log('result', output);
+}
+
+
+if (sum< 0) {
+   output='output is -1';
+
+
+  //var array=[-1, -2, -3, -4,-5,-6];
+
+ var randy= arrayneg[Math.floor(Math.random()*arrayneg.length)];
+randy=inputs[i]*-1
+  var kid=randy;
+    if (multivariable==1) {
+    kid=randy;
+  }
+  //console.log('randy',kid)
+massivesum.push(kid);
+//console.log('result', output);
+}
+
+dontchangeweight=0; 
+//console.log('annoy',sum)
+
+// if (sum<=1) {
+// 	 output='output is 1';
+//   var kid=1;
+// console.log('first',sum)
+//    massivesum.push(kid);
+// }
+
+// if (sum>1 && sum<=2) {
+// 	 output='output is 2';
+//   var kid=2;
+// console.log('second',sum)
+//    massivesum.push(kid);
+// }
+
+// if (sum>2 && sum<=3) {
+// 	 output='output is 3';
+// 	 console.log('third',sum)
+//   var kid=3;
+
+//    massivesum.push(kid);
+// }
+
+
+// if (sum>=4) {
+// 	 output='output is 4';
+// 	 console.log('fourth',sum)
+//   var kid=4;
+
+//    massivesum.push(kid);
+// }
+
+
+
+         // massivesum.push(sum);
+
+    }
+
+    // var randominput = inputs[Math.floor(Math.random()*inputs.length)];
+    // var randomweight = weights[Math.floor(Math.random()*weights.length)];
+// console.log('guesses', massivesum)
+// console.log('desired', trainingoutputs)
+
+	train();
+
+
+    //sum=0; 
+    // console.log('randominput', randominput)
+    //   console.log('randomweight', randomweight)
+    //sum += randominput*randomweight;
+
+        //return activate(sum);
+}
+
+
+
+
+
+
+
+///training 
+
+
+
+
+
+//you train the Results here. If the results are wrong you have to re－adjust the weights/function/thought. After the training phase, the ai gives you new results and then I can tell the Ai to save the function that gave it the right answer. If the ai is wrong, it has to adjust the function and go through the training stage again. This flow is repeated infinitely until the ai gets it right. everytime it goes through the training stage the function that the ai creates should be a better version. We do not want to simply have the ai create through randomization, as learning time is unpredictable because it is based on chance. -Matthew Xiu Quaine _马修金
+
+
+function train () {
+var learningrate = 0.09;
+ //totalerror=[];
+  //console.log('massive',massivesum.length)
+  for(var m = 0; m<massivesum.length; m++) {//
+var guess = massivesum[m];
+var desired = trainingoutputs[m];
+var error = desired - guess;
+if (error==0) {
+  console.log('Lucio')
+}
+if (totalerror.length<inputs.length) {
+totalerror.push(error);
+}
+if (totalerror.length==weights.length) {
+	var index = totalerror[m];
+
+var nono=0;
+index=parseInt(index)
+if (index==0) {
+	
+	nono=1;
+	}
+
+	if (nono==0) {
+		//console.log(index)
+		totalerror[m] = error;
+	}
+   
+}
+
+
+
+ // for (var i = 0; i < weights.length; i++) {
+ //    weights[i] += learningrate * error * inputs[i];//massivesum
+ //  }
+
+  }//
+ 
+   //console.log('total error', totalerror)//'length',weights.length
+
+  // //if error is zero, don't adjust the weight
+  //  console.log('adjusted weights', weights)
+
+   //feedforward();
+
+     var checkItem = totalerror[0];
+     //check when total error = 0;
+     var countup=0;
+//      		var p=totalerror[i];
+// 	if (p==0||p==1||p==2||p==3) {
+// countup+=1
+// 	}
+// if (countup==totalerror.length) {
+// 	isSame=1;
+// 	break;
+// }
+var isSame = 0;
+for (var i = 0; i < totalerror.length; i++) {
+
+
+isSame=1;
+  if (totalerror[i] != checkItem) {
+    isSame = 0;
+    break;
+  }
+
+
+}
+// return isSame;
+if (isSame==1) {
+  console.log('finish')
+  stopanimation=1;
+  test();
+inputQ=68212;//47对   100-129  wrong 30000- midpoint calculations
+// if (multiinput==1) {
+// gg=0;
+// coun=0;
+  // for(var i =0; i< inputQ.length; i++) {
+
+   //var ff = inputQ[i];
+//   var ff = inputQ.replace(/,/g, "");
+//    //console.log('zz',ff, coun)
+//   for (var j=0; j < ff.length; j++) {
+//     var Nummy=ff[j]
+//     Nummy=parseInt(Nummy);
+//     //console.log(ff.length)
+//      //console.log(Nummy)
+//       //var nummy = Num.charAt(j);
+// coun+=1;
+//  gg = gg + Nummy;
+//  if (coun==ff.length) {
+//  console.log('champ',gg)
+//       inputQ=gg;
+//       coun=0;
+//       gg=0;
+//     }
+//    }
+//}
+
+//   var ff = inputQ.replace(/,/g, "");
+//   console.log(ff)
+//   var ff1=ff.charAt(0);
+//   var ff2=ff.charAt(1);
+//   var ff3=ff.charAt(2);
+//   //var ff4=ff.charAt(3);
+// ff1=parseInt(ff1);
+// ff2=parseInt(ff2);
+// ff3=parseInt(ff3);
+// //ff4=parseInt(ff4);
+//   var gg=ff1+ff2+ff3;
+//   inputQ=gg;
+
+//}
+  setTimeout(predict,1000)
+}
+
+if (isSame==0) {
+  setTimeout(dontchange,1000)
+
+}
+
+
+}
+
+
+
+
+function dontchange () {
+//   console.log('what',originalweights)
+// weights=originalweights;
+//console.log('what222',weights)
+var newweights=[];
+//console.log(totalerror)
+
+ for (var i = 0; i < totalerror.length; i++) {
+var dd=0;
+//console.log('bott',weights.length)
+  var st=totalerror[i];
+  //var st2=weights[i];
+  var st3=weights[i];
+  // if (newweights.length>1) {
+  //   st2=newweights[i];
+  //   console.log('ryu', st2)
+  // }
+  //st=parseInt(st)
+//console.log('ss5',st)
+
+//console.log('pop', st, st3)
+  if (st=='0'||st==0) {
+  	//console.log('pop2',remembermultiplier)
+  	dontchangeweight=1;
+  	secretindex.push(st)
+  	//console.log('pop3',secretindex)
+
+dd=1;
+yellow=1;
+	var element3 = document.getElementById('img3');
+            element3.style.opacity = "1.0";
+test();
+    //console.log('dont change weight', st3)
+newweights.push(st3)//get original weight because not wrong
+
+  }
+  if (dd==0) {
+  	//console.log('pop3')
+  	red=1;
+  	test();
+  //console.log('change weight')
+   var pt;
+   if (secretweight.length==1) {
+    pt=secretweight[0];
+   }
+  if (secretweight.length>1) {
+     pt = secretweight[secretweight.length - 1];
+  }
+  
+st2 = Math.random(Math.random() * -1 + 1);   //if i put -1 it is a bias//-1
+
+var changeweight = pt-st2;
+var finalweight=Math.abs(changeweight);
+//console.log('that cookie',finalweight)
+if (finalweight<=0.5) {
+  st2=st2-0.5;
+  
+
+  //console.log('that brownie',st2)
+}
+secretweight.push(st2);
+  newweights.push(st2)
+}
+
+ }
+
+
+secretindex=[]
+remembermultiplier=[];
+
+ //console.log(newweights)
+  //console.log('still error', newweights)
+  weights=[];
+ weights=newweights;
+
+
+///newweights=[];
+ sum=0;
+ //totalerror=[];
+ massivesum=[];
+
+
+  //console.log('corrected weights',weights)
+
+  
+ feedforward();
+   
+
+     //setTimeout(train,5000)
+  
+
+
+}
+
+
+function predict () {
+  var differencearray=[];
+for(var i=0; i<inputs.length; i++) {
+    var int=inputs[i];
+   var num1 = inputQ-int;
+   var num2 =Math.abs(num1);
+   differencearray.push(num2);
+
+
+
+}
+    console.log(differencearray)
+
+    Array.min = function( array ){
+    return Math.min.apply( Math, array );
+};
+
+var minimum = Array.min(differencearray);
+console.log(minimum)
+
+var index= differencearray.indexOf(minimum);
+
+var orgininput=inputs[index];//input
+
+var thatweight = weights[index];
+
+console.log(weights);
+console.log(totalerror)
+
+
+var result= inputQ*thatweight;
+var thatanwser=trainingoutputs[index];
+
+//dui de answer
+console.log(orgininput,thatanwser)
+
+
+//result=Math.log(result);
+//result=Math.sqrt(result)
+console.log(result, thatweight, inputQ)
+
+
+if (multivariable==0) {
+if (result>0) {
+  console.log('1');
+  var check=realoutputs[0]
+document.getElementById("textarea").value=check
+}
+
+if (result<0) {
+  console.log('-1');
+  var check=realoutputs[1]
+document.getElementById("textarea").value=check
+}
+
+}
+
+//}
+
+// result=result-1;
+
+if (multivariable==1) {
+ var needtolearn=0; 
+
+if (result==thatanwser) {
+
+	needtolearn=1; 
+}
+
+if (needtolearn==0) {
+
+var dd = orgininput-inputQ;
+dd = Math.pow(dd, 2);
+
+var final = thatanwser/inputQ;
+console.log(dd, thatweight, final)
+result=final*inputQ;
+
+//change weight
+console.log('before',weights[index]);
+ weights[index]=final;
+console.log('after',weights[index]);
+ //inputQ=81;
+   //setTimeout(predict,3000)
+
+}
+if (result<=1) {
+
+console.log('final answer = 1')
+var check=realoutputs[0]
+document.getElementById("textarea").value=check
   
 }
 
-
-
-//}//
-
-//firebase save xcoord and y coord
-     // ctx2.lineWidth = 1;
-//ctx2.lineJoin = ctx2.lineCap = 'round';
-if (cancellightbrush==0) {
-ctx2.globalAlpha=0.1;
-ctx2.strokeStyle = "rgba(0, 0, 0, 0.1)";
+if (result>1 && result<=2) {
+	console.log('final answer = 2')
+var check=realoutputs[1]
+document.getElementById("textarea").value=check
 }
-    ctx2.lineTo(xpos, ypos);
- 
 
-    ctx2.stroke();
-
-
-  }
-
-
-
- 
-}//
-
-
-
-}//
-
- var msg;
-function saveme () {
-
-    msg = window.prompt("Please give your drawing a name", "Name");
-  //alert(msg);
-
-  console.log(msg)
-setTimeout(supersave,2000)
-
+if (result>2 && result<=3) {
+console.log('final answer = 3')
+var check=realoutputs[2]
+document.getElementById("textarea").value=check
 }
 
 
-
-function supersave () {
-    var ref=database.ref(msg);
-
-var data = {
-
-   name:"data",
-  coordsx:secretArrayX,
-  coordsy:secretArrayY
-}
-ref.push(data)
+if (result>3 && result<=4) {
+console.log('final answer = 4')
+var check=realoutputs[3]
+document.getElementById("textarea").value=check
 }
 
-
-function loadme () {
-  if (cancellightbrush==1) {
-    cancellightbrush=0;
-  }
-
-     msg = window.prompt("Please write the name of the past drawing", "Name");
- 
-
-  console.log(msg)
-setTimeout(load,2000)
-
-
-
-
-function load() {///
-
-  var ref = database.ref(msg)
-ref.on('value',gotData, errData);
-
-function gotData(data) {
-console.log(data.val())
-var coordinates =data.val();
-
-var keys = Object.keys(coordinates)
-console.log(coordinates)
-for(var i=0; i<keys.length;i++) {
-console.log('inside')
-  var p=keys[i];
-
-var shuju=coordinates[p].coordsx;
-var shujunames=coordinates[p].coordsy;
-secretArrayX=shuju;
-secretArrayY=shujunames;
-  console.log(p)
-    console.log(shuju,shujunames)
-    timetoDraw();
+if (result>4 && result<=5) {
+console.log('final answer = 5')
+var check=realoutputs[4]
+document.getElementById("textarea").value=check
 }
 
+if (result>=6) {
+console.log('final answer = 6')
+var check=realoutputs[5]
+document.getElementById("textarea").value=check
+}
 
 }
 
-
-function errData(err) {
-   console.log(err)
 }
+document.getElementById("textarea").value="Your API Key:AIzaSyBA1zN9fWE8BY1nisk65Te77KGwfwZeDR0"
 
+//console.log("Your API Key:AIzaSyBA1zN9fWE8BY1nisk65Te77KGwfwZeDR0"
 
-}///
-
-
-
-
-
-
-
-
-}
+}// neural network
 
 
 </script>
-<body>
 
-<!-- <h1>Welcome to Mobsid's Animation Platform</h1> -->
-<p></p>
-
-
-
-
-</body>
 </html>
