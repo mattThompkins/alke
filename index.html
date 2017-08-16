@@ -696,10 +696,10 @@ desired=0;
 guess=0;
 var error = desired - guess;
 if (error==0) {
-  console.log('Lucio', lucioarray.length)
+  //console.log('Lucio', lucioarray.length)
   lucioarray.push(error)
   if (lucioarray.length==500|| lucioarray.length==1000|| lucioarray.length==2000) {
-  console.log('Lucio', lucioarray.length)
+ // console.log('Lucio', lucioarray.length)
 }
 
   yellow=1;
@@ -734,9 +734,9 @@ if (index==0) {
  //  }
 
   }//
-  console.log('total error', totalerror)
+  //console.log('total error', totalerror)
    if (lucioarray.length==500 || lucioarray.length==1000|| lucioarray.length==2000) {
-  console.log('total error', totalerror)
+  //console.log('total error', totalerror)
 }
    //console.log('total error', totalerror)//'length',weights.length
 
@@ -941,13 +941,16 @@ for(var i=0; i<inputs.length; i++) {
 
 
 }
-    console.log(differencearray)
-
-    Array.min = function( array ){
+  
+      Array.min = function( array ){
     return Math.min.apply( Math, array );
 };
+  differencearray=differencearray.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
+  console.log(differencearray)
 
 var minimum = Array.min(differencearray);
+
+
 console.log(minimum)
 
 var index= differencearray.indexOf(minimum);
