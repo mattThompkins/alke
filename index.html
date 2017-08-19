@@ -969,102 +969,109 @@ var thatanwser=trainingoutputs[index];
 //dui de answer
 console.log(orgininput,thatanwser)
 
-
+document.getElementById("textarea").value=orgininput
 //result=Math.log(result);
 //result=Math.sqrt(result)
 console.log(result, thatweight, inputQ)
 
 
-if (multivariable==0) {
-if (result>0) {
-  console.log('1');
-  var check=realoutputs[0]
-document.getElementById("textarea").value=check
-}
 
-if (result<0) {
-  console.log('-1');
-  var check=realoutputs[1]
-document.getElementById("textarea").value=check
-}
-
-}
-
-//}
-
-// result=result-1;
-
-if (multivariable==1) {
- var needtolearn=0; 
-
-if (result==thatanwser) {
-
-	needtolearn=1; 
-}
-
-if (needtolearn==0) {
-
-var dd = orgininput-inputQ;
-dd = Math.pow(dd, 2);
-
-var final = thatanwser/inputQ;
-console.log(dd, thatweight, final)
-result=final*inputQ;
-
-//change weight
-console.log('before',weights[index]);
- weights[index]=final;
-console.log('after',weights[index]);
- //inputQ=81;
-   //setTimeout(predict,3000)
-
-}
-// if (result<=1) {
-
-// console.log('final answer = 1')
-// var check=realoutputs[0]
+// if (multivariable==0) {
+// if (result>0) {
+//   console.log('1');
+//   var check=realoutputs[0]
 // document.getElementById("textarea").value=check
+// }
+
+// if (result<0) {
+//   console.log('-1');
+//   var check=realoutputs[1]
+// document.getElementById("textarea").value=check
+// }
+
+// }
+
+
+
+
+// multivariable=0;
+// //}
+
+// // result=result-1;
+
+// if (multivariable==1) {
+//  var needtolearn=0; 
+
+// if (result==thatanwser) {
+
+// 	needtolearn=1; 
+// }
+
+// if (needtolearn==0) {
+
+// var dd = orgininput-inputQ;
+// dd = Math.pow(dd, 2);
+
+// var final = thatanwser/inputQ;
+// console.log(dd, thatweight, final)
+// result=final*inputQ;
+
+// //change weight
+// console.log('before',weights[index]);
+//  weights[index]=final;
+// console.log('after',weights[index]);
+//  //inputQ=81;
+//    //setTimeout(predict,3000)
+
+// }
+// // if (result<=1) {
+
+// // console.log('final answer = 1')
+// // var check=realoutputs[0]
+// // document.getElementById("textarea").value=check
   
+// // }
+
+// // if (result>1 && result<=2) {
+// // 	console.log('final answer = 2')
+// // var check=realoutputs[1]
+// // document.getElementById("textarea").value=check
+// // }
+
+// // if (result>2 && result<=3) {
+// // console.log('final answer = 3')
+// // var check=realoutputs[2]
+// // document.getElementById("textarea").value=check
+// // }
+
+
+// // if (result>3 && result<=4) {
+// // console.log('final answer = 4')
+// // var check=realoutputs[3]
+// // document.getElementById("textarea").value=check
+// // }
+
+// // if (result>4 && result<=5) {
+// // console.log('final answer = 5')
+// // var check=realoutputs[4]
+// // document.getElementById("textarea").value=check
+// // }
+
+// // if (result>=6) {
+// // console.log('final answer = 6')
+// // var check=realoutputs[5]
+// // document.getElementById("textarea").value=check
+// // }
+
+
+
 // }
-
-// if (result>1 && result<=2) {
-// 	console.log('final answer = 2')
-// var check=realoutputs[1]
-// document.getElementById("textarea").value=check
-// }
-
-// if (result>2 && result<=3) {
-// console.log('final answer = 3')
-// var check=realoutputs[2]
-// document.getElementById("textarea").value=check
-// }
-
-
-// if (result>3 && result<=4) {
-// console.log('final answer = 4')
-// var check=realoutputs[3]
-// document.getElementById("textarea").value=check
-// }
-
-// if (result>4 && result<=5) {
-// console.log('final answer = 5')
-// var check=realoutputs[4]
-// document.getElementById("textarea").value=check
-// }
-
-// if (result>=6) {
-// console.log('final answer = 6')
-// var check=realoutputs[5]
-// document.getElementById("textarea").value=check
-// }
-
-
-var check=realoutputs[result]
-console.log('tasha',check,realoutputs)
-document.getElementById("textarea").value=orgininput
 }
+// var check=realoutputs[result]
+// console.log('tasha',check,realoutputs)
 
-}
+
+// }
 document.getElementById("textarea").value="Your API Key:AIzaSyBA1zN9fWE8BY1nisk65Te77KGwfwZeDR0"
 
 //console.log("Your API Key:AIzaSyBA1zN9fWE8BY1nisk65Te77KGwfwZeDR0"
