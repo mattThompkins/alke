@@ -90,6 +90,9 @@ Test Input: <input type="text" id='inputbaby'><br>
     <input type="file" id="csvFileInput" onchange="handleFiles(this.files)"
             accept=".csv">
 <script>
+ var finalsum=0;
+ var shortcutsum= new Array;
+
 var takeKeyonce=0; 
 var actualKey=[];
 var inputs =[];
@@ -565,8 +568,9 @@ console.log('normal weight', originalweights)
  var negnum=0;
  var select=0;
  console.log('pop',arraypos,arrayneg,trainingoutputs)
+
   feedforward();
- 
+
  //where the input collides with the generated thought/function/or weight. This is where the result is determined.
 function feedforward () {
 // posnum+=1;
@@ -575,6 +579,9 @@ function feedforward () {
       sum = inputs[i]*weights[i];//if no +  i had sum+=1
       //console.log('tho9', inputs[i], 'tho9', weights[i],'sum', sum)
 //console.log(massivesum.length)
+
+finalsum=sum;
+
 if (sum > 0) {
  
   output='output is 1';
@@ -583,6 +590,7 @@ var randy;
 var randy= arraypos[Math.floor(Math.random()*arraypos.length)];
 remembermultiplier.push(randy);
 
+  //console.log('wow', sum, inputs[i], weights[i], 'randy',randy)
 randy=posnum;
 //console.log('randy',posnum)
   var kid=randy;
@@ -689,14 +697,26 @@ function train () {
 var learningrate = 0.09;
  //totalerror=[];
   //console.log('massive',massivesum.length)
+  if (shortcutsum.length>1) {
+var lastsum=shortcutsum[shortcutsum.length-1];
+}
+var activate=0;
+if (lastsum==finalsum) {
+  //console.log('STOP HERE ASAP', lastsum,finalsum)
+activate=1;
+}
   for(var m = 0; m<massivesum.length; m++) {//
 var guess = massivesum[m];
 var desired = trainingoutputs[m];
+
+//if (activate==1) {
 desired=0;
 guess=0;
+
 var error = desired - guess;
 if (error==0) {
-  //console.log('Lucio', lucioarray.length)
+ // console.log('Lucio', finalsum)
+  shortcutsum.push(finalsum);
   lucioarray.push(error)
   if (lucioarray.length==500|| lucioarray.length==1000|| lucioarray.length==2000) {
  // console.log('Lucio', lucioarray.length)
@@ -972,11 +992,31 @@ console.log(orgininput,thatanwser)
 
 //result=Math.log(result);
 //result=Math.sqrt(result)
-console.log(result, thatweight, inputQ)
-var check=realoutputs[index]
-console.log('tasha',check,realoutputs)
-document.getElementById("textarea").value=check;
 
+result=Math.abs(result);
+console.log('result',result, thatweight, inputQ)
+var outtde= Math.round(result);
+
+
+
+var eq = outtde;
+
+var eq2 = eq*thatweight
+
+var redd= Math.round(eq2);
+
+var finalfinal=Math.abs(result-thatweight);//index-redd
+
+finalfinal=Math.round(finalfinal)
+finalfinal=finalfinal-1;
+console.log(eq, eq2,redd,finalfinal)
+
+
+var check=realoutputs[index]//index
+console.log('tasha',check,realoutputs)
+var yaoshi=document.getElementById('columnbaby').value;
+var output = check+"  "+"<equals>"+" "+yaoshi;
+document.getElementById("textarea").value=output;
 
 // if (multivariable==0) {
 // if (result>0) {
