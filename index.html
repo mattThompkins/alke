@@ -580,7 +580,7 @@ if (sum > 0) {
   output='output is 1';
 var randy;
   //var array=[1, 2, 3, 4,5,6];
- //var randy= arraypos[Math.floor(Math.random()*arraypos.length)];
+var randy= arraypos[Math.floor(Math.random()*arraypos.length)];
 remembermultiplier.push(randy);
 
 randy=posnum;
@@ -601,7 +601,7 @@ if (sum< 0) {
 
   //var array=[-1, -2, -3, -4,-5,-6];
 var randy;
- //var randy= arrayneg[Math.floor(Math.random()*arrayneg.length)];
+ var randy= arrayneg[Math.floor(Math.random()*arrayneg.length)];
 //randy=inputs[i]*-1
 randy=posnum*-1;
 //console.log('randy',randy)
@@ -882,10 +882,10 @@ if (finalweight<=0.5) {
   var myweight= checkmyweight[checkmyweight.length-1];
 var checkzhong= Math.abs(pt - myweight);
 
-if (checkzhong<=0.5) {
-  st2=st2-1.615;
-  console.log('super edit',st)
-}
+// if (checkzhong<=0.5) {
+//   st2=st2-1.615;
+//   console.log('super edit',st)
+// }
 
   
 
@@ -969,11 +969,13 @@ var thatanwser=trainingoutputs[index];
 //dui de answer
 console.log(orgininput,thatanwser)
 
-document.getElementById("textarea").value=orgininput
+
 //result=Math.log(result);
 //result=Math.sqrt(result)
 console.log(result, thatweight, inputQ)
-
+var check=realoutputs[index]
+console.log('tasha',check,realoutputs)
+document.getElementById("textarea").value=check;
 
 
 // if (multivariable==0) {
@@ -1067,8 +1069,6 @@ console.log(result, thatweight, inputQ)
 
 // }
 }
-// var check=realoutputs[result]
-// console.log('tasha',check,realoutputs)
 
 
 // }
