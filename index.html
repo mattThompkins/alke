@@ -17,6 +17,16 @@
         opacity: 1;
     }
 }
+
+ .container {
+        transition: all 1s;
+        max-height: 300px;
+    }
+
+    .container.pre-animation {
+        opacity:0;
+        max-height: 0;
+    }
   .my_animation1{
     animation: blink 3s 0.2s;
     animation-iteration-count: infinite;
@@ -63,6 +73,9 @@ Test Input: <input type="text" id='inputbaby'><br>
 	</div>
 	<div>
 	<img src="brain-connectivity.png" width="700" height="500">
+
+<!--   <img src="learned.png" id = "learn" width="50" height="50"> -->
+  
   <textarea id="textarea" rows=10 cols=80></textarea>
 	</div>
 
@@ -90,9 +103,60 @@ Test Input: <input type="text" id='inputbaby'><br>
     <input type="file" id="csvFileInput" onchange="handleFiles(this.files)"
             accept=".csv">
 <script>
+
+
+var arrayoperations =['+','-', '*', '/'];  //11 functions
+
+var functionoperations = ['tan', 'sin', 'cos', 'squareroot', 'log', 'square', 'cube']
+var arrayconstants =[3.14, 1.618, 'numbers'];
+
+var calculateall;
+
+var memorynumsymbol = new Array();
+var memoryfunop = new Array();
+var memorydemsymbol = new Array();
+
+var memoryconstanttforequation = new Array();
+var memorynumoperations = new Array();
+var memorydemoperations = new Array();
+
+var finalequation;
+var finalequationillustration; 
+
+var usesameEquation=0;
+var solution;
+var demsymbol; 
+var numsymbol;
+var funop;
+var denomanatoroperations;
+var numeratoroperations;
+var checkifsolutionissame = new Array();
+
+
+
+
+
+// if (solution < calculateall || solution > calculateall) {
+//   startai();
+// }
+
+
+
+
+
+
+
+
+
+////////
  var finalsum=0;
  var shortcutsum= new Array;
-
+var visualalgo;
+  visualalgo = document.body.appendChild(document.createElement('div'));
+  var visualalgo2;
+  visualalgo2 = document.body.appendChild(document.createElement('div2'));
+  var visualalgo3;
+  visualalgo3 = document.body.appendChild(document.createElement('div3'));
 var takeKeyonce=0; 
 var actualKey=[];
 var inputs =[];
@@ -105,6 +169,7 @@ var multivariable=0;
      var checkmyweight=new Array();
      var lucioarray=new Array();
 
+//document.getElementById('learn').style.visibility = 'hidden';
 function handleFiles(files) {
       // Check for the various File API support.
       if (window.FileReader) {
@@ -362,42 +427,6 @@ arrayneg.push(st)
 //matthew 
 }
 
-// var shuclone=inputs;
-
-// for(var s=0; s<inputs.length;s++) {
-//      var compare=inputs[s];
-
-// var closest = inputs.reduce(function(prev, curr) {
-//   return (Math.abs(curr - compare) < Math.abs(prev - compare) ? curr : prev);
-// });
-
-// var index = shuclone.indexOf(closest);
-// shuclone.splice(index, 1);
-// console.log(shuclone);
-
-
-// }
-// inputs=[];
-// inputs=shuclone;
-
-// trainingoutputs=[];
-//   for(var p=0;p<inputs.length;p++) {
-// var st=inputs[p];
-// trainingoutputs.push(p)
-
-//   }
-// var clonetrain=trainingoutputs;
-// trainingoutputs=[];
-
-
-//     for(var i=0; i<clonetrain.length;i++) {
-// var st=clonetrain[i];
-// var number=parseInt(st)
-// number+=1;
-// console.log('2',number)
-// trainingoutputs.push(number)
-
-//   }
 
 console.log('new train', trainingoutputs)
 console.log('new train', inputs)
@@ -410,81 +439,6 @@ var startnetwork=0;
 
 
 
-
-
-// var  aboutnumbers =["add", "subtract", "multiply", "sum", "number", "numbers", "find", "calculate", "calculator", "calculating", "amount"];
-// var book="Addition is when you take two numbers and find the sum. The sum of two numbers is the result of the process or skill of calculating the total of two or more numbers or amounts. For example, 2+2 = 4. + is the symbol of addition.";//
-
-
-
-// var foundation=[];
-// var meaningequalsnumbers=0;
-// var equal=["equal","equals","=","is","are"];
-
-// book = book.split(" ");
-// //for learning mathmatics
-// for (var i=0; i<book.length; i++) {
-// var passage=book[i];
-// //console.log(passage)
-// for(var m=0; m<aboutnumbers.length; m++) {
-
-//   var value = aboutnumbers[m];
-
-//   if (passage==value) {
-// meaningequalsnumbers++;
-//   }
-
-// }
-// if (isNaN(passage)==false) {
-//   //it is a number
-// //console.log('false', passage)
-// }
-
-
-// }
-
-
-
-
-// //for learning words
-
-// for (var j=0; j<book.length; j++) {
-// var word=book[j];
-
-
-
-
-// }
-
-
-// var multiinput=1;
-
-
-
-
-
-
-// var categories=[];
-// // if (multiinput==1) {
-// //   inputs=zongshu;
-// // }
-
-
-// //var trainingoutputs =[1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4];
-// //1,-1,-1,-1,1,-1,1,-1, -1, -1,-1
-
-// function createinput () {
-//   console.log('riq',items);
-
-//   for(var i=0; i<items.length;i++){
-
-//     var first=items[i];
-
-//     console.log(first)
-//   }
-
-
-// }
 
 
 
@@ -515,8 +469,161 @@ test();
       }
      
      if (red==1) {
+          //dynamic
+ //div2 = document.body.appendChild(document.createElement('div2'));
+
        $("#img2").addClass('my_animation2');
        red=0;
+
+
+startai();
+function startai () {
+ var constant  = arrayconstants[Math.floor(Math.random()*arrayconstants.length)];
+var constantforequation;
+ if (constant == 'numbers') {
+  constant =   Math.random(Math.random() * 1 + 100); 
+  constantforequation='ce!'
+ }
+
+
+
+if (constant == 3.14) {
+  constantforequation = 'π';
+}
+if (constant == 1.618) {
+  constantforequation = 'ϕ';
+}
+
+var operators = {
+    '+': function(a, b) { return a + b },
+    '-': function(a, b) { return a - b },
+    '*': function(a, b) { return a * b },
+    '/': function(a, b) { return a / b }
+     // ...
+};
+
+var functions = {
+    'tan': function(a) { return Math.tan(a)},
+    'sin': function(a) { return Math.sin(a)},
+    'cos': function(a) { return Math.cos(a)},
+    'squareroot': function(a) { return Math.sqrt(a)},
+    'log': function(a) { return Math.log(a)},
+    'square': function(a) { return Math.pow(a,2)},
+     'cube': function(a) { return Math.pow(a,3)}
+     // ...
+};
+var op =arrayoperations[Math.floor(Math.random()*arrayoperations.length)];
+ funop =functionoperations[Math.floor(Math.random()*functionoperations.length)];
+
+var weight = 0.00234;
+var weightequation = 'Wj';
+var actualanswer = functions[funop](weight);
+//console.log(funop,actualanswer)
+
+
+
+
+var countnumerofX = ['1', '2', '3','4', '5' ];
+
+var numerator = countnumerofX[Math.floor(Math.random()*countnumerofX.length)];
+ numeratoroperations =functionoperations[Math.floor(Math.random()*functionoperations.length)];
+ numsymbol = arrayoperations[Math.floor(Math.random()*arrayoperations.length)];
+
+// if (numeratoroperations == 'squareroot') {
+//   numeratoroperations = '√x';
+// }
+// if (numeratoroperations  == 'square') {
+//   numeratoroperations  = 'x^2';
+// }
+// if (numeratoroperations  == 'cube') {
+//   numeratoroperations  = 'x^3';
+// }
+
+var denominator =countnumerofX[Math.floor(Math.random()*countnumerofX.length)];
+ demsymbol = arrayoperations[Math.floor(Math.random()*arrayoperations.length)];
+denomanatoroperations = functionoperations[Math.floor(Math.random()*functionoperations.length)];
+
+
+
+
+
+
+//writing the equation
+///console.log(constantforequation)
+
+
+finalequationillustration = '('+weightequation+' '+numsymbol+'  '+constantforequation+' ) '+numsymbol+' '+numeratoroperations+' -> '+weightequation+' \n-------------- \n ('+weightequation+' '+demsymbol+' '+constantforequation+') '+demsymbol+' ('+denomanatoroperations+' ->'+constantforequation+')  '
+finalequation = '('+weight+' '+numsymbol+'  '+constant+' ) '+numsymbol+' '+numeratoroperations+' -> '+weight+' \n-------------- \n ('+weight+' '+demsymbol+' '+constant+') '+demsymbol+' ('+denomanatoroperations+' ->'+constant+')  '
+if (usesameEquation==1) {
+  //console.log('USING THE SAME')
+  numsymbol=memorynumsymbol[memorynumsymbol.length-1];
+  demsymbol = memorydemsymbol[memorydemsymbol.length-1];
+  funop = memoryfunop[memoryfunop.length-1];
+  //constantforequation=memoryconstanttforequation[memoryconstanttforequation.length-1];
+  denomanatoroperations=memorydemoperations[memorydemoperations.length-1];
+  numeratoroperations=memorynumoperations[memorynumoperations.length-1];
+
+  finalequationillustration = '('+weightequation+' '+numsymbol+'  '+constantforequation+' ) '+numsymbol+' '+numeratoroperations+' -> '+weightequation+' \n-------------- \n ('+weightequation+' '+demsymbol+' '+constantforequation+') '+demsymbol+' ('+denomanatoroperations+' ->'+constantforequation+')  '
+}
+
+var firstpart = operators[numsymbol](weight, constant)
+//numsymbol
+var secondpart= functions[funop](weight);
+
+ calculateall =  operators[numsymbol](firstpart, secondpart) / operators[demsymbol](firstpart, secondpart)
+//numsymbol, funop, demsymbol, 
+//dividded by
+
+   solution =0; 
+
+
+
+// console.log(finalequationillustration)
+// console.log(finalequation)
+// console.log('out',calculateall)
+
+}
+
+var checkifclose = Math.abs(solution-calculateall)
+if (checkifclose<=20) {
+     // console.log('im close', finalequationillustration)
+      memorydemsymbol.push(demsymbol);
+      memorynumsymbol.push(numsymbol);
+      memoryfunop.push(funop);
+      memorynumoperations.push(numeratoroperations);
+      memorydemoperations.push(denomanatoroperations);
+usesameEquation=1;
+}
+if (calculateall == checkifsolutionissame[checkifsolutionissame.length-1]) {
+ // console.log('change everything');
+  usesameEquation=0;
+}
+checkifsolutionissame.push(calculateall)
+if (solution==calculateall) {
+  console.log('Nobel Prize'); 
+
+
+}
+
+
+
+
+
+
+
+       visualalgo.style.position="absolute";
+visualalgo.style.left = 290+'px';
+  visualalgo.style.top = 500+'px';
+  var op =weights[Math.floor(Math.random()*weights.length)]; 
+   visualalgo.style.color = 'red';
+  visualalgo.innerHTML = finalequationillustration;
+
+       visualalgo2.style.position="absolute";
+visualalgo2.style.left = 290+'px';
+  visualalgo2.style.top = 550+'px';
+   visualalgo2.style.color = 'orange';
+  visualalgo2.innerHTML = finalequation;
+
      }
     if (yellow==1) {
        $("#img3").addClass('my_animation3');
@@ -623,38 +730,7 @@ massivesum.push(kid);
 }
 select=0;
 dontchangeweight=0; 
-//console.log('annoy',sum)
 
-// if (sum<=1) {
-// 	 output='output is 1';
-//   var kid=1;
-// console.log('first',sum)
-//    massivesum.push(kid);
-// }
-
-// if (sum>1 && sum<=2) {
-// 	 output='output is 2';
-//   var kid=2;
-// console.log('second',sum)
-//    massivesum.push(kid);
-// }
-
-// if (sum>2 && sum<=3) {
-// 	 output='output is 3';
-// 	 console.log('third',sum)
-//   var kid=3;
-
-//    massivesum.push(kid);
-// }
-
-
-// if (sum>=4) {
-// 	 output='output is 4';
-// 	 console.log('fourth',sum)
-//   var kid=4;
-
-//    massivesum.push(kid);
-// }
 
 
 
@@ -710,12 +786,12 @@ var guess = massivesum[m];
 var desired = trainingoutputs[m];
 
 //if (activate==1) {
-desired=0;
-guess=0;
+// desired=0;
+// guess=0;
 
 var error = desired - guess;
 if (error==0) {
- // console.log('Lucio', finalsum)
+  console.log('Lucio', totalerror)
   shortcutsum.push(finalsum);
   lucioarray.push(error)
   if (lucioarray.length==500|| lucioarray.length==1000|| lucioarray.length==2000) {
@@ -725,7 +801,7 @@ if (error==0) {
   yellow=1;
  var element3 = document.getElementById('img3');
             element3.style.opacity = "1.0";
-test();
+test();  //animation
 }
 if (totalerror.length<inputs.length) {
 totalerror.push(error);
@@ -810,7 +886,6 @@ if (isSame==0) {
 }
 
 var checknummy;
-
 
 function dontchange () {
 //   console.log('what',originalweights)
@@ -1016,6 +1091,7 @@ var check=realoutputs[index]//index
 console.log('tasha',check,realoutputs)
 var yaoshi=document.getElementById('columnbaby').value;
 var output = check+"  "+"<equals>"+" "+yaoshi;
+output=result;
 document.getElementById("textarea").value=output;
 
 // if (multivariable==0) {
