@@ -1,3 +1,4 @@
+//original neural net 3
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,7 +6,7 @@
 </head>
   <meta charset="utf-8">
 <style type="text/css">
-	canvas { border: 1px solid #ccc }
+canvas { border: 1px solid #ccc }
 @keyframes blink {
     0% {
         opacity: 1;
@@ -62,22 +63,22 @@ Test Input: <input type="text" id='inputbaby'><br>
 </div>
 
 <div style="text-align: center; padding: 50px" >
-	<div style="display: inline-block; margin-right: 50px;position: absolute;left: 200px;top:200px">
-		<img src="greencircle.png" width="100" height="100" style="opacity:0.5" id="img1">
-	</div>
-	<div style="display: inline-block; margin-right: 50px;position: absolute;left: 400px;top:200px">
-		<img src="redcircle.png" width="100" height="100" style="opacity:0.5" id="img2">
-	</div>
-	<div style="display: inline-block;position: absolute;left: 600px;top:200px">
-		<img src="yellowcircle.png" width="100" height="100" style="opacity:0.5" id="img3">
-	</div>
-	<div>
-	<img src="brain-connectivity.png" width="700" height="500">
+<div style="display: inline-block; margin-right: 50px;position: absolute;left: 200px;top:200px">
+<img src="greencircle.png" width="100" height="100" style="opacity:0.5" id="img1">
+</div>
+<div style="display: inline-block; margin-right: 50px;position: absolute;left: 400px;top:200px">
+<img src="redcircle.png" width="100" height="100" style="opacity:0.5" id="img2">
+</div>
+<div style="display: inline-block;position: absolute;left: 600px;top:200px">
+<img src="yellowcircle.png" width="100" height="100" style="opacity:0.5" id="img3">
+</div>
+<div>
+<img src="brain-connectivity.png" width="700" height="500">
 
-<!--   <img src="learned.png" id = "learn" width="50" height="50"> -->
+  <img src="learned.png" id = "learn" width="50" height="50">
   
   <textarea id="textarea" rows=10 cols=80></textarea>
-	</div>
+</div>
 
 
 <!-- </div>
@@ -132,8 +133,135 @@ var denomanatoroperations;
 var numeratoroperations;
 var checkifsolutionissame = new Array();
 
+for(var i=0; i< 50; i++) {
+startai();
+function startai () {
+ var constant  = arrayconstants[Math.floor(Math.random()*arrayconstants.length)];
+var constantforequation;
+ if (constant == 'numbers') {
+  constant =   Math.random(Math.random() * 1 + 100); 
+  constantforequation='ce!'
+ }
 
 
+
+if (constant == 3.14) {
+  constantforequation = 'π';
+}
+if (constant == 1.618) {
+  constantforequation = 'ϕ';
+}
+
+var operators = {
+    '+': function(a, b) { return a + b },
+    '-': function(a, b) { return a - b },
+    '*': function(a, b) { return a * b },
+    '/': function(a, b) { return a / b }
+     // ...
+};
+
+var functions = {
+    'tan': function(a) { return Math.tan(a)},
+    'sin': function(a) { return Math.sin(a)},
+    'cos': function(a) { return Math.cos(a)},
+    'squareroot': function(a) { return Math.sqrt(a)},
+    'log': function(a) { return Math.log(a)},
+    'square': function(a) { return Math.pow(a,2)},
+     'cube': function(a) { return Math.pow(a,3)}
+     // ...
+};
+var op =arrayoperations[Math.floor(Math.random()*arrayoperations.length)];
+ funop =functionoperations[Math.floor(Math.random()*functionoperations.length)];
+
+var weight = 0.00234;
+var weightequation = 'wJ';
+var actualanswer = functions[funop](weight);
+//console.log(funop,actualanswer)
+
+
+
+
+var countnumerofX = ['1', '2', '3','4', '5' ];
+
+var numerator = countnumerofX[Math.floor(Math.random()*countnumerofX.length)];
+ numeratoroperations =functionoperations[Math.floor(Math.random()*functionoperations.length)];
+ numsymbol = arrayoperations[Math.floor(Math.random()*arrayoperations.length)];
+
+// if (numeratoroperations == 'squareroot') {
+//   numeratoroperations = '√x';
+// }
+// if (numeratoroperations  == 'square') {
+//   numeratoroperations  = 'x^2';
+// }
+// if (numeratoroperations  == 'cube') {
+//   numeratoroperations  = 'x^3';
+// }
+
+var denominator =countnumerofX[Math.floor(Math.random()*countnumerofX.length)];
+ demsymbol = arrayoperations[Math.floor(Math.random()*arrayoperations.length)];
+denomanatoroperations = functionoperations[Math.floor(Math.random()*functionoperations.length)];
+
+
+
+
+
+
+//writing the equation
+console.log(constantforequation)
+
+
+finalequationillustration = '('+weightequation+' '+numsymbol+'  '+constantforequation+' ) '+numsymbol+' '+numeratoroperations+' -> '+weightequation+' \n-------------- \n ('+weightequation+' '+demsymbol+' '+constantforequation+') '+demsymbol+' ('+denomanatoroperations+' ->'+constantforequation+')  '
+finalequation = '('+weight+' '+numsymbol+'  '+constant+' ) '+numsymbol+' '+numeratoroperations+' -> '+weight+' \n-------------- \n ('+weight+' '+demsymbol+' '+constant+') '+demsymbol+' ('+denomanatoroperations+' ->'+constant+')  '
+if (usesameEquation==1) {
+  console.log('USING THE SAME')
+  numsymbol=memorynumsymbol[memorynumsymbol.length-1];
+  demsymbol = memorydemsymbol[memorydemsymbol.length-1];
+  funop = memoryfunop[memoryfunop.length-1];
+  //constantforequation=memoryconstanttforequation[memoryconstanttforequation.length-1];
+  denomanatoroperations=memorydemoperations[memorydemoperations.length-1];
+  numeratoroperations=memorynumoperations[memorynumoperations.length-1];
+
+  finalequationillustration = '('+weightequation+' '+numsymbol+'  '+constantforequation+' ) '+numsymbol+' '+numeratoroperations+' -> '+weightequation+' \n-------------- \n ('+weightequation+' '+demsymbol+' '+constantforequation+') '+demsymbol+' ('+denomanatoroperations+' ->'+constantforequation+')  '
+}
+
+var firstpart = operators[numsymbol](weight, constant)
+//numsymbol
+var secondpart= functions[funop](weight);
+
+ calculateall =  operators[numsymbol](firstpart, secondpart) / operators[demsymbol](firstpart, secondpart)
+//numsymbol, funop, demsymbol, 
+//dividded by
+
+   solution =9; 
+
+
+
+console.log(finalequationillustration)
+console.log(finalequation)
+console.log('out',calculateall)
+
+}
+
+var checkifclose = Math.abs(solution-calculateall)
+if (checkifclose<=20) {
+      console.log('im close', finalequationillustration)
+      memorydemsymbol.push(demsymbol);
+      memorynumsymbol.push(numsymbol);
+      memoryfunop.push(funop);
+      memorynumoperations.push(numeratoroperations);
+      memorydemoperations.push(denomanatoroperations);
+usesameEquation=1;
+}
+if (calculateall == checkifsolutionissame[checkifsolutionissame.length-1]) {
+  console.log('change everything');
+  usesameEquation=0;
+}
+checkifsolutionissame.push(calculateall)
+if (solution==calculateall) {
+  console.log('Nobel Prize'); 
+  break;
+
+}
 
 
 // if (solution < calculateall || solution > calculateall) {
@@ -141,7 +269,7 @@ var checkifsolutionissame = new Array();
 // }
 
 
-
+}
 
 
 
@@ -153,10 +281,7 @@ var checkifsolutionissame = new Array();
  var shortcutsum= new Array;
 var visualalgo;
   visualalgo = document.body.appendChild(document.createElement('div'));
-  var visualalgo2;
-  visualalgo2 = document.body.appendChild(document.createElement('div2'));
-  var visualalgo3;
-  visualalgo3 = document.body.appendChild(document.createElement('div3'));
+var arrayoperations =['+','-', '*', '/','tan', 'sin', 'cos']
 var takeKeyonce=0; 
 var actualKey=[];
 var inputs =[];
@@ -169,7 +294,7 @@ var multivariable=0;
      var checkmyweight=new Array();
      var lucioarray=new Array();
 
-//document.getElementById('learn').style.visibility = 'hidden';
+document.getElementById('learn').style.visibility = 'hidden';
 function handleFiles(files) {
       // Check for the various File API support.
       if (window.FileReader) {
@@ -474,155 +599,12 @@ test();
 
        $("#img2").addClass('my_animation2');
        red=0;
-
-
-startai();
-function startai () {
- var constant  = arrayconstants[Math.floor(Math.random()*arrayconstants.length)];
-var constantforequation;
- if (constant == 'numbers') {
-  constant =   Math.random(Math.random() * 1 + 100); 
-  constantforequation='ce!'
- }
-
-
-
-if (constant == 3.14) {
-  constantforequation = 'π';
-}
-if (constant == 1.618) {
-  constantforequation = 'ϕ';
-}
-
-var operators = {
-    '+': function(a, b) { return a + b },
-    '-': function(a, b) { return a - b },
-    '*': function(a, b) { return a * b },
-    '/': function(a, b) { return a / b }
-     // ...
-};
-
-var functions = {
-    'tan': function(a) { return Math.tan(a)},
-    'sin': function(a) { return Math.sin(a)},
-    'cos': function(a) { return Math.cos(a)},
-    'squareroot': function(a) { return Math.sqrt(a)},
-    'log': function(a) { return Math.log(a)},
-    'square': function(a) { return Math.pow(a,2)},
-     'cube': function(a) { return Math.pow(a,3)}
-     // ...
-};
-var op =arrayoperations[Math.floor(Math.random()*arrayoperations.length)];
- funop =functionoperations[Math.floor(Math.random()*functionoperations.length)];
-
-var weight = 0.00234;
-var weightequation = 'Wj';
-var actualanswer = functions[funop](weight);
-//console.log(funop,actualanswer)
-
-
-
-
-var countnumerofX = ['1', '2', '3','4', '5' ];
-
-var numerator = countnumerofX[Math.floor(Math.random()*countnumerofX.length)];
- numeratoroperations =functionoperations[Math.floor(Math.random()*functionoperations.length)];
- numsymbol = arrayoperations[Math.floor(Math.random()*arrayoperations.length)];
-
-// if (numeratoroperations == 'squareroot') {
-//   numeratoroperations = '√x';
-// }
-// if (numeratoroperations  == 'square') {
-//   numeratoroperations  = 'x^2';
-// }
-// if (numeratoroperations  == 'cube') {
-//   numeratoroperations  = 'x^3';
-// }
-
-var denominator =countnumerofX[Math.floor(Math.random()*countnumerofX.length)];
- demsymbol = arrayoperations[Math.floor(Math.random()*arrayoperations.length)];
-denomanatoroperations = functionoperations[Math.floor(Math.random()*functionoperations.length)];
-
-
-
-
-
-
-//writing the equation
-///console.log(constantforequation)
-
-
-finalequationillustration = '('+weightequation+' '+numsymbol+'  '+constantforequation+' ) '+numsymbol+' '+numeratoroperations+' -> '+weightequation+' \n-------------- \n ('+weightequation+' '+demsymbol+' '+constantforequation+') '+demsymbol+' ('+denomanatoroperations+' ->'+constantforequation+')  '
-finalequation = '('+weight+' '+numsymbol+'  '+constant+' ) '+numsymbol+' '+numeratoroperations+' -> '+weight+' \n-------------- \n ('+weight+' '+demsymbol+' '+constant+') '+demsymbol+' ('+denomanatoroperations+' ->'+constant+')  '
-if (usesameEquation==1) {
-  //console.log('USING THE SAME')
-  numsymbol=memorynumsymbol[memorynumsymbol.length-1];
-  demsymbol = memorydemsymbol[memorydemsymbol.length-1];
-  funop = memoryfunop[memoryfunop.length-1];
-  //constantforequation=memoryconstanttforequation[memoryconstanttforequation.length-1];
-  denomanatoroperations=memorydemoperations[memorydemoperations.length-1];
-  numeratoroperations=memorynumoperations[memorynumoperations.length-1];
-
-  finalequationillustration = '('+weightequation+' '+numsymbol+'  '+constantforequation+' ) '+numsymbol+' '+numeratoroperations+' -> '+weightequation+' \n-------------- \n ('+weightequation+' '+demsymbol+' '+constantforequation+') '+demsymbol+' ('+denomanatoroperations+' ->'+constantforequation+')  '
-}
-
-var firstpart = operators[numsymbol](weight, constant)
-//numsymbol
-var secondpart= functions[funop](weight);
-
- calculateall =  operators[numsymbol](firstpart, secondpart) / operators[demsymbol](firstpart, secondpart)
-//numsymbol, funop, demsymbol, 
-//dividded by
-
-   solution =0; 
-
-
-
-// console.log(finalequationillustration)
-// console.log(finalequation)
-// console.log('out',calculateall)
-
-}
-
-var checkifclose = Math.abs(solution-calculateall)
-if (checkifclose<=20) {
-     // console.log('im close', finalequationillustration)
-      memorydemsymbol.push(demsymbol);
-      memorynumsymbol.push(numsymbol);
-      memoryfunop.push(funop);
-      memorynumoperations.push(numeratoroperations);
-      memorydemoperations.push(denomanatoroperations);
-usesameEquation=1;
-}
-if (calculateall == checkifsolutionissame[checkifsolutionissame.length-1]) {
- // console.log('change everything');
-  usesameEquation=0;
-}
-checkifsolutionissame.push(calculateall)
-if (solution==calculateall) {
-  console.log('Nobel Prize'); 
-
-
-}
-
-
-
-
-
-
-
        visualalgo.style.position="absolute";
 visualalgo.style.left = 290+'px';
   visualalgo.style.top = 500+'px';
   var op =weights[Math.floor(Math.random()*weights.length)]; 
    visualalgo.style.color = 'red';
-  visualalgo.innerHTML = finalequationillustration;
-
-       visualalgo2.style.position="absolute";
-visualalgo2.style.left = 290+'px';
-  visualalgo2.style.top = 550+'px';
-   visualalgo2.style.color = 'orange';
-  visualalgo2.innerHTML = finalequation;
+  visualalgo.innerHTML = 'f(x) = y + '+ op+'';
 
      }
     if (yellow==1) {
@@ -730,7 +712,38 @@ massivesum.push(kid);
 }
 select=0;
 dontchangeweight=0; 
+//console.log('annoy',sum)
 
+// if (sum<=1) {
+// output='output is 1';
+//   var kid=1;
+// console.log('first',sum)
+//    massivesum.push(kid);
+// }
+
+// if (sum>1 && sum<=2) {
+// output='output is 2';
+//   var kid=2;
+// console.log('second',sum)
+//    massivesum.push(kid);
+// }
+
+// if (sum>2 && sum<=3) {
+// output='output is 3';
+// console.log('third',sum)
+//   var kid=3;
+
+//    massivesum.push(kid);
+// }
+
+
+// if (sum>=4) {
+// output='output is 4';
+// console.log('fourth',sum)
+//   var kid=4;
+
+//    massivesum.push(kid);
+// }
 
 
 
@@ -743,7 +756,7 @@ dontchangeweight=0;
 // console.log('guesses', massivesum)
 // console.log('desired', trainingoutputs)
 
-	train();
+train();
 
 
     //sum=0; 
@@ -807,19 +820,18 @@ if (totalerror.length<inputs.length) {
 totalerror.push(error);
 }
 if (totalerror.length==weights.length) {
-	var index = totalerror[m];
+var index = totalerror[m];
 
 var nono=0;
 index=parseInt(index)
 if (index==0) {
-	
-	nono=1;
-	}
+nono=1;
+}
 
-	if (nono==0) {
-		//console.log(index)
-		totalerror[m] = error;
-	}
+if (nono==0) {
+//console.log(index)
+totalerror[m] = error;
+}
    
 }
 
@@ -844,13 +856,13 @@ if (index==0) {
      var checkItem = totalerror[0];
      //check when total error = 0;
      var countup=0;
-//      		var p=totalerror[i];
-// 	if (p==0||p==1||p==2||p==3) {
+//      	var p=totalerror[i];
+// if (p==0||p==1||p==2||p==3) {
 // countup+=1
-// 	}
+// }
 // if (countup==totalerror.length) {
-// 	isSame=1;
-// 	break;
+// isSame=1;
+// break;
 // }
 var isSame = 0;
 for (var i = 0; i < totalerror.length; i++) {
@@ -887,6 +899,16 @@ if (isSame==0) {
 
 var checknummy;
 
+var operators = {
+    '+': function(a, b) { return a + b },
+    '-': function(a, b) { return a - b },
+    '*': function(a, b) { return a * b },
+    '/': function(a, b) { return a / b },
+    'tan': function(a,b) { return a + Math.tan(b)},
+    'sin': function(a,b) { return a + Math.sin(b)},
+    'cos': function(a,b) { return a + Math.cos(b)},
+     // ...
+};
 function dontchange () {
 //   console.log('what',originalweights)
 // weights=originalweights;
@@ -910,14 +932,14 @@ var dd=0;
 //console.log('pop', st, st3)
   if (st=='0'||st==0) {
 
-  	//console.log('pop2',remembermultiplier)
-  	dontchangeweight=1;
-  	secretindex.push(st)
-  	//console.log('pop3',secretindex)
+  //console.log('pop2',remembermultiplier)
+  dontchangeweight=1;
+  secretindex.push(st)
+  //console.log('pop3',secretindex)
 
 dd=1;
 // yellow=1;
-// 	var element3 = document.getElementById('img3');
+// var element3 = document.getElementById('img3');
 //             element3.style.opacity = "1.0";
 // test();
     //console.log('dont change weight', st3)
@@ -925,9 +947,9 @@ newweights.push(st3)//get original weight because not wrong
 
   }
   if (dd==0) {
-  	//console.log('pop3')
-  	red=1;
-  	test();
+  //console.log('pop3')
+  red=1;
+  test();
   //console.log('change weight')
    var pt;
    if (secretweight.length==1) {
@@ -1122,7 +1144,7 @@ document.getElementById("textarea").value=output;
 
 // if (result==thatanwser) {
 
-// 	needtolearn=1; 
+// needtolearn=1; 
 // }
 
 // if (needtolearn==0) {
@@ -1151,7 +1173,7 @@ document.getElementById("textarea").value=output;
 // // }
 
 // // if (result>1 && result<=2) {
-// // 	console.log('final answer = 2')
+// // console.log('final answer = 2')
 // // var check=realoutputs[1]
 // // document.getElementById("textarea").value=check
 // // }
