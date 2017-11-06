@@ -1,1238 +1,137 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Quaine's Neural</title>
+    <meta charset="UTF-8">
+	          加班
+
+	<!-- <input type="text" id="input"><br> -->
+  <textarea id="input" cols="40" rows="5"></textarea>
+
 </head>
-  <meta charset="utf-8">
-<style type="text/css">
-	canvas { border: 1px solid #ccc }
-@keyframes blink {
-    0% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
 
- .container {
-        transition: all 1s;
-        max-height: 300px;
-    }
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
-    .container.pre-animation {
-        opacity:0;
-        max-height: 0;
-    }
-  .my_animation1{
-    animation: blink 3s 0.2s;
-    animation-iteration-count: infinite;
-}
-  .my_animation2{
-    animation: blink 3s 1s;
-    animation-iteration-count: infinite;
-}
-  .my_animation3{
-    animation: blink 3s 1.8s;
-    animation-iteration-count: infinite;
-}
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-  .ribbon {
-  position:absolute;
-  top:0;
-  right:0;
-}
-  .ribbon1 {
-  position:absolute;
-  top:100;
-  right:12;
-}
-</style>
-<!-- <canvas id="c" width="1000" height="500"></canvas> -->
-<div>
-<!-- <button class="ribbon" onclick="check()">对</button>
-<button class="ribbon1" onclick="check2()">不对</button> -->
-Category you would like the A.I. to predict ex(column name): <input type="text" id='columnbaby' class="ribbon1"><br>
-
-<br>
-Test Input: <input type="text" id='inputbaby'><br>
-</div>
-
-<div style="text-align: center; padding: 50px" >
-	<div style="display: inline-block; margin-right: 50px;position: absolute;left: 200px;top:200px">
-		<img src="greencircle.png" width="100" height="100" style="opacity:0.5" id="img1">
-	</div>
-	<div style="display: inline-block; margin-right: 50px;position: absolute;left: 400px;top:200px">
-		<img src="redcircle.png" width="100" height="100" style="opacity:0.5" id="img2">
-	</div>
-	<div style="display: inline-block;position: absolute;left: 600px;top:200px">
-		<img src="yellowcircle.png" width="100" height="100" style="opacity:0.5" id="img3">
-	</div>
-	<div>
-	<img src="brain-connectivity.png" width="700" height="500">
-
-<!--   <img src="learned.png" id = "learn" width="50" height="50"> -->
-  
-  <textarea id="textarea" rows=10 cols=50></textarea>
-	</div>
-
-
-<!-- </div>
-<b>CSV File</b> <input type="file" id="csvfile"> 
-<br />
-
-<b>Header</b> <select id="header">
-<option>true</option>
-<option>false</option>
-</select> 
-
-<br /> -->
-<!-- <button id="submitbutton" type="button">read.csv</button> -->
-
-<pre><code id="output"></code></pre>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.0.4/d3.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="//cdn.opencpu.org/opencpu-0.4.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
 
-  <!-- <script type="text/javascript" src="static/js/read-csv.js"></script> -->
-    <input type="file" id="csvFileInput" onchange="handleFiles(this.files)"
-            accept=".csv">
-<script>
-
-
-var arrayoperations =['+','-', '*', '/'];  //11 functions
-
-var functionoperations = ['tan', 'sin', 'cos', 'squareroot', 'log', 'square', 'cube']
-var arrayconstants =[3.14, 1.618, 'numbers'];
-
-var calculateall;
-
-var memorynumsymbol = new Array();
-var memoryfunop = new Array();
-var memorydemsymbol = new Array();
-
-var memoryconstanttforequation = new Array();
-var memorynumoperations = new Array();
-var memorydemoperations = new Array();
-
-var finalequation;
-var finalequationillustration; 
-
-var usesameEquation=0;
-var solution;
-var demsymbol; 
-var numsymbol;
-var funop;
-var denomanatoroperations;
-var numeratoroperations;
-var checkifsolutionissame = new Array();
-
-
-
-
-
-// if (solution < calculateall || solution > calculateall) {
-//   startai();
-// }
-
-
-
-
-
-
-
-
-
-////////
- var finalsum=0;
- var shortcutsum= new Array;
-var visualalgo;
-  visualalgo = document.body.appendChild(document.createElement('div'));
-  var visualalgo2;
-  visualalgo2 = document.body.appendChild(document.createElement('div2'));
-  var visualalgo3;
-  visualalgo3 = document.body.appendChild(document.createElement('div3'));
-   var visualalgo4;
-  visualalgo4 = document.body.appendChild(document.createElement('div4'));
-   visualalgo5 = document.body.appendChild(document.createElement('div5'));
-var errorpercent=100;
-   //4
-    visualalgo4.style.position="absolute";
-visualalgo4.style.left = 680+'px';
-  visualalgo4.style.top = 50+'px';
-      visualalgo4.innerHTML = 'Error Rate';
-
-      //5
- visualalgo5.style.position="absolute";
-visualalgo5.style.left = 750+'px';
-  visualalgo5.style.top = 50+'px';
-      visualalgo5.innerHTML = ''+errorpercent+'%';
-
-var takeKeyonce=0; 
-var actualKey=[];
-var inputs =[];
-var trainingoutputs=[];
-var realoutputs=[];
-var determineoutput=0;
-var multivariable=0;
-  var arraypos=[];
-     var arrayneg=[];
-     var checkmyweight=new Array();
-     var lucioarray=new Array();
-
-//document.getElementById('learn').style.visibility = 'hidden';
-function handleFiles(files) {
-      // Check for the various File API support.
-      if (window.FileReader) {
-          // FileReader are supported.
-          getAsText(files[0]);
-      } else {
-          alert('FileReader are not supported in this browser.');
-      }
-    }
-
-    function getAsText(fileToRead) {
-      var reader = new FileReader();
-      // Read file into memory as UTF-8      
-      reader.readAsText(fileToRead);
-      // Handle errors load
-      reader.onload = loadHandler;
-      reader.onerror = errorHandler;
-    }
-
-
-    function loadHandler(event) {
-      // var feels = d3.csv.parse(event.target.result)
-
-      var csv = event.target.result;
-      processData(csv);
-
-//       d3.csv(csv, function(rows) {
-//   console.log(rows)
-// });
-
-    }
-
-var numberofvalues=[];
-    function processData(csv) {
-     var feels = d3.csv.parse(csv)
-
-for(var i=0; i<feels.length; i++) {
-
-  var firstobject= feels[i];
- 
-  if (takeKeyonce==0) {
-    var keys = Object.keys(firstobject)
-    for(var p=0; p<keys.length;p++) {
-      one=keys[p]
-       actualKey.push(one);
-    }
-   
-    takeKeyonce=1;
-  }
+  <script src="//cdn.opencpu.org/opencpu-0.4.js"></script>
   
-   var values = Object.values(firstobject)
-  //console.log('glitter', actualKey)
-   //console.log('flowers', values)
-var yaoshi=document.getElementById('columnbaby').value
-//console.log('race',yaoshi)
-   var indexofchosen=keys.indexOf(yaoshi)//priduct bought
-   //console.log(indexofchosen)
-for (m=0; m<values.length;m++) {
-  var searchnumber=values[m];
-  var searchoutput=values[indexofchosen]
-  //console.log(searchnumber)
-if (isNaN(searchnumber)==false) {
-  searchnumber=parseInt(searchnumber);
-  inputs.push(searchnumber);
-  trainingoutputs.push(searchoutput);
-}
+<script type="text/javascript">
+
+ var msg = window.prompt("请写你的名字", "名字");
+//document.body.style.backgroundColor = "#E9967A";
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBzoGXjJy2mnSc24f_gIcGu-drC3jJoLE4",
+    authDomain: "blcok-d1c5f.firebaseapp.com",
+    databaseURL: "https://blcok-d1c5f.firebaseio.com",
+    projectId: "blcok-d1c5f",
+    storageBucket: "blcok-d1c5f.appspot.com",
+    messagingSenderId: "680002878921"
+  };
+  firebase.initializeApp(config); 
+
+ var database = firebase.database();
+  // var myWorker = new Worker('worker.js');
+
+//setInterval(app, 3000) 
+
+var visualalgo = document.getElementById("input");
+  visualalgo.style.position="absolute";
+
+visualalgo.style.left = 480+'px';
+  visualalgo.style.top = 50+'px';
 
 
 
+var onlyOnce=0;
+var finalString;
+var messageArray=[];
 
-}
-
-}
-
-     
-
-setTimeout(runcode,2000);
+var canceladd=0;
 
 
+$(document).focus().keyup(
 
-
-    }
-
-    function errorHandler(evt) {
-      if(evt.target.error.name == "NotReadableError") {
-          alert("Canno't read file !");
-      }
-    } 
-
-function runcode() {
-  console.log('the p', actualKey)
-   console.log('inputs', inputs)
-   console.log('outpus', trainingoutputs)
-realoutputs=trainingoutputs;
-   var counts = {};
-for (var i = 0; i < trainingoutputs.length; i++) {
-    counts[trainingoutputs[i]] = 1 + (counts[trainingoutputs[i]] || 0);
-}
-console.log('output count',Object.keys(counts))
-var testarray=trainingoutputs;
-var algoarr=[];
-
-
-///if only two outputs
-if (Object.keys(counts).length==2) {
-  trainingoutputs=[];
-  var start=0;
-   for(var b=0; b<testarray.length;b++) {
-       var bian=testarray[b];
-   
-     if (start==1) {
-      var first=algoarr[0];
-      console.log('first', algoarr)
-      var equals=0;
-      if (first==bian) {
-      
-        equals=1;
-        trainingoutputs.push(1);
-      }
-      if (equals==0) {
+   function(e){
+     if(e.keyCode === 8|| e.keycode == 46)
+        //messageArray.push('delete')
+        messageArray.pop();
+        spitoutmessage();
        
-        trainingoutputs.push(-1);
-      }
-    
-}
-if (start==0) {
-  start=1;
-  trainingoutputs.push(1);
-  algoarr.push(bian)
-}
-
- 
-
    }
+ )  
+
+
+
+
+//one part
+  $(document).keypress(function(event){
+ console.log(String.fromCharCode(event.which)); 
+ var inputz = String.fromCharCode(event.which)
+
+messageArray.push(inputz);
+
+if (messageArray.length>=5) {
+spitoutmessage();
 
 }
 
-var multiarray=[];
-var practiceoutputs=[];
-var zhongoutputs=[]; //details of the products
-var assciotedoutputs=[];
-//multi- variable outputs
-
-
-if (Object.keys(counts).length>2) {
-  multivariable=1;
-  trainingoutputs=[];
-  var start=0;
-  var segments;
-  console.log('starbucks', testarray)
-   for(var b=0; b<testarray.length;b++) {
-       var bian=testarray[b];
-       var wordCount = bian.match(/(\w+)/g).length;
-       zhongoutputs.push(wordCount)
-       //console.log('that word count', bian,wordCount)
-   if (bian.indexOf(',') > -1) {
-    console.log('try', bian)
-
- bian = bian.replace(/,/g, " ");
-   console.log('sum me and divide me', bian)
-
-var tian = bian.split(" ");
-   for(var d=0; d<tian.length;d++){
-var final=tian[d]; //get each product in each bundle
-
-    practiceoutputs.push(final)
-    console.log('data', practiceoutputs)
-   }
-
-
-//get all the kinds of products in bundle
-         var counts = {};
-for (var i = 0; i < practiceoutputs.length; i++) {
-    counts[practiceoutputs[i]] = 1 + (counts[practiceoutputs[i]] || 0);
-}
-//console.log('output count',Object.keys(counts))
-multiarray=Object.keys(counts);
+});
+//
 
 
 
 
-   }
+//second part
 
-   }
-   console.log('purple',multiarray)
-var nummer=0;
-for(var s=0; s<multiarray.length; s++) {
-  nummer+=1;
-assciotedoutputs.push(nummer)
-}
-console.log('new purple', assciotedoutputs)
-console.log('zhong', zhongoutputs)
-var cartoon=[];
-for(var a=0; a<practiceoutputs.length;a++) {
-   var haoma = practiceoutputs[a];
+function spitoutmessage () {
+  document.getElementById('input').value=' ';
+  finalString=' ';
+console.log(messageArray)
+for(var i=0; i< messageArray.length; i++) {
 
-   var index=multiarray.indexOf(haoma);
+  var character = messageArray[i];
+  var thereisaspace=0;
 
-   var fg=assciotedoutputs[index];
-   //console.log(index,haoma,fg)
-   cartoon.push(fg)
+if (character==' ') {
+thereisaspace=1;
+}    
 
-
-}
-console.log('relax',cartoon)
-
-
-//zhongoutputs, cartoon    var arew= ["a","b","c","d","e"];
-//arew = arew.slice(0, 3);
-
-var tryp=0;
-var arew=[];
-var finalarray=[];
-for(var i=0; i<zhongoutputs.length; i++) {
-
-var tryp=zhongoutputs[i];
-
-   arew = cartoon.slice(0, tryp);
-cartoon=cartoon.slice(tryp, cartoon.length);
-var output =arew.reduce(function(a, b) { return a + b; }, 0);
-
-finalarray.push(output);
-}
-
-console.log('yi li',finalarray);
- var array=[];
-  for(var p=0;p<inputs.length;p++) {
-var st=inputs[p];
-trainingoutputs.push(p)
-
-  }
-
-console.log('mariah',trainingoutputs)
-
-  for(var p=0;p<inputs.length;p++) {
-var st=inputs[p];
-arraypos.push(p)
-
-  }
-
-     
-  for(var p=0;p<inputs.length;p++) {
-var st=p;
-st=st*-1;
-
-arrayneg.push(st)
-
-  }
-  console.log(arraypos,'truth', arrayneg);
-//trainingoutputs=[1,2,3,4,5,6];
-//lord please let this chinese woman actually give me a shot. I really need this, i mean if I dont get this done then I mean gotdam. We would have to go back to Shanghai which is not bad, but I mean got damn. I mean I have to survive ocheng and make a million dollar platform. In the meantime neurical and my own stuff is up in the air. Mobsid is going extremely well, but it might take sometime. I also need to somehow make Frozen Indigo. But the one thing lord I know you can do is like when I go through a bunch of stupid shit, I know blessings come. God I've been through a lot. I could have just faded or made a big scene just now, but I kept my composure. So like like lord all I ask for is just a simple yes. A simple situation where I can have my own office, own life, own business, own paycheck, own everything. I just need some fucking support. My whole life, I've been dealing with assholes, and I've been cool. The least I can ask for is a simple yes for something that will help many people in my life and others. I just need someone to give me a shot, I am tired of delays. Because lord, you know I will put the work in. You know I will have the mp3 blasting Lavish and We on to get where you want me to get to. God please, please let me solve these problems and truly have a successful meeting tomorrow. I just need to win. Please Lore we've been at it for years now, I mean 9 years, since 18. Wow that is a long time to be working together. I been a good sport and I always completed my missions. Let the bad times passover and roll in the legacy. -马修金
-
-
-
-//matthew 
+if (onlyOnce==1) {
+  finalString= finalString + character
 }
 
 
-console.log('new train', trainingoutputs)
-console.log('new train', inputs)
-neuralnetwork();
-}
-
-
-var startnetwork=0;
-
-
-
-
-
-
-
-function neuralnetwork () {
-  var  yellow =0;
-
-var red =0; 
-var green=0;
-var stopanimation=0;
-test();
-   function test(){
-
-      if (stopanimation==1) {
-        $("#img1").removeClass('my_animation1');
-        $("#img2").removeClass('my_animation2');
-        $("#img3").removeClass('my_animation3');
-        var element = document.getElementById('img1');
-            element.style.opacity = "1.0";
-            var element2 = document.getElementById('img2');
-          element2.style.opacity = "1.0";
-        var element3 = document.getElementById('img3');
-            element3.style.opacity = "1.0";
-      }
-      if (stopanimation==0) {
-      if (red==0 && yellow==0) {
-        $("#img1").addClass('my_animation1');
-        console.log('animation')
-      }
-     
-     if (red==1) {
-          //dynamic
- //div2 = document.body.appendChild(document.createElement('div2'));
-
-       $("#img2").addClass('my_animation2');
-       red=0;
-
-
-startai();
-function startai () {
- var constant  = arrayconstants[Math.floor(Math.random()*arrayconstants.length)];
-var constantforequation;
- if (constant == 'numbers') {
-  constant =   Math.random(Math.random() * 1 + 100); 
-  constantforequation='ce!'
- }
-
-
-
-if (constant == 3.14) {
-  constantforequation = 'π';
-}
-if (constant == 1.618) {
-  constantforequation = 'ϕ';
-}
-
-var operators = {
-    '+': function(a, b) { return a + b },
-    '-': function(a, b) { return a - b },
-    '*': function(a, b) { return a * b },
-    '/': function(a, b) { return a / b }
-     // ...
-};
-
-var functions = {
-    'tan': function(a) { return Math.tan(a)},
-    'sin': function(a) { return Math.sin(a)},
-    'cos': function(a) { return Math.cos(a)},
-    'squareroot': function(a) { return Math.sqrt(a)},
-    'log': function(a) { return Math.log(a)},
-    'square': function(a) { return Math.pow(a,2)},
-     'cube': function(a) { return Math.pow(a,3)}
-     // ...
-};
-var op =arrayoperations[Math.floor(Math.random()*arrayoperations.length)];
- funop =functionoperations[Math.floor(Math.random()*functionoperations.length)];
-
-var weight = 0.00234;
-var weightequation = 'Wj';
-var actualanswer = functions[funop](weight);
-//console.log(funop,actualanswer)
-
-
-
-
-var countnumerofX = ['1', '2', '3','4', '5' ];
-
-var numerator = countnumerofX[Math.floor(Math.random()*countnumerofX.length)];
- numeratoroperations =functionoperations[Math.floor(Math.random()*functionoperations.length)];
- numsymbol = arrayoperations[Math.floor(Math.random()*arrayoperations.length)];
-
-// if (numeratoroperations == 'squareroot') {
-//   numeratoroperations = '√x';
-// }
-// if (numeratoroperations  == 'square') {
-//   numeratoroperations  = 'x^2';
-// }
-// if (numeratoroperations  == 'cube') {
-//   numeratoroperations  = 'x^3';
-// }
-
-var denominator =countnumerofX[Math.floor(Math.random()*countnumerofX.length)];
- demsymbol = arrayoperations[Math.floor(Math.random()*arrayoperations.length)];
-denomanatoroperations = functionoperations[Math.floor(Math.random()*functionoperations.length)];
-
-
-
-
-
-
-//writing the equation
-///console.log(constantforequation)
-
-
-finalequationillustration = '('+weightequation+' '+numsymbol+'  '+constantforequation+' ) '+numsymbol+' '+numeratoroperations+' -> '+weightequation+' \n-------------- \n ('+weightequation+' '+demsymbol+' '+constantforequation+') '+demsymbol+' ('+denomanatoroperations+' ->'+constantforequation+')  '
-finalequation = '('+weight+' '+numsymbol+'  '+constant+' ) '+numsymbol+' '+numeratoroperations+' -> '+weight+' \n-------------- \n ('+weight+' '+demsymbol+' '+constant+') '+demsymbol+' ('+denomanatoroperations+' ->'+constant+')  '
-if (memorynumsymbol.length>1 && dontchangeweight==1) {
-  console.log('USING THE SAME', usesameEquation, dontchangeweight)
-  numsymbol=memorynumsymbol[memorynumsymbol.length-1];
-  demsymbol = memorydemsymbol[memorydemsymbol.length-1];
-  funop = memoryfunop[memoryfunop.length-1];
-  //constantforequation=memoryconstanttforequation[memoryconstanttforequation.length-1];
-  denomanatoroperations=memorydemoperations[memorydemoperations.length-1];
-  numeratoroperations=memorynumoperations[memorynumoperations.length-1];
-
-  finalequationillustration = '('+weightequation+' '+numsymbol+'  '+constantforequation+' ) '+numsymbol+' '+numeratoroperations+' -> '+weightequation+' \n-------------- \n ('+weightequation+' '+demsymbol+' '+constantforequation+') '+demsymbol+' ('+denomanatoroperations+' ->'+constantforequation+')  '
-}
-
-var firstpart = operators[numsymbol](weight, constant)
-//numsymbol
-var secondpart= functions[funop](weight);
-
- calculateall =  operators[numsymbol](firstpart, secondpart) / operators[demsymbol](firstpart, secondpart)
-//numsymbol, funop, demsymbol, 
-//dividded by
-//console.log('ryu', calculateall)
-
-   solution =calculateall; 
-
-
-
-// console.log(finalequationillustration)
-// console.log(finalequation)
-// console.log('out',calculateall)
-
-}
-
-var checkifclose = Math.abs(solution-calculateall)
-if (checkifclose<=20) {
-     //console.log('im close', finalequationillustration)
-      memorydemsymbol.push(demsymbol);
-      memorynumsymbol.push(numsymbol);
-      memoryfunop.push(funop);
-      memorynumoperations.push(numeratoroperations);
-      memorydemoperations.push(denomanatoroperations);
-usesameEquation=1;
-}
-if (calculateall == checkifsolutionissame[checkifsolutionissame.length-1]) {
- // console.log('change everything');
-  usesameEquation=0;
-}
-checkifsolutionissame.push(calculateall)
-if (solution==calculateall) {
-  //console.log('Nobel Prize'); 
-
-
-}
-
-
-
-
-
-
-
-       visualalgo.style.position="absolute";
-visualalgo.style.left = 290+'px';
-  visualalgo.style.top = 500+'px';
-  var op =weights[Math.floor(Math.random()*weights.length)]; 
-   visualalgo.style.color = 'red';
-  visualalgo.innerHTML = finalequationillustration;
-
-       visualalgo2.style.position="absolute";
-visualalgo2.style.left = 290+'px';
-  visualalgo2.style.top = 550+'px';
-   visualalgo2.style.color = 'blue';
-  visualalgo2.innerHTML = finalequation;
-
-         visualalgo3.style.position="absolute";
-visualalgo3.style.left = 290+'px';
-  visualalgo3.style.top = 600+'px';
-   visualalgo3.style.color = 'orange';
-  visualalgo3.innerHTML = 'Input ---> '+finalequationillustration+' ---> Output';
-
-     }
-    if (yellow==1) {
-       $("#img3").addClass('my_animation3');
-       yellow=0;
+    if (onlyOnce==0) {
+      finalString = character; 
+      onlyOnce=1;
     }
 
-}
-    
-   }
-console.log(inputs.length);
-console.log(trainingoutputs.length)
-var inputQ;  //predicter input
-
-
-var dontchangeweight=0;
-var remembermultiplier=[];
-var secretindex=[];
-var secretanswer=[];
-console.log(inputs, trainingoutputs)
-var weights =[]; 
-var originalweights=[];
-var masterweights=[];
-
-var secretweight=[];
-var totalerror=[];
-perception(); //generates the weights
-
-
-//the orgin of thought, the brain. 
-function perception () {
-weights = [];
- for (var i = 0; i < inputs.length; i++) {
-var num = Math.random(Math.random() * -1 + 1);
-     weights.push(num);
-      originalweights.push(num);
-      // weights[i] = random(-1,1);
-    }
-    //originalweights=weights;
-console.log('normal weight', originalweights)
-}
-
-
-
-
-  var sum = 0;
- var massivesum=[];
- var checkright=[];
- var posnum=0;
- var negnum=0;
- var select=0;
- console.log('pop',arraypos,arrayneg,trainingoutputs)
-
-  feedforward();
-
- //where the input collides with the generated thought/function/or weight. This is where the result is determined.
-function feedforward () {
-// posnum+=1;
-  // console.log('tho9', weights)
-    for (var i = 0; i < weights.length; i++) {
-      sum = inputs[i]*weights[i];//if no +  i had sum+=1
-      //console.log('tho9', inputs[i], 'tho9', weights[i],'sum', sum)
-//console.log(massivesum.length)
-
-finalsum=sum;
-
-if (sum > 0) {
- 
-  output='output is 1';
-var randy;
-  //var array=[1, 2, 3, 4,5,6];
-var randy= arraypos[Math.floor(Math.random()*arraypos.length)];
-remembermultiplier.push(randy);
-
-  //console.log('wow', sum, inputs[i], weights[i], 'randy',randy)
-randy=posnum;
-//console.log('randy',posnum)
-  var kid=randy;
-  if (multivariable==1) {
-    kid=randy;
-  }
-
-   massivesum.push(kid);
-   //console.log('result', output);
-}
-
-
-if (sum< 0) {
-   output='output is -1';
-
-
-  //var array=[-1, -2, -3, -4,-5,-6];
-var randy;
- var randy= arrayneg[Math.floor(Math.random()*arrayneg.length)];
-//randy=inputs[i]*-1
-randy=posnum*-1;
-//console.log('randy',randy)
-  var kid=randy;
-    if (multivariable==1) {
-    kid=randy;
-  }
-  //console.log('randy',kid)
-massivesum.push(kid);
-//console.log('result', output);
-}
-select=0;
-dontchangeweight=0; 
-
-
-
-
-         // massivesum.push(sum);
-
-    }
-
-    // var randominput = inputs[Math.floor(Math.random()*inputs.length)];
-    // var randomweight = weights[Math.floor(Math.random()*weights.length)];
-// console.log('guesses', massivesum)
-// console.log('desired', trainingoutputs)
-
-	train();
-
-
-    //sum=0; 
-    // console.log('randominput', randominput)
-    //   console.log('randomweight', randomweight)
-    //sum += randominput*randomweight;
-
-        //return activate(sum);
-}
-
-
-
-
-
-
-
-///training 
-
-
-
-
-
-//you train the Results here. If the results are wrong you have to re－adjust the weights/function/thought. After the training phase, the ai gives you new results and then I can tell the Ai to save the function that gave it the right answer. If the ai is wrong, it has to adjust the function and go through the training stage again. This flow is repeated infinitely until the ai gets it right. everytime it goes through the training stage the function that the ai creates should be a better version. We do not want to simply have the ai create through randomization, as learning time is unpredictable because it is based on chance. -Matthew Xiu Quaine _马修金
-
-
-function train () {
-var learningrate = 0.09;
- //totalerror=[];
-  //console.log('massive',massivesum.length)
-  if (shortcutsum.length>1) {
-var lastsum=shortcutsum[shortcutsum.length-1];
-}
-var activate=0;
-if (lastsum==finalsum) {
-  //console.log('STOP HERE ASAP', lastsum,finalsum)
-activate=1;
-}
-  for(var m = 0; m<massivesum.length; m++) {//
-var guess = massivesum[m];
-var desired = trainingoutputs[m];
-
-//if (activate==1) {
-// desired=0;
-// guess=0;
-
-var error = desired - guess;
-error = parseFloat(error);
-if (error==0) {
-  var inp=0;
-  for(var i=0; i<totalerror.length;i++) {
-var hol =totalerror[i];
-if (hol==0) {
-  inp++;
-}
-  }
-  var outcome = inp/totalerror.length;
-  outcome=outcome*100
-  console.log('Lucio', outcome)
-  //errorpercent=errorpercent-1;
-  errorpercent=100;
-  errorpercent=errorpercent-outcome;
-   visualalgo5.innerHTML = ''+errorpercent+'%';
-  shortcutsum.push(finalsum);
-  lucioarray.push(error)
-  if (lucioarray.length==500|| lucioarray.length==1000|| lucioarray.length==2000) {
- //console.log('Lucio', totalerror)
-}
-
-  yellow=1;
- var element3 = document.getElementById('img3');
-            element3.style.opacity = "1.0";
-test();  //animation
-}
-if (totalerror.length<inputs.length) {
-totalerror.push(error);
-}
-if (totalerror.length==weights.length) {
-	var index = totalerror[m];
-
-var nono=0;
-index=parseInt(index)
-if (index==0) {
-	
-	nono=1;
-	}
-
-	if (nono==0) {
-		//console.log(index)
-		totalerror[m] = error;
-	}
-   
-}
-
-
-
- // for (var i = 0; i < weights.length; i++) {
- //    weights[i] += learningrate * error * inputs[i];//massivesum
- //  }
-
-  }//
-  //console.log('total error', totalerror)
-   if (lucioarray.length==500 || lucioarray.length==1000|| lucioarray.length==2000) {
-  //console.log('total error', totalerror)
-}
-   //console.log('total error', totalerror)//'length',weights.length
-
-  // //if error is zero, don't adjust the weight
-  //  console.log('adjusted weights', weights)
-
-   //feedforward();
-
-     var checkItem = totalerror[0];
-     //check when total error = 0;
-     var countup=0;
-//      		var p=totalerror[i];
-// 	if (p==0||p==1||p==2||p==3) {
-// countup+=1
-// 	}
-// if (countup==totalerror.length) {
-// 	isSame=1;
-// 	break;
-// }
-var isSame = 0;
-for (var i = 0; i < totalerror.length; i++) {
-
-
-isSame=1;
-  if (totalerror[i] != checkItem) {
-    isSame = 0;
-    break;
-  }
-
-
-}
-// return isSame;
-if (isSame==1) {
-  console.log('finish')
-  stopanimation=1;
-  test();
- var vava = document.getElementById('inputbaby').value;
- var finalvava=parseInt(vava);
- console.log('finalvava',finalvava)
-inputQ=finalvava;//47对   100-129  wrong 30000- midpoint calculations
-
-  setTimeout(predict,1000)
-}
-
-if (isSame==0) {
-  setTimeout(dontchange,1000)
-
-}
-
-
-}
-
-var checknummy;
-
-function dontchange () {
-//   console.log('what',originalweights)
-// weights=originalweights;
-//console.log('what222',weights)
-var newweights=[];
-//console.log(totalerror)
-
- for (var i = 0; i < totalerror.length; i++) {
-var dd=0;
-//console.log('bott',weights.length)
-  var st=totalerror[i];
-  //var st2=weights[i];
-  var st3=weights[i];
-  // if (newweights.length>1) {
-  //   st2=newweights[i];
-  //   console.log('ryu', st2)
-  // }
-  //st=parseInt(st)
-//console.log('ss5',st)
-
-//console.log('pop', st, st3)
-  if (st=='0'||st==0) {
-
-  	//console.log('pop2',remembermultiplier)
-  	dontchangeweight=1;
-  	secretindex.push(st)
-  	//console.log('pop3',secretindex)
-
-dd=1;
-// yellow=1;
-// 	var element3 = document.getElementById('img3');
-//             element3.style.opacity = "1.0";
-// test();
-    //console.log('dont change weight', st3)
-newweights.push(st3)//get original weight because not wrong
-
-  }
-  if (dd==0) {
-  	//console.log('pop3')
-  	red=1;
-  	test();
-  //console.log('change weight')
-   var pt;
-   if (secretweight.length==1) {
-    pt=secretweight[0];
-   }
-  if (secretweight.length>1) {
-     pt = secretweight[secretweight.length - 1];
-  }
-  
-st2 =Math.random(Math.random() * -1 + 1);   //if i put -1 it is a bias//-1
-
-if (select==0) {
-   //var checknummy;
-  
-  if (checkright.length>=1) {
-   //checknummy=checkright[checkright.length - 1];
-
-  }
-   
-   if (posnum==checknummy) {
-    var randy= trainingoutputs[Math.floor(Math.random()*trainingoutputs.length)];
-  posnum+=randy;
- }
-      if (posnum ==trainingoutputs.length) {
-        var randy= trainingoutputs[Math.floor(Math.random()*trainingoutputs.length)];
-    posnum=posnum-randy;
-  }
-
-    if (posnum >trainingoutputs.length) {
-      var randy= trainingoutputs[Math.floor(Math.random()*trainingoutputs.length)];
-    posnum=trainingoutputs.length
-      posnum=posnum-randy;
-  }
-
-  //console.log('laugh', checknummy, posnum)
-checknummy=posnum;
-  //checkright.push(posnum);
-  select=1;
-}
-var changeweight = pt-st2;
-var finalweight=Math.abs(changeweight);
-
-//console.log('that cookie',finalweight)
-if (finalweight<=0.1) {
-  st2=st2-0.5;
-  if (checkmyweight.length>=1) {
-  var myweight= checkmyweight[checkmyweight.length-1];
-var checkzhong= Math.abs(pt - myweight);
-
-// if (checkzhong<=0.5) {
-//   st2=st2-1.615;
-//   console.log('super edit',st)
-// }
-
+console.log(finalString)
   
 
 }
-
-  //console.log('that brownie',st2)
+document.getElementById('input').value=finalString;
+saveme();
+//messageArray=[];
 }
-//st2 =calculateall
+//
 
-checkmyweight.push(finalweight);
+function saveme () {
+  var msg2 =msg
+       var ref=database.ref(msg2);
 
-secretweight.push(st2);
-  newweights.push(st2)
+ref.set(finalString);
 }
-
- }
-
-
-secretindex=[]
-remembermultiplier=[];
-
-
-  weights=[];
- weights=newweights;
-
-
-///newweights=[];
- sum=0;
- //totalerror=[];
- massivesum=[];
-
-
-  //console.log('corrected weights',weights)
-
-  
- feedforward();
-   
-
-     //setTimeout(train,5000)
-  
-
-
-}
-
-
-function predict () {
-  var differencearray=[];
-for(var i=0; i<inputs.length; i++) {
-    var int=inputs[i];
-   var num1 = inputQ-int;
-   var num2 =Math.abs(num1);
-   differencearray.push(num2);
-
-
-
-}
-  
-      Array.min = function( array ){
-    return Math.min.apply( Math, array );
-};
-  differencearray=differencearray.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
-  console.log(differencearray)
-
-var minimum = Array.min(differencearray);
-
-
-console.log(minimum)
-
-var index= differencearray.indexOf(minimum);
-
-var orgininput=inputs[index];//input
-
-var thatweight = weights[index];
-
-console.log(weights);
-console.log(totalerror)
-
-//index=index+1;
-var result= inputQ*thatweight;
-var thatanwser=trainingoutputs[index];
-
-//dui de answer
-console.log(orgininput,thatanwser)
-
-
-//result=Math.log(result);
-//result=Math.sqrt(result)
-
-result=Math.abs(result);
-console.log('result',result, thatweight, inputQ)
-var outtde= Math.round(result);
-
-
-
-var eq = outtde;
-
-var eq2 = eq*thatweight
-
-var redd= Math.round(eq2);
-
-var finalfinal=Math.abs(result-thatweight);//index-redd
-
-finalfinal=Math.round(finalfinal)
-finalfinal=finalfinal-1;
-console.log(eq, eq2,redd,finalfinal)
-
-
-var check=realoutputs[index]//index
-console.log('tasha',check,realoutputs)
-var yaoshi=document.getElementById('columnbaby').value;
-var output = check+"  "+"<equals>"+" "+yaoshi;
-output=result;
-document.getElementById("textarea").value=output;
-
-// if (multivariable==0) {
-// if (result>0) {
-//   console.log('1');
-//   var check=realoutputs[0]
-// document.getElementById("textarea").value=check
-// }
-
-// if (result<0) {
-//   console.log('-1');
-//   var check=realoutputs[1]
-// document.getElementById("textarea").value=check
-// }
-
-// }
-
-
-
-
-// multivariable=0;
-// //}
-
-// // result=result-1;
-
-// if (multivariable==1) {
-//  var needtolearn=0; 
-
-// if (result==thatanwser) {
-
-// 	needtolearn=1; 
-// }
-
-// if (needtolearn==0) {
-
-// var dd = orgininput-inputQ;
-// dd = Math.pow(dd, 2);
-
-// var final = thatanwser/inputQ;
-// console.log(dd, thatweight, final)
-// result=final*inputQ;
-
-// //change weight
-// console.log('before',weights[index]);
-//  weights[index]=final;
-// console.log('after',weights[index]);
-//  //inputQ=81;
-//    //setTimeout(predict,3000)
-
-// }
-// // if (result<=1) {
-
-// // console.log('final answer = 1')
-// // var check=realoutputs[0]
-// // document.getElementById("textarea").value=check
-  
-// // }
-
-// // if (result>1 && result<=2) {
-// // 	console.log('final answer = 2')
-// // var check=realoutputs[1]
-// // document.getElementById("textarea").value=check
-// // }
-
-// // if (result>2 && result<=3) {
-// // console.log('final answer = 3')
-// // var check=realoutputs[2]
-// // document.getElementById("textarea").value=check
-// // }
-
-
-// // if (result>3 && result<=4) {
-// // console.log('final answer = 4')
-// // var check=realoutputs[3]
-// // document.getElementById("textarea").value=check
-// // }
-
-// // if (result>4 && result<=5) {
-// // console.log('final answer = 5')
-// // var check=realoutputs[4]
-// // document.getElementById("textarea").value=check
-// // }
-
-// // if (result>=6) {
-// // console.log('final answer = 6')
-// // var check=realoutputs[5]
-// // document.getElementById("textarea").value=check
-// // }
-
-
-
-// }
-}
-
-
-// }
-document.getElementById("textarea").value="Your API Key:AIzaSyBA1zN9fWE8BY1nisk65Te77KGwfwZeDR0"
-
-//console.log("Your API Key:AIzaSyBA1zN9fWE8BY1nisk65Te77KGwfwZeDR0"
-
-}// neural network
 
 
 </script>
 
-</html>
+
+
+
+</html> 
