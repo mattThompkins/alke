@@ -1,310 +1,636 @@
 <!DOCTYPE html>
 <html>
-   <meta charset="UTF-8">
-
+<meta charset="UTF-8">
+<head>
+<title>观念字</title>
+</head>
 
 <body>
-<input type="text" id="userinput" placeholder="请告诉Chatbot你需要什么帮助。" size = "300";  >
-<!-- <input type="text" id="aioutput" placeholder="我迫不及待帮你。" size = "300";  > -->
 
-<div class="sun">
-    <div class="ray_box">
-        <div class="ray ray1"></div>
-        <div class="ray ray2"></div>
-        <div class="ray ray3"></div>
-        <div class="ray ray4"></div>
-        <div class="ray ray5"></div>
-        <div class="ray ray6"></div>
-        <div class="ray ray7"></div>
-        <div class="ray ray8"></div>
-        <div class="ray ray9"></div>
-        <div class="ray ray10"></div>
-    </div>
-</div>
-<ol class="progtrckr" data-progtrckr-steps="5" hidden="yes">
-    <li class="progtrckr-done">订单处理</li><!--
- --><li class="progtrckr-done">城市：南京</li><!--
- --><li class="progtrckr-done">订单证明</li><!--
- --><li class="progtrckr-todo">发货</li><!--
- --><li class="progtrckr-todo">收到</li>
-</ol>
 </body>
+<button type="button" id="learningbutton" onclick="beginlearning()">写对的答案</button>
+<button type="button" id="submitbutton" onclick="tijiao()">提交</button>
+<button type="button" id="submitbutton2" onclick="tijiao2()">提交人工建议的</button>
+ <input id="humanteach" placeholder="写对的答案" size="80" type="text" />
 
 
-<style type="text/css">
-/*body {
-  background:#FFFF ;
-}*/
-
-.sun { 
-  position: absolute;
-	top:0;
-	left:0;
-	right:0;
-	bottom:0;
-	margin: auto;  
-	width:70px;
-	height:70px;
-	border-radius:50%;	
-	background:white;
-	opacity:0.9;			
-	box-shadow: 0px 0px 40px 15px white;  
-}
-
-.ray_box {
-  position: absolute;
-  margin: auto;
-	top:0px;
-	left:0;
-	right:0;
-	bottom:0;	
-  width:70px;  
-  -webkit-animation: ray_anim 120s linear infinite;
-  animation: ray_anim 120s linear infinite;
-}
-.ray {  
-    background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
-		background: linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%); 
-    margin-left:10px;
-    border-radius:80% 80% 0 0;
-    position:absolute;
-    opacity:0.1;
-}
-
-.ray1 {    
-    height:170px;
-    width:30px;
-   -webkit-transform: rotate(180deg);
-    top:-175px;
-    left: 15px;
-}
-.ray2 {
-    height:100px;
-    width:8px;
-   -webkit-transform: rotate(220deg);
-    top:-90px;
-    left: 75px;
-}
-.ray3 {
-    height:170px;
-    width:50px;
-   -webkit-transform: rotate(250deg);
-    top:-80px;
-    left: 100px;
-}
-.ray4 {
-    height:120px;
-    width:14px;
-   -webkit-transform: rotate(305deg);
-    top:30px;
-    left: 100px;
-}
-.ray5 {
-    height:140px;
-    width:30px;
-   -webkit-transform: rotate(-15deg);
-    top:60px;
-    left: 40px;
-}
-.ray6 {
-    height:90px;
-    width:50px;
-   -webkit-transform: rotate(30deg);
-    top:60px;
-    left: -40px;
-}
-.ray7 {
-    height:180px;
-    width:10px;
-   -webkit-transform: rotate(70deg);
-    top:-35px;
-    left: -40px;
-}
-.ray8 {
-    height:120px;
-    width:30px;
-   -webkit-transform: rotate(100deg);
-    top:-45px;
-    left:-90px;
-}
-.ray9 {
-    height:80px;
-    width:10px;
-   -webkit-transform: rotate(120deg);
-    top:-65px;
-    left:-60px;
-}
-.ray10 {
-    height:190px;
-    width:23px;
-   -webkit-transform: rotate(150deg);
-    top:-185px;
-    left: -60px;
-}
-
-
-@-webkit-keyframes ray_anim { 
-		0% { -webkit-transform: rotate(0deg); transform: rotate(0deg);}    
-    100% { -webkit-transform: rotate(360deg); transform: rotate(360deg);}
-}
-
-/*
-tracking history*/
-ol.progtrckr {
-    margin: 0;
-    padding: 0;
-    list-style-type none;
-}
-
-ol.progtrckr li {
-    display: inline-block;
-    text-align: center;
-    line-height: 3.5em;
-}
-
-ol.progtrckr[data-progtrckr-steps="2"] li { width: 49%; }
-ol.progtrckr[data-progtrckr-steps="3"] li { width: 33%; }
-ol.progtrckr[data-progtrckr-steps="4"] li { width: 24%; }
-ol.progtrckr[data-progtrckr-steps="5"] li { width: 19%; }
-ol.progtrckr[data-progtrckr-steps="6"] li { width: 16%; }
-ol.progtrckr[data-progtrckr-steps="7"] li { width: 14%; }
-ol.progtrckr[data-progtrckr-steps="8"] li { width: 12%; }
-ol.progtrckr[data-progtrckr-steps="9"] li { width: 11%; }
-
-ol.progtrckr li.progtrckr-done {
-    color: black;
-    border-bottom: 4px solid #FF69B4;
-}
-ol.progtrckr li.progtrckr-todo {
-    color: silver; 
-    border-bottom: 4px solid silver;
-}
-
-ol.progtrckr li:after {
-    content: "\00a0\00a0";
-}
-ol.progtrckr li:before {
-    position: relative;
-    bottom: -2.5em;
-    float: left;
-    left: 50%;
-    line-height: 1em;
-}
-ol.progtrckr li.progtrckr-done:before {
-    content: "\2713";
-    color: white;
-    background-color: #FF69B4;
-    height: 2.2em;
-    width: 2.2em;
-    line-height: 2.2em;
-    border: none;
-    border-radius: 2.2em;
-}
-ol.progtrckr li.progtrckr-todo:before {
-    content: "\039F";
-    color: silver;
-    background-color: white;
-    font-size: 2.2em;
-    bottom: -1.2em;
-}
+  <input id="humanteach2" placeholder="写A.I.给的答案号码" size="20" type="text" />
+ <img src="microphone icon.png" id="miphone" width="30" height="30" onclick="imagepick()">
 
 
 
 
-/*positive part*/
-.confirm_selection {
-    -webkit-animation: glow .5s infinite alternate;
-}
+<!-- <script type="text/javascript" src="yapei.json"></script>  -->
 
-@-webkit-keyframes glow {
-    to {
-        text-shadow: 0 0 10px #1E90FF; 
-    }
-}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.0.4/d3.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script> 
 
+  <!-- <script type="text/javascript" src="static/js/read-csv.js"></script> -->
+    <input type="file" id="csvFileInput" onchange="handleFiles(this.files)"
+            accept=".txt" charset="UTF-8" >
 
+<!-- <script type="text/javascript" src="javascrip.js"></script> -->
+<!-- <canvas id="can" width="500" height="500"></canvas> -->
 
-/*neural part*/
-.confirm_selection2 {
-    -webkit-animation: glowneu .5s infinite alternate;
-}
+<input type="text" id="ask" size="50" placeholder="您有什么问题" onkeypress="return runScript(event)">
+   
 
-@-webkit-keyframes glowneu {
-    to {
-        text-shadow: 0 0 10px #7FFFD4; 
-    }
-}
-
-
-/*negative part*/
-.confirm_selection3 {
-    -webkit-animation: glowneg .5s infinite alternate;
-}
-
-@-webkit-keyframes glowneg {
-    to {
-        text-shadow: 0 0 10px #B22222; 
-    }
-}
-
-}
-</style>
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
-	//#7FFFD4 zhong  ,  #00FFFF positive,  #B22222 negative 
-//faq
-var emotionneuron='';
 
-//output emo sentences
-var negative =  document.body.appendChild(document.createElement('div'));
-var neutral =  document.body.appendChild(document.createElement('div'));
-var positive =  document.body.appendChild(document.createElement('div'));
-//output emo sentences
-var yonghu =  document.getElementById('userinput');
-   yonghu.style.position="absolute";
-   yonghu.style.left = 10+'px';
-   yonghu.style.top = 550+'px';
+  var config = {
+    apiKey: "AIzaSyBzoGXjJy2mnSc24f_gIcGu-drC3jJoLE4",
+    authDomain: "blcok-d1c5f.firebaseapp.com",
+    databaseURL: "https://blcok-d1c5f.firebaseio.com",
+    projectId: "blcok-d1c5f",
+    storageBucket: "blcok-d1c5f.appspot.com",
+    messagingSenderId: "680002878921"
+  };
+  firebase.initializeApp(config);
 
-//trigger the emotion
-$(document).keypress(function (e) {
-    if (e.which == 13) {
-var checkuserinput = document.getElementById("userinput").value;
+//activate database
+  var database = firebase.database();
+var querydata='';
+var auset =0; 
 
-if (checkuserinput.length>=1) {
-	rules();
-	//qingxu();
+//query all data
+
+
+
+ var tupian =document.getElementById('miphone');
+tupian.style.position="absolute";
+  tupian.style.left = 360+'px';
+  tupian.style.top = 40+'px'; 
+
+
+
+
+
+
+
+
+
+function imagepick () {
+
+var recognizer = new webkitSpeechRecognition();
+recognizer.lang = "zh-CN";
+recognizer.onresult = function(event) {
+    if (event.results.length > 0) {
+        var result = event.results[event.results.length-1];
+        if(result.isFinal) {
+            console.log(result[0].transcript);
+            document.getElementById('ask').value= result[0].transcript;
+        }
+    }  
+};
+recognizer.start();
+
+
+  console.log('nhl')
 }
-else
-	alert("请告诉Chatbot你需要什么帮助。")
 
 
-        
+
+
+
+//query all data
+
+
+
+
+
+
+
+
+
+//excel
+
+function handleFiles(files) {
+      // Check for the various File API support.
+      if (window.FileReader) {
+          // FileReader are supported.
+          getAsText(files[0]);
+      } else {
+          alert('FileReader are not supported in this browser.');
+      }
     }
-});
 
-//trigger the emotion 结束
-
-
-
-
-
-
-
-
+    function getAsText(fileToRead) {
+      var reader = new FileReader();
+      // Read file into memory as UTF-8      
+      reader.readAsText(fileToRead);
+      // Handle errors load
+      reader.onload = loadHandler;
+      //reader.onerror = errorHandler;
+    }
 
 
-//emotion part
-var visualalgo=document.body.appendChild(document.createElement('div')); //displays output emotion
-var cumulativeEmotion=[]; //stores every emotion
+    function loadHandler(event) {
+      // var feels = d3.csv.parse(event.target.result)
+
+      var csv = event.target.result;
+      processData(csv);
+
+//       d3.csv(csv, function(rows) {
+  //console.log(csv)
+// }); delete that
+
+    }
+
+    var takeKeyonce=0;
+    var actualKey=[];
+
+var numberofvalues=[];
+var answerpop=[];
+var questionpop=[];
+var carry;
+    function processData(csv) {
+     var feels = d3.csv.parse(csv)
+
+carry=feels[0];
+var gh = carry.question;
+var ah = carry.answer;
+
+for (var key in feels){
+
+  console.log( key, feels[key]);
+
+  numberofvalues.push(feels[key])
+
+}
+
+//console.log(gh,ah)
+for(var i=0; i<numberofvalues.length;i++) {
+
+var first = numberofvalues[i];
+
+
+first = JSON.stringify(first);
+
+var checkin = first.indexOf(':')
+first= first.slice(checkin, first.length);
+
+
+
+
+
+console.log('wtf', first)
+  answerpop.push(first);
+  questionpop.push(numberofvalues[i].question);
+}
+
+
+
+
+console.log('ethipian', numberofvalues[0],numberofvalues[1])
+
+
+console.log(answerpop,questionpop)
+}
+
+//
+
+
+///sound
+
+
+
+
+//sound
+
+//localStorage.clear();
+
+// var learningbutton = document.body.appendChild(document.createElement('div'));
+ var learn =document.getElementById('learningbutton');
+learn.style.position="absolute";
+  learn.style.left = 700+'px';
+  learn.style.top = 250+'px'; 
+   learn.style.bordercolor='black'; 
+    learn.style.visibility='hidden';
+
+
+ var submit =document.getElementById('submitbutton');
+submit.style.position="absolute";
+  submit.style.left = 780+'px';
+  submit.style.top = 150+'px'; 
+   submit.style.bordercolor='black'; 
+    submit.style.visibility='hidden';
+
+
+    var learningbox =document.getElementById('humanteach');
+learningbox.style.position="absolute";
+  learningbox.style.left = 800+'px';
+  learningbox.style.top = 250+'px'; 
+   learningbox.style.bordercolor='black'; 
+ learningbox.style.visibility='hidden';
+
+
+
+     var learningbox2 =document.getElementById('humanteach2');
+learningbox2.style.position="absolute";
+  learningbox2.style.left = 800+'px';
+  learningbox2.style.top = 280+'px'; 
+   learningbox2.style.bordercolor='black'; 
+ learningbox2.style.visibility='hidden';
+
+  var submit2 =document.getElementById('submitbutton2');
+submit2.style.position="absolute";
+  submit2.style.left = 780+'px';
+  submit2.style.top = 180+'px'; 
+   submit2.style.bordercolor='black'; 
+    submit2.style.visibility='hidden';
+
+
+
+function beginlearning () {
+ learningbox.style.visibility='visible';
+  learningbox2.style.visibility='visible';
+ submit.style.visibility='visible';
+  submit2.style.visibility='visible';
+
+
+}
+
+
+
+   var masterAnswer;
+  var masterAnswer2;
+  var masterAnswer3;
+  var masterAnswer4;
+  var masterAnswer5;
+
+// var masterAnsQuestion1;
+//  var masterAnsQuestion2;
+//   var masterAnsQuestion3;
+//   var masterAnsQuestion4;
+//   var masterAnsQuestion5;
+
+
+
+//similar questions
+ var masterquestion1;
+   var masterquestion2;
+  var masterquestion3;
+  var masterquestion4;
+  var masterquestion5;
+
+  var ex1='1Q.)';
+  ex1=ex1.fontcolor("orange");
+   var ex2='2Q.)';
+   ex2=ex2.fontcolor("orange");
+    var ex3='3Q.)';
+    ex3=ex3.fontcolor("orange");
+     var ex4='4Q.)';
+     ex4=ex4.fontcolor("orange");
+      var ex5='5Q.)';
+      ex5=ex5.fontcolor("orange");
+
+
+var visualalgo = document.body.appendChild(document.createElement('div'));
 var posadj = new Array();//forcalculations
  posadj = [ "雄伟", "漂亮", "美丽", "方便", "了不起", "美女", "帅", "高兴", "心情", "激动", "笑", "爱情", "善良", "聪明", "帅哥", "香醇", "透明", "晶莹", "纯净", "典雅", "开朗", "舒适", "清澈", "颓废", "温柔", "惊艳", "淡漠", "淡定", "冷静", "端庄", "时尚", "快乐", "丰盈", "圆滑", "喜欢", "满意", "特别", "厉害", "爱", "好", "良好", "机会", "可能性多大", "礼物", "得好", "尊敬", "激动人心", "感谢", "机会", "信心", "正轨", "鼓励", "支持", "不错", "不错", "运气", "酷炫", "松一口气", "公平", "恻隐", "谢谢", "帮助", "非常理解", "奉献", "无私的", "奖赏", "光辉", "友谊", "壮阔", "放松", "对此略为敏感", "紧张", "紧张", "愉", "保护", "尊敬", "♥", "😄", "😎", "😺", "😸", "😃", "😀", "😆", "☺️", "😊", "😇", "😍", "😘", "😚", "😋", "❤️", "热心", "好人", "出色", "受益", "感到自豪", "聪明", "赢", "乐", "美好", "好吃", "公平", "舒服", "平静", "英雄", "有趣", "对待", "持续", "正确", "治疗", "荣誉", "皆醉我独醒", "利益", "正",  "伟", "美", "幽默", "伟大", "坚持", "赞", "魔性", "清流", "说的👍", "大快人心", "真相了", "真相了", "经济实力", "前提有一定的经济实力", "👏", "超级", "超级棒", "很棒", "很棒", "非常棒", "耿直", "心静", "很亮", "加油", "开心", "身体健康", "积极", "敬佩", "佩服", "天赋", "天赋异禀", "有才", "楼主奶奶这也太牛了吧！大赞！期待下文！好奇问下楼主可是我大南通人", "233333", "666", "平安", "瑕疵", "棒棒", "欣欣向荣", "登高望远", "锦绣前程", "朴素大方", "壮志凌云", "志存高远", "大展身手", "礼貌", "彬彬有礼", "精力充沛", "文质彬彬", "举止庄重", "体魄健壮", "胸怀大志", "任劳任怨", "任劳任怨", "没有礼貌", "腐败", "的好", "作弊", "搞怪", "好交情", "十分", "改善", "改善", "好转", "感到自豪", "扩张", "赢得", "我会受益", "受益", "我喜欢", "很好", "完美的", "热心", "我想你", "我按时", "有趣", "赞同", "最好的", "平等", "了解", "明白我", "好主意", "祝贺", "我们接受", "我接受", "爱哟", "尊重" ];
 var negadj = new Array();//for calculations
 negadj =[ "紧张", "忧虑", "愤怒", "害怕", "野蛮", "隐晦", "阴霾", "恐龙", "伤心", "生气", "伪装", "杀", "我靠", "我操", "傻逼", "哭泣", "哭粗", "笨", "很差", "丑", "沮丧", "郁闷", "悲伤", "悲", "伤害", "吵架", "打架", "讨厌", "艰难", "不好", "帮派成员", "不好", "不好", "迟到", "伤者", "伤", "死", "急", "枪了", "打你", "严重", "事故", "惊吓", "枪击受害者", "受害者", "受害", "死亡", "擦伤", "危险", "射杀", "凶犯", "嫌犯", "破事", "我还没找到", "身亡", "还要", "订单还没", "生你气", "暴怒", "惹人厌", "烦", "颠覆", "诋毁", "吵架", "吵哭", "疾病", "勒瘫", "太坏", "紧张", "搞砸", "损害", "惩罚", "抱怨", "抢走", "牢骚", "可怜", "闭嘴", "争执", "吵闹", "侵蚀", "差劲", "囚牢房", "疼", "累", "紧张", "难", "hate", "😞", "😔", "😟", "😣", "😖", "😫", "😩", "😤", "😠", "😡", "😱", "😨", "😰", "😢", "😥", "😭", "😓", "💔", "仙人板板", "奶奶的腿的", "你冷酷你无情你无理取闹", "遗憾", "挣扎", "恶心", "恶心", "争议", "失去了", "可怕", "粗鲁", "疑问", "打破", "懒", "害怕", "批评", "很差", "悲惨", "愚蠢", "重复了一个错误", "失败", "无法处理", "压力", "被撕破", "撕破", "降级", "孤独", "哭泣", "太久", "病", "生病", "骗", "崩溃", "复杂", "沮丧","恐慌", "饿死", "糟", "讨厌", "太多", "偷了", "罪", "犯", "指控", "犯罪", "恨", "劣势", "莫名其妙", "不爱", "我不爱", "皆醉", "厌恶", "戾气", "浪费", "不舒服", "监", "狱", "不减", "哭", "怀念", "强迫", "怕", "我怕", "我怕", "我想不", "斗争", "很吵", "毒", "没法接受", "很贵的", "超不", "什么鬼", "太恐怖", "恐怖", "这么差", "好生气", "不懂", "疯", "骂", "担心", "消极", "闷骚", "消灭", "泯灭", "嫉妒", "嫉妒", "嫉妒", "坏运气", "说不清", "混蛋", "体罚", "罚款", "很惨", "很惨", "跑题了", "运气差", "理解的狭隘了", "霸气", "瑕疵", "不正确", "冷漠", "无动于衷", "疲乏", "劳累", "无生气", "无礼", "被激怒", "困惑", "不快", "不愉快的", "烦闷", "难受", "难受", "压抑", "郁闷", "沉郁", "阴郁", "抑郁寡欢", "惭愧", "丢脸", "丢人", "亏心", "愧疚", "难堪", "沮丧", "没有好", "很臭", "腐败", "分手", "离婚", "无知", "拉肚子", "没有意义的", "没有意义", "他妈的", "他妈的", "作弊牟取", "作弊", "感染", "无情", "亡", "失去", "后悔", "失望", "我很忙", "我忙", "我看不", "我很痛", "很痛", "痛", "太贵", "很贵", "被撕破", "不满意", "我不", "很弱", "太弱", "虐待", "不准时", "我必须批评你", "我放弃", "我无", "丑陋", "傻", "我不", "太小", "谎", "太严格", "太冷", "很冷", "我不懂", "忽视", "疑虑", "感冒", "堵车", "太慢" ];
+
 var negcounter = ["不"];
 var neutralcounter =["太","非常","很"];
 
 
+  var nounhanzi =["成分","奶粉","乳制品","牛奶","牛","奶油","营养","粉状","巴氏杀菌","茢","婴儿","百分","母乳喂养","低脂","宝宝","宝贝","童年","乳糖","复合","雅培","味道","口味","身体","健康","美素","配方","宝宝配方","问题","雅培喜康宝","牛栏奶粉","雅培亲护", "雅培菁智","奶","燕窝","炖开"];
+var answerArray=[];
+var questionArray=[];
+
+
+
+// var array1 =["a","b","c"];
+// var array2=["e","d","b"]
+
+// var check = array1.filter((n) => array2.includes(n)); 
+
+// console.log(check.length);
+
+  var similarquestions = document.body.appendChild(document.createElement('div14'));
+   var matchedquestions = document.body.appendChild(document.createElement('div17'));
+  var title= document.body.appendChild(document.createElement('div15'));
+//ask question
+   var visualalgo5 = document.body.appendChild(document.createElement('div6'));
+
+
+  visualalgo5.style.position="absolute";
+  visualalgo5.style.left = 400+'px';
+  visualalgo5.style.top = 20+'px'; 
+   visualalgo5.style.color='red'; 
+  visualalgo5.innerHTML = '请关于雅培产品问我们一个问题';
+
+  //user question
+  var inquiry =document.getElementById('ask');
+inquiry.style.position="absolute";
+  inquiry.style.left = 400+'px';
+  inquiry.style.top = 50+'px'; 
+   inquiry.style.bordercolor='black'; 
+   //
+
+  //yi tu
+  var yitu = document.body.appendChild(document.createElement('div7'));
+
+ yitu.style.position="absolute";
+  yitu.style.left = 300+'px';
+  yitu.style.top = 100+'px'; 
+   yitu.style.color='red'; 
+ yitu.innerHTML = '意图是:';
+  //
+
+ 
+
+
+
+
+
+
+
+var saveIndex=0;
+var Mostof =[];
+var counter=0;
+var find =[];
+  var input;
+var plus=0;
+var keywordBank=[];
+var keywordindexes=[];
+ var Keyword;//gets main key word
+ var trueKeyword;
+ var clonekeyword;
+ var masterKeyword;
+
+var uniqueNames = [];
+var uniqueQuestions =[];
+function runScript(e) {
+    if (e.keyCode == 13) {
+      learn.style.visibility='visible';//学习
+  similarquestions.innerHTML = '';
+    matchedquestions.innerHTML = '';
+ title.innerHTML = '';
+        Mostof=[];
+      counter=0;
+      plus=0;
+var input  = document.getElementById('ask').value;
+
+///query
+
+var ref = database.ref(input)
+ref.on('value',gotData, errData);
+
+function gotData(data) {
+//console.log(data.val())
+var coordinates =data.val();
+querydata=coordinates;
+//console.log(coordinates)
+var keys = Object.keys(coordinates)
+console.log(coordinates, keys)
+
+for(var i=0; i<keys.length;i++) {
+
+  var p=keys[i];
+
+var shuju=coordinates[p]
+
+
+
+ 
+}
+
+ querydata=data.val();
+
+}
+function errData(err) {
+   console.log(err)
+}
+
+
+
+console.log('error is here bro')
+
+
+
+
+
+
+
+
+///query
+var collectindex ='';
+for(var i=0; i<input.length;++i){
+var cancel=0;
+      var com=input[i];
+      var com2 =input[i]+input[i+1];
+      var com3 =input[i]+input[i+1]+input[i+2];
+      var com4 =input[i]+input[i+1]+input[i+2]+input[i+3];
+     
+  
+    if (nounhanzi.indexOf(com4)> -1) {
+cancel=1;
+       collectindex=com4; 
+       keywordBank.push(collectindex);
+       keywordindexes.push(i);
+      }
+          if (nounhanzi.indexOf(com3)> -1 && cancel==0) {
+cancel=1;
+       collectindex=com3;
+       keywordBank.push(collectindex);
+       keywordindexes.push(i);
+      }
+
+         if (nounhanzi.indexOf(com2)> - 1 && cancel==0) {
+                 cancel=1;
+                 keywordindexes.push(i);
+       collectindex=com2; 
+        console.log('奶粉', com2)
+       keywordBank.push(collectindex);
+      }
+
+      if (nounhanzi.indexOf(com)> -1&& cancel==0) {
+        keywordindexes.push(i);
+cancel=1;
+      collectindex=com;
+      keywordBank.push(collectindex);
+
+      }
+
+    
+   
+       
+     
+      
+
+    }//for loop
+
+if (collectindex=='奶粉') {
+  collectindex='naifen'
+}
+    Keyword=collectindex+'.json'
+    console.log('the Keyword',Keyword)
+    //setTimeout(qax,1000)
+    //setTimeout(zhishiku,1000)
+    zhishiku();
+     //begin();
+    }//end of first if statement
+}//end of function
+
+
+var globaljson;
+
+
+//zhishiku();
+
+function zhishiku() {
+//        for (var i = 0; i < nounhanzi.length; i++) {
+//          Keyword =nounhanzi[i]
+var input  = document.getElementById('ask').value;
+var bigclue =0;
+var shenmeIndex;
+
+var saveindex=0;
+var saveindex2 =0;
+var spyarray=[];
+var betterKey=0;
+  //newStr.splice(ind,strr.length);
+   //trueKeyword= keywordBank.pop();
+
+  for(var i=0; i< input.length;i++) {
+    var fuck = input[i];
+    // if (beginadding==1) {
+    //   spyarray.push(fuck);
+    // }
+
+    if (fuck=='的') {
+saveindex2=i;
+}
+
+if (fuck=='么') {
+//beginadding=1;
+saveindex=i;
+}
+
+
+
+  }
+
+ var masterindex;
+
+ if (saveindex>saveindex2) {
+masterindex = saveindex;
+ }
+
+  if (saveindex2>saveindex) {
+masterindex = saveindex2;
+ }
+
+var beenhere=0;
+console.log('hjk', masterindex, keywordBank,keywordindexes)
+ for(var i=0; i<keywordBank.length;++i) {
+  var kite = keywordBank[i];
+  var realindex= keywordindexes[i];
+
+  //var indexbaby = input.indexOf(kite);
+
+var checkminus = realindex - masterindex;
+
+if (checkminus==2 || checkminus==1) {
+  beenhere=1;
+  trueKeyword=kite;
+betterKey=1;
+  console.log('trueKeyword', checkminus, kite, realindex)
+  break;
+}
+
+
+ }
+
+
+
+if (betterKey==0) {
+  console.log('no betterKey')
+  trueKeyword= keywordBank.pop();
+}
+
+
+
+         if (trueKeyword=='奶粉') {
+  //trueKeyword='naifen'
+}
+
+         if (trueKeyword=='成分') {
+  //trueKeyword='成分1'
+}
+
+
+console.log('inside',trueKeyword)
+         Keyword=trueKeyword+'.json'
+       
+     console.log('the keeeeey',Keyword)
+$.getJSON(''+encodeURIComponent(Keyword)+'', 'utf8',function(json) {//成分.json
+     // this will show the info it in firebug console
+     if (json=='成分.json') {
+     console.log('wgh',json);
+   }
+     globaljson=json;
+    if (json.length>1) {
+      setTimeout(iteration,1000)
+    }
+});
+  //}
+
+
+}
+
+function iteration () {
+
+uniqueNames=[];
+uniqueQuestions=[];
+questionArray=[];
+answerArray=[];
+
+
+for(var i =0; i<globaljson.length;i++) {
+
+var phase1 = globaljson[i];
+
+
+questionArray.push(phase1.question);
+answerArray.push(phase1.answer);
+
+
+}//end of globaljson for loop
+
+if (questionArray.length==30690) {
+console.log('question',questionArray);
+console.log('answer',answerArray)
+}
+console.log('question',questionArray);
+console.log('answer',answerArray)
+
+$.each(answerArray, function(i, el){
+    if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+});
+
+$.each(questionArray, function(i, el){
+    if($.inArray(el, uniqueQuestions) === -1) uniqueQuestions.push(el);
+});
+
+
+ setTimeout(qax,1000)
+setTimeout(qingxu,2000)
+
+}//end of iteration function
+
+
+
+
+
+
+
+//emotion
 
 function qingxu () {
   var poshao =0;
@@ -314,7 +640,7 @@ var neuhao=0;
 var doublenegative=0;
 var budebu=0;
 var makepositive=0;
-  var inputs = document.getElementById("userinput").value;
+var inputs  = document.getElementById('ask').value;
 for(var z=0; z< negadj.length;z++) {
 var compare = negadj[z];
 
@@ -518,11 +844,6 @@ var negate=0;
 if (neghao>=1 && doublenegative==1) {
   makepositive=1;
 }
-if (inputs.indexOf('不好')>-1) {
-	makepositive=0;
-	neghao=12;
-	doublenegative=1;
-}
 
 if (neghao>=1 && doublenegative==2) {
   makepositive=0;
@@ -583,17 +904,15 @@ console.log('WHjjj', poshao, neghao, makepositive)
 }
  visualalgo.style.position="absolute";
  visualalgo.style.fontSize='60px';
-visualalgo.style.left = 800+'px';
+visualalgo.style.left = 400+'px';
   visualalgo.style.top = 180+'px';
    var array = ['turquoise','pink','orange','chartreuse','cyan'];
  var color =  array[Math.floor(Math.random()*array.length)];
 visualalgo.style.color = 'turquoise';
 
- visualalgo.innerHTML = '正面';//感情 = 
-  emotionneuron ='正面';
-negative.innerHTML='';
-neutral.innerHTML='';
-cumulativeEmotion.push('pos');
+  visualalgo.innerHTML = '正面';//感情 = 
+
+//cumulativeEmotion.push('pos');
   }
 
   if (inputs.length<5&&poshao==neghao) {
@@ -608,14 +927,11 @@ if (neghao>=poshao && neghao>=1 && negate==0 ||(doublenegative==1 && itsneutral=
    
        visualalgo.style.position="absolute";
 visualalgo.style.fontSize='60px';
-visualalgo.style.left = 800+'px';
+visualalgo.style.left = 400+'px';
   visualalgo.style.top = 180+'px';
-   visualalgo.style.color = '#FF6347';
+   visualalgo.style.color = 'red';
       visualalgo.innerHTML = '负面';//感情 =
-      positive.innerHTML='';
-      neutral.innerHTML='';
-      emotionneuron ='负面';
-      cumulativeEmotion.push('neg');
+      //cumulativeEmotion.push('neg');
   // document.getElementById("image").src="sadcloud.gif";
 }
 
@@ -627,119 +943,27 @@ if (((neuhao>poshao&&neuhao>neghao)) || itsneutral==1) {
  
        visualalgo.style.position="absolute";
 visualalgo.style.fontSize='60px';
-visualalgo.style.left = 800+'px';
+visualalgo.style.left = 400+'px';
   visualalgo.style.top = 180+'px';
 
-   visualalgo.style.color = '#90EE90';
+   visualalgo.style.color = 'lime';
       visualalgo.innerHTML = '中性';//感情 = 
-      negative.innerHTML='';
-       positive.innerHTML='';
-      //emotionneuron ='中性';
-      cumulativeEmotion.push('neu');
+     // cumulativeEmotion.push('neu');
   // document.getElementById("image").src="normalbot.gif";
 }
 }
 visualalgo.style.visibility ='visible';
 
+   var emotag = document.body.appendChild(document.createElement('div26'));
 
 
-}
-var paymentconfirm=0;
-var breakChain=0;
-function rules () {
-positive.innerHTML='';
-neutral.innerHTML='';
-negative.innerHTML='';
-visualalgo.innerHTML='';
-var posstring ='';
-var neustring ='';
-var negstring ='';
+emotag .style.position="absolute";
+emotag.style.left = 370+'px';
+ emotag.style.top = 180+'px'; 
+  emotag.style.color='red'; 
+  emotag.innerHTML = '情绪是';
 
 
-// document.getElementById("aioutput").value ='I am batman'
-var checkuserinput = document.getElementById("userinput").value;
-
-//suggestion, inquire about similac, ask about price, confirmation that user will buy, confirmation order, inquire how long it will take to deliver, would you like anything else, no thanks, no worries. 
-//case 1
-if (checkuserinput.indexOf('推荐')> -1||checkuserinput.indexOf('建议')> -1) {
-
-posstring='你好，看起来你很高兴，那就好，那我觉得我们的Similac雅培亲护对你的宝宝合适';
-neustring='您好，我建议Similac雅培亲护对你的宝宝合适';
-negstring='希望一切顺利，那我建议Similac雅培亲护。';
-
-
-}
-
-if (checkuserinput.indexOf('健康')> -1||checkuserinput.indexOf('身体好')> -1) {
-
-posstring='是的，这个产品对你身体好因为有很多维他命。';
-neustring='对，这个产品很健康的。';
-negstring='放心，我知道这个很重要，这个产品有好多维他命。';
-
-
-}
-
-//
-
-
-//case 2
-if (checkuserinput.indexOf('质量')> -1||checkuserinput.indexOf('产品在哪里制造')> -1) {
-
-posstring='谢谢你问我了，双倍草地覆盖率，野生三叶草养分更充足。';
-neustring='爱尔兰空气质量优异，PM10及PM2.5平均水平均明显低于中国';
-negstring='放心，我们的产品很安全的。乳牛幼崽足享牛初乳喂养，确保好体质';
-
-}
-
-
-
-//case 3
-if (checkuserinput.indexOf('多少钱')> -1||checkuserinput.indexOf('价格')> -1) {
-paymentconfirm=1;
-posstring='¥255.00。😃😃';
-neustring='¥255.00。';
-negstring='我明白，¥255.00。你肯定满意。如果不，您可以退款。 ';
-
-}
-
-//case 4
-if (paymentconfirm==1) {
-if (checkuserinput.indexOf('我买')> -1||checkuserinput.indexOf('我要')> -1) {
-
-posstring='好👌😃。请输入你的手机号码';
-neustring='请输入你的手机号码。';
-negstring='谢谢您的配合。请输入你的手机号码 ';
-paymentconfirm=0;
-}
-}
-
-//case 5
-
-if (checkuserinput.indexOf('12345678')> -1) {
-posstring='好成功了。';
-neustring='成功了。';
-negstring='谢谢您，好的。成功了。 ';
-
-}
-
-//case 6
-
-if (checkuserinput.indexOf('多长')> -1||checkuserinput.indexOf('什么时候')> -1) {
-
-posstring='好的我告诉你😎。如果今天你买的，需要 5工作日到。';
-neustring='好的。如果今天你买的，需要5工作日到。';
-negstring='我知道你很快需要Similac雅培亲护。这个对你的宝宝👶很重要。如果今天你买的，需要5工作日到。';
-$('.progtrckr').show();
-setTimeout(breakChainbaby,7000);
-}
-
-//case 7
-
-if (checkuserinput.indexOf('谢谢')> -1||checkuserinput.indexOf('你帮我很好')> -1||checkuserinput.indexOf('不需要')> -1) {
-
-posstring='谢谢，我很高兴我能帮你。😊😊😊';
-neustring='我很高兴我能帮您。';
-negstring='我许诺你下次更好帮助你。下次我服务会提高的。谢谢你的评论。';
 
 }
 
@@ -747,45 +971,385 @@ negstring='我许诺你下次更好帮助你。下次我服务会提高的。谢
 
 
 
-	 positive.style.position="absolute";
-  positive.style.left = 300+'px';
-  positive.style.top = 80+'px';
-   //positive.style.color = "#FFFFFF";
-  $(positive).addClass('confirm_selection');
-   positive.innerHTML = posstring;
+
+//emotion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function qax () {
+ //trueKeyword= keywordBank.pop();
+console.log('inside',trueKeyword, querydata)
+
+if (querydata!==null) {
+  auset=1; 
+}
+yitu.innerHTML='意图是:'+trueKeyword;
+
+ input  = document.getElementById('ask').value;
+var arrayinput = [];//input.split(",")
+var arrayquestion=[]; //= input.split(",")
+var questionOutput =[];
+var validity=[];
+var finalanswers=[];
+var saveindex=[];
+var finalFive =[];
+var secretquestions =[];
+var counyorigin=0;
+var couny=0;
+
+
+
+// var norepeat=[];
+// for(var i=0; i<questionArray.length;i++) {
+// var ans = questionArray[i];
+
+//   var cons = norepeat.includes(ans);
+//   if (counyorigin==5) {
+//     console.log(i)
+//     break;
+//   }
+// if (cons==true) {
+//   console.log('bro what the fuck')
+// }
+// if (ans.indexOf(trueKeyword)>-1) {
+//   norepeat.push(ans);
+// counyorigin++
+
+//   console.log('it is working',norepeat)
+//   if (counyorigin<=5) {    
+//     secretquestions.push(answer);
+//   }
+// }
+// }
+
+
+
+// console.log('secretquestions', secretquestions)
+
+
+
+
+
+// ///search answers
+// for(var i=0; i<questionArray.length;i++) {
+// var answer = questionArray[i];
+
+
+// if (answer.indexOf(trueKeyword)>-1) {
+// couny++
+
+//   //console.log('it is working',answer)
+//   if (couny<=5) {
+//     finalFive.push(answer);
+//     saveindex.push(i);
+//   }
+// }
+// }
+
+
+// for(var p=0; p<saveindex.length;p++) {
+
+//   var index = saveindex[p];
+//   var question = answerArray[index];
+//   finalanswers.push(question)
+// }
+
+
+//search answers
+
+
+
+
+ var daan = document.body.appendChild(document.createElement('div8'));
+
+ daan.style.position="absolute";
+  daan.style.left = 300+'px';
+  daan.style.top =280+'px'; 
+   daan.style.color='green'; 
+ daan.innerHTML = 'A.I. 回答建议是';
+
+
+  //5 answers
+ 
+console.log('answers', finalanswers,   'questions', finalFive)
+
+console.log(answerArray)
+var cloneAnswerArray= [];
+
+
+
+cloneAnswerArray=uniqueNames;
+questionArray=uniqueQuestions;
+console.log('quest', questionArray)
+
+ masterAnswer=cloneAnswerArray[Math.floor(Math.random()*cloneAnswerArray.length)];
+cloneAnswerArray.splice(cloneAnswerArray.indexOf(masterAnswer), 1);
+//console.log(cloneAnswerArray)
+
+  masterAnswer2=cloneAnswerArray[Math.floor(Math.random()*cloneAnswerArray.length)];
+//cloneAnswerArray=answerArray.filter(function(e) { return e !== masterAnswer2 })
+cloneAnswerArray.splice(cloneAnswerArray.indexOf(masterAnswer2), 1);
+  //console.log(cloneAnswerArray)
+
+  masterAnswer3=cloneAnswerArray[Math.floor(Math.random()*cloneAnswerArray.length)];
+  cloneAnswerArray.splice(cloneAnswerArray.indexOf(masterAnswer3), 1);
+// cloneAnswerArray=answerArray.filter(function(e) { return e !== masterAnswer3 })
+  //console.log(cloneAnswerArray)
+
+  masterAnswer4=cloneAnswerArray[Math.floor(Math.random()*cloneAnswerArray.length)];
+  cloneAnswerArray.splice(cloneAnswerArray.indexOf(masterAnswer4), 1);
+//cloneAnswerArray=answerArray.filter(function(e) { return e !== masterAnswer4 })
+ // console.log(cloneAnswerArray)
+
+  masterAnswer5=cloneAnswerArray[Math.floor(Math.random()*cloneAnswerArray.length)];
+  cloneAnswerArray.splice(cloneAnswerArray.indexOf(masterAnswer5), 1);
+//cloneAnswerArray=answerArray.filter(function(e) { return e !== masterAnswer5 })
+  //console.log(cloneAnswerArray)
+
+
+  //////question
+
+
+    masterquestion1=questionArray[answerArray.indexOf(masterAnswer)];
+ // answerArray.splice(index, 1);
+
+  masterquestion2=questionArray[answerArray.indexOf(masterAnswer2)];
+ // questionArray=questionArray.filter(function(e) { return e !== masterquestion2 })
+
+  masterquestion3=questionArray[answerArray.indexOf(masterAnswer3)];
+    //  questionArray=questionArray.filter(function(e) { return e !== masterquestion3 })
+
+  masterquestion4=questionArray[answerArray.indexOf(masterAnswer4)];
+     // questionArray=questionArray.filter(function(e) { return e !== masterquestion4 })
+
+  masterquestion5=questionArray[answerArray.indexOf(masterAnswer5)];
+      //questionArray=questionArray.filter(function(e) { return e !== masterquestion5 })
+
+
+  // masterAnswer=finalanswers[0];
+  // masterAnswer2=finalanswers[1];
+  // masterAnswer3=finalanswers[2];
+  // masterAnswer4=finalanswers[3];
+  // masterAnswer5=finalanswers[4];
+
+  // masterquestion1=finalFive[0];
+  // masterquestion2=finalFive[1];
+  // masterquestion3=finalFive[2];
+  // masterquestion4=finalFive[3];
+  // masterquestion5=finalFive[4];
+
+
+///
+
+
+visualalgo5.innerHTML='';
+
+  visualalgo5.style.position="absolute";
+  visualalgo5.style.left = 150+'px';
+  visualalgo5.style.top = 300+'px'; 
+   visualalgo5.style.color='blue'; 
+ console.log( masterquestion1, masterquestion2, masterquestion3, masterquestion4, masterquestion5)
+  masterquestion1= masterquestion1.fontcolor("orange");
+   masterquestion2= masterquestion2.fontcolor("orange");
+    masterquestion3= masterquestion3.fontcolor("orange");
+     masterquestion4= masterquestion4.fontcolor("orange");
+      masterquestion5= masterquestion5.fontcolor("orange");
+    
+
+
+if (auset==1) {
+  masterquestion1 = document.getElementById('ask').value;
+  masterquestion1 =masterquestion1.fontcolor("orange");
+  masterAnswer = posadj;
+}
+
+  visualalgo5.innerHTML = ''+ex1+''+masterquestion1+'' + "<br>"+ '1A.)'+masterAnswer+'' + "<br>"+ ''+ex2+''+masterquestion2+'' + "<br>"+ '2A.)'+masterAnswer2+'' + "<br>" + ''+ex3+''+masterquestion3+'' + "<br>"+ '3A.)'+masterAnswer3+'' + "<br>" + ''+ex4+''+masterquestion4+'' + "<br>"+ '4A.)'+masterAnswer4+'' + "<br>" + ''+ex5+''+masterquestion5+'' + "<br>"+ '5A.)'+masterAnswer5+'' + "<br>"
+
+
+//    var gl1 = document.body.appendChild(document.createElement('div9'));
+// gl1.style.position="absolute";
+//   gl1.style.left = 30+'px';
+//   gl1.style.top =300+'px'; 
+//    gl1.style.color='green'; 
+//  gl1.innerHTML = '概率 ＝％70';
+
+//   var gl2 = document.body.appendChild(document.createElement('div10'));
+// gl2.style.position="absolute";
+//   gl2.style.left = 30+'px';
+//   gl2.style.top =320+'px'; 
+//    gl2.style.color='green'; 
+//  gl2.innerHTML = '概率 ＝％15';
+
+//   var gl3 = document.body.appendChild(document.createElement('div11'));
+// gl3.style.position="absolute";
+//   gl3.style.left = 30+'px';
+//   gl3.style.top =345+'px'; 
+//    gl3.style.color='green'; 
+//  gl3.innerHTML = '概率 ＝％10';
+
+
+//    var gl4 = document.body.appendChild(document.createElement('div12'));
+// gl4.style.position="absolute";
+//   gl4.style.left = 30+'px';
+//   gl4.style.top =370+'px'; 
+//    gl4.style.color='green'; 
+//  gl4.innerHTML = '概率 ＝％3';
+
+
+//     var gl5 = document.body.appendChild(document.createElement('div13'));
+// gl5.style.position="absolute";
+//   gl5.style.left = 30+'px';
+//   gl5.style.top =390+'px'; 
+//    gl5.style.color='green'; 
+//  gl5.innerHTML = '概率 ＝％2';
+
+
+ //list similar questions
+
+similarquestions.style.position="absolute";
+  similarquestions.style.left = 720+'px';
+  similarquestions.style.top = 150+'px'; 
+   similarquestions.style.color='green'; 
+    var mq1=questionArray[Math.floor(Math.random()*questionArray.length)];
+   var mq2=questionArray[Math.floor(Math.random()*questionArray.length)];
+    var mq3=questionArray[Math.floor(Math.random()*questionArray.length)];
+    var mq4=questionArray[Math.floor(Math.random()*questionArray.length)];
+     var mq5=questionArray[Math.floor(Math.random()*questionArray.length)];
+// similarquestions.innerHTML = '1.)'+mq1+'' + "<br>"+ '2.)'+mq2+'' + "<br>"+ '3.)'+mq3+'' + "<br>"+ '4.)'+mq4+'' + "<br>"+ '5.)'+mq5+'';
+
+
+
+// matchedquestions.style.position="absolute";
+//   matchedquestions.style.left = 30+'px';
+//  matchedquestions.style.top =450+'px'; 
+//   matchedquestions.style.color='orange'; 
+//  matchedquestions.innerHTML = '1.)'+masterAnsQuestion1+'' + "<br>"+ '2.)'+masterAnsQuestion2+'' + "<br>"+ '3.)'+masterAnsQuestion3+'' + "<br>"+ '4.)'+masterAnsQuestion4+'' + "<br>"+ '5.)'+masterAnsQuestion5+'';
+ //question title
+
+title.style.position="absolute";
+  title.style.left = 720+'px';
+  title.style.top = 130+'px'; 
+  title.style.color='green'; 
+ //title.innerHTML = '相似的问题';
+
+
+
+//console.log(masterAnsQuestion1, masterAnsQuestion2, masterAnswer3)
+
+
+
+ //
+
+
+
+
+
+
+
+
+}//end of qax
+
+
+
+
+
+function tijiao () {
+  console.log('why nnot submit')
+var savevalue = document.getElementById('humanteach').value;
+var  val =document.getElementById('ask').value;
+
+masterAnswer=savevalue;
+masterquestion1 = val;
+masterquestion1 = masterquestion1.fontcolor('red')
+masterAnswer = masterAnswer.fontcolor('red')
+  visualalgo5.innerHTML = ''+ex1+''+masterquestion1+'' + "<br>"+ '1A.)'+masterAnswer+'' + "<br>"+ ''+ex2+''+masterquestion2+'' + "<br>"+ '2A.)'+masterAnswer2+'' + "<br>" + ''+ex3+''+masterquestion3+'' + "<br>"+ '3A.)'+masterAnswer3+'' + "<br>" + ''+ex4+''+masterquestion4+'' + "<br>"+ '4A.)'+masterAnswer4+'' + "<br>" + ''+ex5+''+masterquestion5+'' + "<br>"+ '5A.)'+masterAnswer5+'' + "<br>"
+ 
+var finalvalue = savevalue;
+     var matchedinput =val;
+       var ref=database.ref(matchedinput);
+
+ref.set(finalvalue);
+ 
+
+
+}
+
+
+
+function tijiao2 () {
+  console.log('why nnot submit')
+var savevalue = document.getElementById('humanteach2').value;
+var  val =document.getElementById('ask').value;
+
+var finalvalue;
+if (savevalue=='1') {
+masterquestion1.fontcolor('red')
+ console.log(masterquestion1)
+ masterAnswer.fontcolor('red')
+finalvalue=masterAnswer;
+}
+
+if (savevalue=='2') {
+  masterquestion2.fontcolor('red')
+masterAnswer2.fontcolor('red')
   
+  finalvalue=masterAnswer2;
+}
+if (savevalue=='3') {
+  masterquestion3.fontcolor('red')
+masterAnswer3.fontcolor('red')
+finalvalue=masterAnswer3;
+}
+if (savevalue=='4') {
+masterquestion4.fontcolor('red')
+masterAnswer4.fontcolor('red')
+finalvalue=masterAnswer4;
 
-	//document.getElementById("aioutput").value ='您好，我建议Similac雅培亲护对你的宝宝合适'
-	 neutral.style.position="absolute";
-  neutral.style.left = 300+'px';
-  neutral.style.top = 180+'px';
-  //neutral.style.color = "#FFFFFF";
-  $(neutral).addClass('confirm_selection2');
-   neutral.innerHTML = neustring;
-	//document.getElementById("aioutput").value ='希望一切顺利，那我建议Similac雅培亲护。'
-	negative.style.position="absolute";
-  negative.style.left = 300+'px';
-  negative.style.top = 280+'px';
-   //negative.style.color = "#FFFFFF";
-  $(negative).addClass('confirm_selection3');
-   negative.innerHTML = negstring;
+}
+if (savevalue=='5') {
+  masterquestion5.fontcolor('red')
+masterAnswer5.fontcolor('red')
+finalvalue=masterAnswer5;
+  
+}
 
 
-setTimeout(qingxu,3000)
 
+
+
+  visualalgo5.innerHTML = ''+ex1+''+masterquestion1+'' + "<br>"+ '1A.)'+masterAnswer+'' + "<br>"+ ''+ex2+''+masterquestion2+'' + "<br>"+ '2A.)'+masterAnswer2+'' + "<br>" + ''+ex3+''+masterquestion3+'' + "<br>"+ '3A.)'+masterAnswer3+'' + "<br>" + ''+ex4+''+masterquestion4+'' + "<br>"+ '4A.)'+masterAnswer4+'' + "<br>" + ''+ex5+''+masterquestion5+'' + "<br>"+ '5A.)'+masterAnswer5+'' + "<br>"
+ 
+//var finalvalue = savevalue;
+     var matchedinput =val;
+       var ref=database.ref(matchedinput);
+
+ref.set(finalvalue);
+ 
 
 
 }
 
-function breakChainbaby () {
-	visualalgo.innerHTML='';
-breakChain=0;
-	 neutral.style.position="absolute";
-  neutral.style.left = 300+'px';
-  neutral.style.top = 180+'px';
-  $('ol').hide();
-  $(neutral).addClass('confirm_selection2');
-   neutral.innerHTML = '我还可以帮你吗？';
-}
+
+
+
+
 </script>
+
 </html>
