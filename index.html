@@ -43,7 +43,7 @@
 	</div>
 
 
-
+<button id ="refresh" type="button0" onclick="newbuttonalpha()">刷新</button>
 
 <button id ="bm" class="link" type="button1" onclick="newbutton()">问题辅助</button>
 
@@ -76,6 +76,7 @@ var querydata='';
 var auset =0; 
 
 //global variable
+var guanjianci=[];
 var visualalgo = document.body.appendChild(document.createElement('div'));
 
 
@@ -193,6 +194,12 @@ mic.style.position="absolute";
 askbox.style.position="absolute";
   askbox.style.left = 160+'px';
   askbox.style.top = 155+'px'; 
+
+
+     var refresh =document.getElementById('refresh');
+refresh.style.position="absolute";
+  refresh.style.left = 725+'px';
+  refresh.style.top = 155+'px'; 
 
 
 
@@ -347,6 +354,7 @@ submit2.style.left = 980+'px';
 submit2.style.top =  780+'px';
 
 
+
 //new page
   function newbutton () {
 
@@ -468,7 +476,7 @@ var cancel=0;
       var com3 =input[i]+input[i+1]+input[i+2];
       var com4 =input[i]+input[i+1]+input[i+2]+input[i+3];
      
-  
+  console.log('mju',com,com2)
     if (nounhanzi.indexOf(com4)> -1) {
 cancel=1;
        collectindex=com4; 
@@ -486,13 +494,15 @@ cancel=1;
                  cancel=1;
                  keywordindexes.push(i);
        collectindex=com2; 
-        console.log('奶粉', com2)
+        console.log('奶粉 fyy', com2)
        keywordBank.push(collectindex);
+       console.log(keywordBank)
       }
 
       if (nounhanzi.indexOf(com)> -1&& cancel==0) {
         keywordindexes.push(i);
 cancel=1;
+  console.log('奶粉 fyy 2', com2)
       collectindex=com;
       keywordBank.push(collectindex);
 
@@ -506,6 +516,8 @@ cancel=1;
 
     }//for loop
 
+ console.log('final bank',keywordBank)
+ guanjianci=keywordBank;
 if (collectindex=='奶粉') {
   collectindex='naifen'
 }
@@ -991,10 +1003,64 @@ if (((neuhao>poshao&&neuhao>neghao)) || itsneutral==1) {
 //qax
 
 function qax () {
- //trueKeyword= keywordBank.pop();
+	 input  = document.getElementById('ask').value;
+	for(var i=0; i<input.length;++i){
+var cancel=0;
+      var com=input[i];
+      var com2 =input[i]+input[i+1];
+      var com3 =input[i]+input[i+1]+input[i+2];
+      var com4 =input[i]+input[i+1]+input[i+2]+input[i+3];
+     
+  console.log('mju',com,com2)
+    if (nounhanzi.indexOf(com4)> -1) {
+cancel=1;
+       collectindex=com4; 
+       keywordBank.push(collectindex);
+       keywordindexes.push(i);
+      }
+          if (nounhanzi.indexOf(com3)> -1 && cancel==0) {
+cancel=1;
+       collectindex=com3;
+       keywordBank.push(collectindex);
+       keywordindexes.push(i);
+      }
 
+         if (nounhanzi.indexOf(com2)> - 1 && cancel==0) {
+                 cancel=1;
+                 keywordindexes.push(i);
+       collectindex=com2; 
+        console.log('奶粉 fyy', com2)
+       keywordBank.push(collectindex);
+       console.log(keywordBank)
+      }
+
+      if (nounhanzi.indexOf(com)> -1&& cancel==0) {
+        keywordindexes.push(i);
+cancel=1;
+  console.log('奶粉 fyy 2', com2)
+      collectindex=com;
+      keywordBank.push(collectindex);
+
+      }
+
+    
+   
+       
+     
+      
+
+    }//for loop
+
+	console.log('ghy',keywordBank, guanjianci)
+ trueKeyword= keywordBank[0];
+
+if (keywordBank.length>1) {
   tin3.innerHTML  ='关键词:'+keywordBank+'';
+}
+if (keywordBank.length==1) {
+ tin3.innerHTML  ='关键词:'+trueKeyword+'';
 console.log('inside',trueKeyword, querydata)
+}
 
 if (querydata!==null) {
   auset=1; 
@@ -1177,6 +1243,27 @@ ref.set(finalvalue);
 
 }
 
+
+
+function newbuttonalpha () {
+
+document.getElementById('ask').value='';
+masterAnswer='';
+masterAnswer2='';
+masterAnswer3='';
+masterAnswer4='';
+masterAnswer5='';
+
+masterquestion1='';
+masterquestion2='';
+masterquestion3='';
+masterquestion4='';
+masterquestion5='';
+
+keywordBank=[];
+
+
+}
 
 
 
