@@ -1,46 +1,66 @@
+
 <!DOCTYPE html>
 <html>
 <meta charset="UTF-8">
 <head>
-<title>观念字</title>
+
 </head>
 
 <body>
-
+	
 </body>
-<button type="button" id="learningbutton" onclick="beginlearning()">写对的答案</button>
-<button type="button" id="submitbutton" onclick="tijiao()">提交</button>
-<button type="button" id="submitbutton2" onclick="tijiao2()">提交人工建议的</button>
+</html>
+
+<style type="text/css">
+	#wrapper {
+	background-color: red:
+}
+
+ button.link { background:none;border:none; }
+</style>
+
+<div id= "zhishikudiv" style="background-color:#344152;width:30px;height:2000px;border:1px solid black;padding:15px;">
+
+</div>
+
+<div id= "whiteborder1" style="background-color:#FFFFFF;width:150px;height:2000px;border:1px solid black;padding:15px;">
+	
+</div>
+
+<div id= "whiteborder2" style="background-color:#FFFFFF;width:1000px;height:2000px;border:1px solid black;padding:15px;">
+ <img src="openmic.png" id="mic" width="60" height="60" onclick="imagepick()">
+
+<input type="text" id="ask" size="50" width="100px" placeholder="您有什么问题?" onkeypress="return runScript(event)">
+
+ <input type="checkbox" id="ch1" value="1">
+ <input type="checkbox" id="ch2" value="2">
+ <input type="checkbox" id="ch3" value="3">
+ <input type="checkbox" id="ch4" value="4">
+ <input type="checkbox" id="ch5" value="5">
+
  <input id="humanteach" placeholder="写对的答案" size="80" type="text" />
 
-
-  <input id="humanteach2" placeholder="写A.I.给的答案号码" size="20" type="text" />
- <img src="microphone icon.png" id="miphone" width="30" height="30" onclick="imagepick()">
+	</div>
 
 
 
 
-<!-- <script type="text/javascript" src="yapei.json"></script>  -->
+<button id ="bm" class="link" type="button1" onclick="newbutton()">问题辅助</button>
+
+	<button id ="bm2" class="link" type="button2" onclick="newbutton2()">问题提交</button>
+<button type="button" id="submitbutton" onclick="tijiao()">提交</button>
+<button type="button" id="submitbutton2" onclick="tijiao2()">提交</button>
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<!-- <script src="https://d3js.org/d3.v4.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.0.4/d3.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script> 
 
-  <!-- <script type="text/javascript" src="static/js/read-csv.js"></script> -->
-    <input type="file" id="csvFileInput" onchange="handleFiles(this.files)"
-            accept=".txt" charset="UTF-8" >
 
-<!-- <script type="text/javascript" src="javascrip.js"></script> -->
-<!-- <canvas id="can" width="500" height="500"></canvas> -->
+<script>
 
-<input type="text" id="ask" size="50" placeholder="您有什么问题" onkeypress="return runScript(event)">
-   
-
-<script type="text/javascript">
-
-  var config = {
+	  var config = {
     apiKey: "AIzaSyBzoGXjJy2mnSc24f_gIcGu-drC3jJoLE4",
     authDomain: "blcok-d1c5f.firebaseapp.com",
     databaseURL: "https://blcok-d1c5f.firebaseio.com",
@@ -55,240 +75,12 @@
 var querydata='';
 var auset =0; 
 
-//query all data
-
-
-
- var tupian =document.getElementById('miphone');
-tupian.style.position="absolute";
-  tupian.style.left = 360+'px';
-  tupian.style.top = 40+'px'; 
-
-
-
-
-
-
-
-
-
-function imagepick () {
-
-var recognizer = new webkitSpeechRecognition();
-recognizer.lang = "zh-CN";
-recognizer.onresult = function(event) {
-    if (event.results.length > 0) {
-        var result = event.results[event.results.length-1];
-        if(result.isFinal) {
-            console.log(result[0].transcript);
-            document.getElementById('ask').value= result[0].transcript;
-        }
-    }  
-};
-recognizer.start();
-
-
-  console.log('nhl')
-}
-
-
-
-
-
-//query all data
-
-
-
-
-
-
-
-
-
-//excel
-
-function handleFiles(files) {
-      // Check for the various File API support.
-      if (window.FileReader) {
-          // FileReader are supported.
-          getAsText(files[0]);
-      } else {
-          alert('FileReader are not supported in this browser.');
-      }
-    }
-
-    function getAsText(fileToRead) {
-      var reader = new FileReader();
-      // Read file into memory as UTF-8      
-      reader.readAsText(fileToRead);
-      // Handle errors load
-      reader.onload = loadHandler;
-      //reader.onerror = errorHandler;
-    }
-
-
-    function loadHandler(event) {
-      // var feels = d3.csv.parse(event.target.result)
-
-      var csv = event.target.result;
-      processData(csv);
-
-//       d3.csv(csv, function(rows) {
-  //console.log(csv)
-// }); delete that
-
-    }
-
-    var takeKeyonce=0;
-    var actualKey=[];
-
-var numberofvalues=[];
-var answerpop=[];
-var questionpop=[];
-var carry;
-    function processData(csv) {
-     var feels = d3.csv.parse(csv)
-
-carry=feels[0];
-var gh = carry.question;
-var ah = carry.answer;
-
-for (var key in feels){
-
-  console.log( key, feels[key]);
-
-  numberofvalues.push(feels[key])
-
-}
-
-//console.log(gh,ah)
-for(var i=0; i<numberofvalues.length;i++) {
-
-var first = numberofvalues[i];
-
-
-first = JSON.stringify(first);
-
-var checkin = first.indexOf(':')
-first= first.slice(checkin, first.length);
-
-
-
-
-
-console.log('wtf', first)
-  answerpop.push(first);
-  questionpop.push(numberofvalues[i].question);
-}
-
-
-
-
-console.log('ethipian', numberofvalues[0],numberofvalues[1])
-
-
-console.log(answerpop,questionpop)
-}
-
-//
-
-
-///sound
-
-
-
-
-//sound
-
-//localStorage.clear();
-
-// var learningbutton = document.body.appendChild(document.createElement('div'));
- var learn =document.getElementById('learningbutton');
-learn.style.position="absolute";
-  learn.style.left = 700+'px';
-  learn.style.top = 250+'px'; 
-   learn.style.bordercolor='black'; 
-    learn.style.visibility='hidden';
-
-
- var submit =document.getElementById('submitbutton');
-submit.style.position="absolute";
-  submit.style.left = 780+'px';
-  submit.style.top = 150+'px'; 
-   submit.style.bordercolor='black'; 
-    submit.style.visibility='hidden';
-
-
-    var learningbox =document.getElementById('humanteach');
-learningbox.style.position="absolute";
-  learningbox.style.left = 800+'px';
-  learningbox.style.top = 250+'px'; 
-   learningbox.style.bordercolor='black'; 
- learningbox.style.visibility='hidden';
-
-
-
-     var learningbox2 =document.getElementById('humanteach2');
-learningbox2.style.position="absolute";
-  learningbox2.style.left = 800+'px';
-  learningbox2.style.top = 280+'px'; 
-   learningbox2.style.bordercolor='black'; 
- learningbox2.style.visibility='hidden';
-
-  var submit2 =document.getElementById('submitbutton2');
-submit2.style.position="absolute";
-  submit2.style.left = 780+'px';
-  submit2.style.top = 180+'px'; 
-   submit2.style.bordercolor='black'; 
-    submit2.style.visibility='hidden';
-
-
-
-function beginlearning () {
- learningbox.style.visibility='visible';
-  learningbox2.style.visibility='visible';
- submit.style.visibility='visible';
-  submit2.style.visibility='visible';
-
-
-}
-
-
-
-   var masterAnswer;
-  var masterAnswer2;
-  var masterAnswer3;
-  var masterAnswer4;
-  var masterAnswer5;
-
-// var masterAnsQuestion1;
-//  var masterAnsQuestion2;
-//   var masterAnsQuestion3;
-//   var masterAnsQuestion4;
-//   var masterAnsQuestion5;
-
-
-
-//similar questions
- var masterquestion1;
-   var masterquestion2;
-  var masterquestion3;
-  var masterquestion4;
-  var masterquestion5;
-
-  var ex1='1Q.)';
-  ex1=ex1.fontcolor("orange");
-   var ex2='2Q.)';
-   ex2=ex2.fontcolor("orange");
-    var ex3='3Q.)';
-    ex3=ex3.fontcolor("orange");
-     var ex4='4Q.)';
-     ex4=ex4.fontcolor("orange");
-      var ex5='5Q.)';
-      ex5=ex5.fontcolor("orange");
-
-
+//global variable
 var visualalgo = document.body.appendChild(document.createElement('div'));
+
+
+
+///emotion content
 var posadj = new Array();//forcalculations
  posadj = [ "雄伟", "漂亮", "美丽", "方便", "了不起", "美女", "帅", "高兴", "心情", "激动", "笑", "爱情", "善良", "聪明", "帅哥", "香醇", "透明", "晶莹", "纯净", "典雅", "开朗", "舒适", "清澈", "颓废", "温柔", "惊艳", "淡漠", "淡定", "冷静", "端庄", "时尚", "快乐", "丰盈", "圆滑", "喜欢", "满意", "特别", "厉害", "爱", "好", "良好", "机会", "可能性多大", "礼物", "得好", "尊敬", "激动人心", "感谢", "机会", "信心", "正轨", "鼓励", "支持", "不错", "不错", "运气", "酷炫", "松一口气", "公平", "恻隐", "谢谢", "帮助", "非常理解", "奉献", "无私的", "奖赏", "光辉", "友谊", "壮阔", "放松", "对此略为敏感", "紧张", "紧张", "愉", "保护", "尊敬", "♥", "😄", "😎", "😺", "😸", "😃", "😀", "😆", "☺️", "😊", "😇", "😍", "😘", "😚", "😋", "❤️", "热心", "好人", "出色", "受益", "感到自豪", "聪明", "赢", "乐", "美好", "好吃", "公平", "舒服", "平静", "英雄", "有趣", "对待", "持续", "正确", "治疗", "荣誉", "皆醉我独醒", "利益", "正",  "伟", "美", "幽默", "伟大", "坚持", "赞", "魔性", "清流", "说的👍", "大快人心", "真相了", "真相了", "经济实力", "前提有一定的经济实力", "👏", "超级", "超级棒", "很棒", "很棒", "非常棒", "耿直", "心静", "很亮", "加油", "开心", "身体健康", "积极", "敬佩", "佩服", "天赋", "天赋异禀", "有才", "楼主奶奶这也太牛了吧！大赞！期待下文！好奇问下楼主可是我大南通人", "233333", "666", "平安", "瑕疵", "棒棒", "欣欣向荣", "登高望远", "锦绣前程", "朴素大方", "壮志凌云", "志存高远", "大展身手", "礼貌", "彬彬有礼", "精力充沛", "文质彬彬", "举止庄重", "体魄健壮", "胸怀大志", "任劳任怨", "任劳任怨", "没有礼貌", "腐败", "的好", "作弊", "搞怪", "好交情", "十分", "改善", "改善", "好转", "感到自豪", "扩张", "赢得", "我会受益", "受益", "我喜欢", "很好", "完美的", "热心", "我想你", "我按时", "有趣", "赞同", "最好的", "平等", "了解", "明白我", "好主意", "祝贺", "我们接受", "我接受", "爱哟", "尊重" ];
 var negadj = new Array();//for calculations
@@ -302,53 +94,11 @@ var neutralcounter =["太","非常","很"];
 var answerArray=[];
 var questionArray=[];
 
-
-
-// var array1 =["a","b","c"];
-// var array2=["e","d","b"]
-
-// var check = array1.filter((n) => array2.includes(n)); 
-
-// console.log(check.length);
-
-  var similarquestions = document.body.appendChild(document.createElement('div14'));
-   var matchedquestions = document.body.appendChild(document.createElement('div17'));
-  var title= document.body.appendChild(document.createElement('div15'));
-//ask question
-   var visualalgo5 = document.body.appendChild(document.createElement('div6'));
-
-
-  visualalgo5.style.position="absolute";
-  visualalgo5.style.left = 400+'px';
-  visualalgo5.style.top = 20+'px'; 
-   visualalgo5.style.color='red'; 
-  visualalgo5.innerHTML = '请关于雅培产品问我们一个问题';
-
-  //user question
-  var inquiry =document.getElementById('ask');
-inquiry.style.position="absolute";
-  inquiry.style.left = 400+'px';
-  inquiry.style.top = 50+'px'; 
-   inquiry.style.bordercolor='black'; 
-   //
-
-  //yi tu
-  var yitu = document.body.appendChild(document.createElement('div7'));
-
- yitu.style.position="absolute";
-  yitu.style.left = 300+'px';
-  yitu.style.top = 100+'px'; 
-   yitu.style.color='red'; 
- yitu.innerHTML = '意图是:';
-  //
-
- 
+///emotion content end 
 
 
 
-
-
-
+//variables used in some functions
 
 var saveIndex=0;
 var Mostof =[];
@@ -365,12 +115,283 @@ var keywordindexes=[];
 
 var uniqueNames = [];
 var uniqueQuestions =[];
+
+//
+
+
+//zhishiku blue side border
+ var tupian =document.getElementById('zhishikudiv');
+tupian.style.position="absolute";
+  tupian.style.left = 0+'px';
+  tupian.style.top = 0+'px'; 
+
+//white border 1
+ var whitebor =document.getElementById('whiteborder1');
+whitebor.style.position="absolute";
+  whitebor.style.left = 60+'px';
+  whitebor.style.top = 0+'px'; 
+
+
+
+//white border 2
+ var whitebor =document.getElementById('whiteborder2');
+whitebor.style.position="absolute";
+  whitebor.style.left = 241+'px';
+  whitebor.style.top = 0+'px'; 
+
+
+//button1
+ var b1 =document.getElementById('bm');
+b1.style.position="absolute";
+  b1.style.left = 120+'px';
+  b1.style.fontSize = "large";
+  b1.style.top = 80+'px'; 
+
+//button2
+ var b2 =document.getElementById('bm2');
+b2.style.position="absolute";
+  b2.style.left = 120+'px';
+  b2.style.fontSize = "large";
+  b2.style.top = 120+'px'; 
+
+
+//zhishiku words
+var zhishikuword = document.body.appendChild(document.createElement('div'));
+zhishikuword.style.position="absolute";
+zhishikuword.style.left = 5+'px';
+ zhishikuword.style.top = 75+'px'; 
+ zhishikuword.style.color='white'; 
+  zhishikuword.innerHTML  ='知识库';
+
+
+
+
+  //目前知识库收录问题为
+  var tin1 = document.body.appendChild(document.createElement('div2'));
+tin1.style.position="absolute";
+tin1.style.left = 305+'px';
+ tin1.style.top = 35+'px'; 
+  tin1.innerHTML  ='目前知识库收录问题为:';
+
+
+  //人工优化问题
+   var tin2 = document.body.appendChild(document.createElement('div3'));
+tin2.style.position="absolute";
+tin2.style.left = 305+'px';
+ tin2.style.top = 65+'px'; 
+  tin2.innerHTML  ='人工优化问题:';
+
+  //openmic
+   var mic =document.getElementById('mic');
+mic.style.position="absolute";
+  mic.style.left = 105+'px';
+  mic.style.top = 135+'px'; 
+
+//input box 1 
+
+   var askbox =document.getElementById('ask');
+askbox.style.position="absolute";
+  askbox.style.left = 160+'px';
+  askbox.style.top = 155+'px'; 
+
+
+
+  ///guan jian ci
+
+     var tin3 = document.body.appendChild(document.createElement('div4'));
+tin3.style.position="absolute";
+tin3.style.left = 360+'px';
+ tin3.style.top = 215+'px'; 
+  tin3.innerHTML  ='关键词:';
+
+//情绪
+
+     var tin4 = document.body.appendChild(document.createElement('div5'));
+tin4.style.position="absolute";
+tin4.style.left = 360+'px';
+ tin4.style.top = 255+'px'; 
+  tin4.innerHTML  ='情绪:';//😡, 😃
+
+
+
+ // div 6
+ var ex1='1Q.)';
+  ex1=ex1.fontcolor("orange");
+   var ex2='2Q.)';
+   ex2=ex2.fontcolor("orange");
+    var ex3='3Q.)';
+    ex3=ex3.fontcolor("orange");
+     var ex4='4Q.)';
+     ex4=ex4.fontcolor("orange");
+      var ex5='5Q.)';
+      ex5=ex5.fontcolor("orange");
+
+var masterquestion1='q1';
+var masterquestion2='q2';
+var masterquestion3='q3';
+var masterquestion4='q4';
+var masterquestion5='q5';
+
+
+var masterAnswer='a1';
+var masterAnswer2='a2';
+var masterAnswer3='a3';
+var masterAnswer4='a4';
+var masterAnswer5='a5';
+
+
+
+  var tin5 = document.body.appendChild(document.createElement('div6'));
+tin5.style.position="absolute";
+tin5.style.left = 300+'px';
+ tin5.style.top = 305+'px'; 
+
+
+  tin5.innerHTML  ='相似问题与答案 '+ "<br>"+' '+ex1+''+masterquestion1+'' + "<br>"+ '1A.)'+masterAnswer+'' + "<br>"+ ''+ex2+''+masterquestion2+'' + "<br>"+ '2A.)'+masterAnswer2+'' + "<br>" + ''+ex3+''+masterquestion3+'' + "<br>"+ '3A.)'+masterAnswer3+'' + "<br>" + ''+ex4+''+masterquestion4+'' + "<br>"+ '4A.)'+masterAnswer4+'' + "<br>" + ''+ex5+''+masterquestion5+'' + "<br>"+ '5A.)'+masterAnswer5+'';
+
+
+
+   var tin6 = document.body.appendChild(document.createElement('div6'));
+tin6.style.position="absolute";
+tin6.style.left = 360+'px';
+ tin6.style.top = 680+'px'; 
+  tin6.innerHTML  ='最正确的答案是：';
+
+//checks
+   var check1 =document.getElementById('ch1');
+check1.style.position="absolute";
+  check1.style.left = 240+'px';
+  check1.style.top =  680+'px';
+
+   var check1baby = document.body.appendChild(document.createElement('div7'));
+check1baby.style.position="absolute";
+check1baby.style.left = 500+'px';
+ check1baby.style.top = 680+'px';
+  check1baby.innerHTML  ='1';
+
+    var check2 =document.getElementById('ch2');
+check2.style.position="absolute";
+  check2.style.left = 270+'px';
+  check2.style.top =  680+'px';
+
+     var check2baby = document.body.appendChild(document.createElement('div8'));
+check2baby.style.position="absolute";
+check2baby.style.left = 530+'px';
+ check2baby.style.top = 680+'px';
+  check2baby.innerHTML  ='2';
+
+   var check3 =document.getElementById('ch3');
+check3.style.position="absolute";
+  check3.style.left = 300+'px';
+  check3.style.top =  680+'px';
+
+     var check3baby = document.body.appendChild(document.createElement('div9'));
+check3baby.style.position="absolute";
+check3baby.style.left = 560+'px';
+ check3baby.style.top = 680+'px'; 
+  check3baby.innerHTML  ='3';
+
+
+   var check4 =document.getElementById('ch4');
+check4.style.position="absolute";
+  check4.style.left = 330+'px';
+  check4.style.top =  680+'px';
+
+     var check4baby = document.body.appendChild(document.createElement('div10'));
+check4baby.style.position="absolute";
+check4baby.style.left = 590+'px';
+ check4baby.style.top = 680+'px';
+  check4baby.innerHTML  ='4';
+
+
+
+  var check5 =document.getElementById('ch5');
+check5.style.position="absolute";
+  check5.style.left = 360+'px';
+  check5.style.top =  680+'px';
+
+     var check5baby = document.body.appendChild(document.createElement('div11'));
+check5baby.style.position="absolute";
+check5baby.style.left = 620+'px';
+ check5baby.style.top = 680+'px';
+  check5baby.innerHTML  ='5';
+
+////checks end
+
+
+
+  var tin7 = document.body.appendChild(document.createElement('div12'));
+tin7.style.position="absolute";
+tin7.style.left = 260+'px';
+ tin7.style.top = 780+'px'; 
+  tin7.innerHTML  ='以上答案都不对\n输入正确答案:';
+
+
+ var submit =document.getElementById('submitbutton');
+submit.style.position="absolute";
+submit.style.left = 650+'px';
+submit.style.top = 680+'px';
+
+
+
+
+var tin8 =document.getElementById('humanteach');
+tin8.style.position="absolute";
+tin8.style.left = 240+'px';
+tin8.style.top =  780+'px';
+
+
+ var submit2 =document.getElementById('submitbutton2');
+submit2.style.position="absolute";
+submit2.style.left = 980+'px';
+submit2.style.top =  780+'px';
+
+
+//new page
+  function newbutton () {
+
+console.log('new button1')
+  }
+
+
+//new page 2
+  function newbutton2 () {
+
+console.log('new button2')
+  }
+
+
+
+
+
+
+//sound, speech to text
+function imagepick () {
+	var recognizer = new webkitSpeechRecognition();
+recognizer.lang = "zh-CN";
+recognizer.onresult = function(event) {
+    if (event.results.length > 0) {
+        var result = event.results[event.results.length-1];
+        if(result.isFinal) {
+            console.log(result[0].transcript);
+            document.getElementById('ask').value= result[0].transcript;
+        }
+    }  
+};
+recognizer.start();
+
+
+  console.log('nhl');
+}
+
+
+var getthekey;
+
+
+
+///beginning of core functions
 function runScript(e) {
     if (e.keyCode == 13) {
-      learn.style.visibility='visible';//学习
-  similarquestions.innerHTML = '';
-    matchedquestions.innerHTML = '';
- title.innerHTML = '';
         Mostof=[];
       counter=0;
       plus=0;
@@ -413,7 +434,27 @@ console.log('error is here bro')
 
 
 
+///count total objects
 
+var ref2 = database.ref()
+ref2.on('value',gotData2, errData2);
+
+function gotData2(data) {
+//console.log(data.val())
+var coordinates =data.val();
+
+//console.log(coordinates)
+var keys = Object.keys(coordinates)
+console.log(coordinates, keys)
+getthekey=keys;
+ 
+
+}
+function errData2(err) {
+   console.log(err)
+}
+
+ 
 
 
 
@@ -619,13 +660,14 @@ $.each(questionArray, function(i, el){
 });
 
 
+
  setTimeout(qax,1000)
 setTimeout(qingxu,2000)
 
 }//end of iteration function
 
 
-
+////
 
 
 
@@ -633,6 +675,8 @@ setTimeout(qingxu,2000)
 //emotion
 
 function qingxu () {
+	 tin1.innerHTML  ='目前知识库收录问题为:'+answerArray.length+'条';
+  tin2.innerHTML  ='人工优化问题:'+getthekey.length+'条';
   var poshao =0;
  var neghao=0;
 var neuhao=0;
@@ -902,15 +946,8 @@ console.log('WHjjj', poshao, neghao, makepositive)
   if (poshao>=1 || doublenegative>=1) {
   negate=1;
 }
- visualalgo.style.position="absolute";
- visualalgo.style.fontSize='60px';
-visualalgo.style.left = 400+'px';
-  visualalgo.style.top = 180+'px';
-   var array = ['turquoise','pink','orange','chartreuse','cyan'];
- var color =  array[Math.floor(Math.random()*array.length)];
-visualalgo.style.color = 'turquoise';
-
-  visualalgo.innerHTML = '正面';//感情 = 
+ tin4.innerHTML='';
+      tin4.innerHTML  ='情绪:😃';//😡, 😃
 
 //cumulativeEmotion.push('pos');
   }
@@ -925,12 +962,8 @@ if (neghao>=poshao && neghao>=1 && negate==0 ||(doublenegative==1 && itsneutral=
   negate=1;
   
    
-       visualalgo.style.position="absolute";
-visualalgo.style.fontSize='60px';
-visualalgo.style.left = 400+'px';
-  visualalgo.style.top = 180+'px';
-   visualalgo.style.color = 'red';
-      visualalgo.innerHTML = '负面';//感情 =
+ tin4.innerHTML='';
+      tin4.innerHTML  ='情绪:😡';//😡, 😃
       //cumulativeEmotion.push('neg');
   // document.getElementById("image").src="sadcloud.gif";
 }
@@ -940,67 +973,33 @@ visualalgo.style.left = 400+'px';
 if (negate==0 || itsneutral==1) {
 
 if (((neuhao>poshao&&neuhao>neghao)) || itsneutral==1) {
- 
-       visualalgo.style.position="absolute";
-visualalgo.style.fontSize='60px';
-visualalgo.style.left = 400+'px';
-  visualalgo.style.top = 180+'px';
-
-   visualalgo.style.color = 'lime';
-      visualalgo.innerHTML = '中性';//感情 = 
-     // cumulativeEmotion.push('neu');
-  // document.getElementById("image").src="normalbot.gif";
+ tin4.innerHTML='';
+      tin4.innerHTML  ='情绪:😶';//😡, 😃
 }
 }
-visualalgo.style.visibility ='visible';
-
-   var emotag = document.body.appendChild(document.createElement('div26'));
 
 
-emotag .style.position="absolute";
-emotag.style.left = 370+'px';
- emotag.style.top = 180+'px'; 
-  emotag.style.color='red'; 
-  emotag.innerHTML = '情绪是';
 
 
 
 }
-
-
-
-
-
 
 //emotion
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//qax
 
 function qax () {
  //trueKeyword= keywordBank.pop();
+
+  tin3.innerHTML  ='关键词:'+keywordBank+'';
 console.log('inside',trueKeyword, querydata)
 
 if (querydata!==null) {
   auset=1; 
 }
-yitu.innerHTML='意图是:'+trueKeyword;
+
 
  input  = document.getElementById('ask').value;
 var arrayinput = [];//input.split(",")
@@ -1016,81 +1015,15 @@ var couny=0;
 
 
 
-// var norepeat=[];
-// for(var i=0; i<questionArray.length;i++) {
-// var ans = questionArray[i];
-
-//   var cons = norepeat.includes(ans);
-//   if (counyorigin==5) {
-//     console.log(i)
-//     break;
-//   }
-// if (cons==true) {
-//   console.log('bro what the fuck')
-// }
-// if (ans.indexOf(trueKeyword)>-1) {
-//   norepeat.push(ans);
-// counyorigin++
-
-//   console.log('it is working',norepeat)
-//   if (counyorigin<=5) {    
-//     secretquestions.push(answer);
-//   }
-// }
-// }
-
-
-
-// console.log('secretquestions', secretquestions)
-
-
-
-
-
-// ///search answers
-// for(var i=0; i<questionArray.length;i++) {
-// var answer = questionArray[i];
-
-
-// if (answer.indexOf(trueKeyword)>-1) {
-// couny++
-
-//   //console.log('it is working',answer)
-//   if (couny<=5) {
-//     finalFive.push(answer);
-//     saveindex.push(i);
-//   }
-// }
-// }
-
-
-// for(var p=0; p<saveindex.length;p++) {
-
-//   var index = saveindex[p];
-//   var question = answerArray[index];
-//   finalanswers.push(question)
-// }
-
-
-//search answers
-
-
-
-
- var daan = document.body.appendChild(document.createElement('div8'));
-
- daan.style.position="absolute";
-  daan.style.left = 300+'px';
-  daan.style.top =280+'px'; 
-   daan.style.color='green'; 
- daan.innerHTML = 'A.I. 回答建议是';
-
-
   //5 answers
  
 console.log('answers', finalanswers,   'questions', finalFive)
 
-console.log(answerArray)
+
+// tin1='';
+
+//  tin1.innerHTML  ='目前知识库收录问题为:'+answerArray.length+'条';
+ console.log(answerArray.length, tin1)
 var cloneAnswerArray= [];
 
 
@@ -1143,28 +1076,7 @@ cloneAnswerArray.splice(cloneAnswerArray.indexOf(masterAnswer2), 1);
       //questionArray=questionArray.filter(function(e) { return e !== masterquestion5 })
 
 
-  // masterAnswer=finalanswers[0];
-  // masterAnswer2=finalanswers[1];
-  // masterAnswer3=finalanswers[2];
-  // masterAnswer4=finalanswers[3];
-  // masterAnswer5=finalanswers[4];
 
-  // masterquestion1=finalFive[0];
-  // masterquestion2=finalFive[1];
-  // masterquestion3=finalFive[2];
-  // masterquestion4=finalFive[3];
-  // masterquestion5=finalFive[4];
-
-
-///
-
-
-visualalgo5.innerHTML='';
-
-  visualalgo5.style.position="absolute";
-  visualalgo5.style.left = 150+'px';
-  visualalgo5.style.top = 300+'px'; 
-   visualalgo5.style.color='blue'; 
  console.log( masterquestion1, masterquestion2, masterquestion3, masterquestion4, masterquestion5)
   masterquestion1= masterquestion1.fontcolor("orange");
    masterquestion2= masterquestion2.fontcolor("orange");
@@ -1177,101 +1089,77 @@ visualalgo5.innerHTML='';
 if (auset==1) {
   masterquestion1 = document.getElementById('ask').value;
   masterquestion1 =masterquestion1.fontcolor("orange");
-  masterAnswer = posadj;
+  masterAnswer = querydata;
 }
 
-  visualalgo5.innerHTML = ''+ex1+''+masterquestion1+'' + "<br>"+ '1A.)'+masterAnswer+'' + "<br>"+ ''+ex2+''+masterquestion2+'' + "<br>"+ '2A.)'+masterAnswer2+'' + "<br>" + ''+ex3+''+masterquestion3+'' + "<br>"+ '3A.)'+masterAnswer3+'' + "<br>" + ''+ex4+''+masterquestion4+'' + "<br>"+ '4A.)'+masterAnswer4+'' + "<br>" + ''+ex5+''+masterquestion5+'' + "<br>"+ '5A.)'+masterAnswer5+'' + "<br>"
+tin5.innerHTML='';
+ tin5.innerHTML  ='相似问题与答案 '+ "<br>"+' '+ex1+''+masterquestion1+'' + "<br>"+ '1A.)'+masterAnswer+'' + "<br>"+ ''+ex2+''+masterquestion2+'' + "<br>"+ '2A.)'+masterAnswer2+'' + "<br>" + ''+ex3+''+masterquestion3+'' + "<br>"+ '3A.)'+masterAnswer3+'' + "<br>" + ''+ex4+''+masterquestion4+'' + "<br>"+ '4A.)'+masterAnswer4+'' + "<br>" + ''+ex5+''+masterquestion5+'' + "<br>"+ '5A.)'+masterAnswer5+'';
 
 
-//    var gl1 = document.body.appendChild(document.createElement('div9'));
-// gl1.style.position="absolute";
-//   gl1.style.left = 30+'px';
-//   gl1.style.top =300+'px'; 
-//    gl1.style.color='green'; 
-//  gl1.innerHTML = '概率 ＝％70';
-
-//   var gl2 = document.body.appendChild(document.createElement('div10'));
-// gl2.style.position="absolute";
-//   gl2.style.left = 30+'px';
-//   gl2.style.top =320+'px'; 
-//    gl2.style.color='green'; 
-//  gl2.innerHTML = '概率 ＝％15';
-
-//   var gl3 = document.body.appendChild(document.createElement('div11'));
-// gl3.style.position="absolute";
-//   gl3.style.left = 30+'px';
-//   gl3.style.top =345+'px'; 
-//    gl3.style.color='green'; 
-//  gl3.innerHTML = '概率 ＝％10';
 
 
-//    var gl4 = document.body.appendChild(document.createElement('div12'));
-// gl4.style.position="absolute";
-//   gl4.style.left = 30+'px';
-//   gl4.style.top =370+'px'; 
-//    gl4.style.color='green'; 
-//  gl4.innerHTML = '概率 ＝％3';
 
-
-//     var gl5 = document.body.appendChild(document.createElement('div13'));
-// gl5.style.position="absolute";
-//   gl5.style.left = 30+'px';
-//   gl5.style.top =390+'px'; 
-//    gl5.style.color='green'; 
-//  gl5.innerHTML = '概率 ＝％2';
-
-
- //list similar questions
-
-similarquestions.style.position="absolute";
-  similarquestions.style.left = 720+'px';
-  similarquestions.style.top = 150+'px'; 
-   similarquestions.style.color='green'; 
     var mq1=questionArray[Math.floor(Math.random()*questionArray.length)];
    var mq2=questionArray[Math.floor(Math.random()*questionArray.length)];
     var mq3=questionArray[Math.floor(Math.random()*questionArray.length)];
     var mq4=questionArray[Math.floor(Math.random()*questionArray.length)];
      var mq5=questionArray[Math.floor(Math.random()*questionArray.length)];
-// similarquestions.innerHTML = '1.)'+mq1+'' + "<br>"+ '2.)'+mq2+'' + "<br>"+ '3.)'+mq3+'' + "<br>"+ '4.)'+mq4+'' + "<br>"+ '5.)'+mq5+'';
-
-
-
-// matchedquestions.style.position="absolute";
-//   matchedquestions.style.left = 30+'px';
-//  matchedquestions.style.top =450+'px'; 
-//   matchedquestions.style.color='orange'; 
-//  matchedquestions.innerHTML = '1.)'+masterAnsQuestion1+'' + "<br>"+ '2.)'+masterAnsQuestion2+'' + "<br>"+ '3.)'+masterAnsQuestion3+'' + "<br>"+ '4.)'+masterAnsQuestion4+'' + "<br>"+ '5.)'+masterAnsQuestion5+'';
- //question title
-
-title.style.position="absolute";
-  title.style.left = 720+'px';
-  title.style.top = 130+'px'; 
-  title.style.color='green'; 
- //title.innerHTML = '相似的问题';
-
-
-
-//console.log(masterAnsQuestion1, masterAnsQuestion2, masterAnswer3)
-
-
-
- //
-
-
-
-
-
 
 
 
 }//end of qax
 
 
-
-
-
 function tijiao () {
-  console.log('why nnot submit')
+	var  val =document.getElementById('ask').value;
+	var finalvalue;
+
+	if(document.getElementById("ch1").checked == true) {
+console.log('ch1')
+masterquestion1.fontcolor('red')
+ console.log(masterquestion1)
+ masterAnswer.fontcolor('red')
+finalvalue=masterAnswer;
+}
+	if(document.getElementById("ch2").checked == true) {
+console.log('ch2')
+ masterquestion2.fontcolor('red')
+masterAnswer2.fontcolor('red')
+  
+  finalvalue=masterAnswer2;
+}
+	if(document.getElementById("ch3").checked == true) {
+console.log('ch3')
+ masterquestion3.fontcolor('red')
+masterAnswer3.fontcolor('red')
+finalvalue=masterAnswer3;
+}
+	if(document.getElementById("ch4").checked == true) {
+console.log('ch4')
+masterquestion4.fontcolor('red')
+masterAnswer4.fontcolor('red')
+finalvalue=masterAnswer4;
+}
+	if(document.getElementById("ch5").checked == true) {
+console.log('ch5')
+ masterquestion5.fontcolor('red')
+masterAnswer5.fontcolor('red')
+finalvalue=masterAnswer5;
+}
+
+  tin5.innerHTML = ''+ex1+''+masterquestion1+'' + "<br>"+ '1A.)'+masterAnswer+'' + "<br>"+ ''+ex2+''+masterquestion2+'' + "<br>"+ '2A.)'+masterAnswer2+'' + "<br>" + ''+ex3+''+masterquestion3+'' + "<br>"+ '3A.)'+masterAnswer3+'' + "<br>" + ''+ex4+''+masterquestion4+'' + "<br>"+ '4A.)'+masterAnswer4+'' + "<br>" + ''+ex5+''+masterquestion5+'' + "<br>"+ '5A.)'+masterAnswer5+'' + "<br>"
+ 
+//var finalvalue = savevalue;
+     var matchedinput =val;
+       var ref=database.ref(matchedinput);
+
+ref.set(finalvalue);
+}
+
+function tijiao2 () {
+
+console.log('f2')
+
 var savevalue = document.getElementById('humanteach').value;
 var  val =document.getElementById('ask').value;
 
@@ -1279,77 +1167,17 @@ masterAnswer=savevalue;
 masterquestion1 = val;
 masterquestion1 = masterquestion1.fontcolor('red')
 masterAnswer = masterAnswer.fontcolor('red')
-  visualalgo5.innerHTML = ''+ex1+''+masterquestion1+'' + "<br>"+ '1A.)'+masterAnswer+'' + "<br>"+ ''+ex2+''+masterquestion2+'' + "<br>"+ '2A.)'+masterAnswer2+'' + "<br>" + ''+ex3+''+masterquestion3+'' + "<br>"+ '3A.)'+masterAnswer3+'' + "<br>" + ''+ex4+''+masterquestion4+'' + "<br>"+ '4A.)'+masterAnswer4+'' + "<br>" + ''+ex5+''+masterquestion5+'' + "<br>"+ '5A.)'+masterAnswer5+'' + "<br>"
+  tin5.innerHTML = ''+ex1+''+masterquestion1+'' + "<br>"+ '1A.)'+masterAnswer+'' + "<br>"+ ''+ex2+''+masterquestion2+'' + "<br>"+ '2A.)'+masterAnswer2+'' + "<br>" + ''+ex3+''+masterquestion3+'' + "<br>"+ '3A.)'+masterAnswer3+'' + "<br>" + ''+ex4+''+masterquestion4+'' + "<br>"+ '4A.)'+masterAnswer4+'' + "<br>" + ''+ex5+''+masterquestion5+'' + "<br>"+ '5A.)'+masterAnswer5+'' + "<br>"
  
 var finalvalue = savevalue;
      var matchedinput =val;
        var ref=database.ref(matchedinput);
 
 ref.set(finalvalue);
- 
-
 
 }
-
-
-
-function tijiao2 () {
-  console.log('why nnot submit')
-var savevalue = document.getElementById('humanteach2').value;
-var  val =document.getElementById('ask').value;
-
-var finalvalue;
-if (savevalue=='1') {
-masterquestion1.fontcolor('red')
- console.log(masterquestion1)
- masterAnswer.fontcolor('red')
-finalvalue=masterAnswer;
-}
-
-if (savevalue=='2') {
-  masterquestion2.fontcolor('red')
-masterAnswer2.fontcolor('red')
-  
-  finalvalue=masterAnswer2;
-}
-if (savevalue=='3') {
-  masterquestion3.fontcolor('red')
-masterAnswer3.fontcolor('red')
-finalvalue=masterAnswer3;
-}
-if (savevalue=='4') {
-masterquestion4.fontcolor('red')
-masterAnswer4.fontcolor('red')
-finalvalue=masterAnswer4;
-
-}
-if (savevalue=='5') {
-  masterquestion5.fontcolor('red')
-masterAnswer5.fontcolor('red')
-finalvalue=masterAnswer5;
-  
-}
-
-
-
-
-
-  visualalgo5.innerHTML = ''+ex1+''+masterquestion1+'' + "<br>"+ '1A.)'+masterAnswer+'' + "<br>"+ ''+ex2+''+masterquestion2+'' + "<br>"+ '2A.)'+masterAnswer2+'' + "<br>" + ''+ex3+''+masterquestion3+'' + "<br>"+ '3A.)'+masterAnswer3+'' + "<br>" + ''+ex4+''+masterquestion4+'' + "<br>"+ '4A.)'+masterAnswer4+'' + "<br>" + ''+ex5+''+masterquestion5+'' + "<br>"+ '5A.)'+masterAnswer5+'' + "<br>"
- 
-//var finalvalue = savevalue;
-     var matchedinput =val;
-       var ref=database.ref(matchedinput);
-
-ref.set(finalvalue);
- 
-
-
-}
-
 
 
 
 
 </script>
-
-</html>
