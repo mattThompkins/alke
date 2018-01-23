@@ -59,7 +59,7 @@
 
 
 <script>
-
+var getthekey=[];;
 	  var config = {
     apiKey: "AIzaSyBzoGXjJy2mnSc24f_gIcGu-drC3jJoLE4",
     authDomain: "blcok-d1c5f.firebaseapp.com",
@@ -393,7 +393,7 @@ recognizer.start();
 }
 
 
-var getthekey;
+
 
 
 
@@ -1004,6 +1004,7 @@ if (((neuhao>poshao&&neuhao>neghao)) || itsneutral==1) {
 
 function qax () {
 	 input  = document.getElementById('ask').value;
+	 keywordBank=[];
 	for(var i=0; i<input.length;++i){
 var cancel=0;
       var com=input[i];
@@ -1249,16 +1250,16 @@ function newbuttonalpha () {
 
 document.getElementById('ask').value='';
 masterAnswer='';
-masterAnswer2='';
-masterAnswer3='';
-masterAnswer4='';
-masterAnswer5='';
+// masterAnswer2='';
+// masterAnswer3='';
+// masterAnswer4='';
+// masterAnswer5='';
 
-masterquestion1='';
-masterquestion2='';
-masterquestion3='';
-masterquestion4='';
-masterquestion5='';
+// masterquestion1='';
+// masterquestion2='';
+// masterquestion3='';
+// masterquestion4='';
+// masterquestion5='';
 
 keywordBank=[];
 getthekey=null;
