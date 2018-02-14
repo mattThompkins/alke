@@ -1,1273 +1,413 @@
-
 <!DOCTYPE html>
 <html>
-<meta charset="UTF-8">
 <head>
-
+<title>Page Title</title>
 </head>
+<body >
 
-<body>
-	
+<!-- onload="documentReady();" -->
 </body>
-</html>
 
 <style type="text/css">
-	#wrapper {
-	background-color: red:
+
+  canvas { border: 1px solid #ccc }
+  .ribbon {
+  position:absolute;
+  top:0;
+  right:0;
 }
 
- button.link { background:none;border:none; }
+
+#container {
+  width: 400px;
+  height: 400px;
+  position: relative;
+  background: yellow;
+}
+#animate {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background-color: blue;
+}
+
+
 </style>
+<canvas id="c" width="500" height="400" style="border:2px solid black"></canvas>
+<button onclick="myMove()">Start</button>
 
-<div id= "zhishikudiv" style="background-color:#344152;width:30px;height:2000px;border:1px solid black;padding:15px;">
 
+<div id ="container">
+<div id ="animate"></div>
 </div>
-
-<div id= "whiteborder1" style="background-color:#FFFFFF;width:150px;height:2000px;border:1px solid black;padding:15px;">
-	
-</div>
-
-<div id= "whiteborder2" style="background-color:#FFFFFF;width:1000px;height:2000px;border:1px solid black;padding:15px;">
- <img src="openmic.png" id="mic" width="60" height="60" onclick="imagepick()">
-
-<input type="text" id="ask" size="50" width="100px" placeholder="您有什么问题?" onkeypress="return runScript(event)">
-
- <input type="checkbox" id="ch1" value="1">
- <input type="checkbox" id="ch2" value="2">
- <input type="checkbox" id="ch3" value="3">
- <input type="checkbox" id="ch4" value="4">
- <input type="checkbox" id="ch5" value="5">
-
- <input id="humanteach" placeholder="写对的答案" size="80" type="text" />
-
-	</div>
+<!-- <div id= "bluebox" class="box" style="background-color:#00FFFF;width:10px;height:5px;padding:10px;"> -->
+  <div id= "bluebox"> 
+     <img src="hero.png" height="40" width="40">
+  </div>
 
 
-<button id ="refresh" type="button0" onclick="newbuttonalpha()">刷新</button>
-
-<button id ="bm" class="link" type="button1" onclick="newbutton()">问题辅助</button>
-
-	<button id ="bm2" class="link" type="button2" onclick="newbutton2()">问题提交</button>
-<button type="button" id="submitbutton" onclick="tijiao()">提交</button>
-<button type="button" id="submitbutton2" onclick="tijiao2()">提交</button>
 
 
+
+<!-- <canvas id="c" width="1000" height="500" style="border: 1px solid black;"></canvas> -->
+<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.0.4/d3.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script> 
-
-
 <script>
-var getthekey=[];;
-	  var config = {
-    apiKey: "AIzaSyBzoGXjJy2mnSc24f_gIcGu-drC3jJoLE4",
-    authDomain: "blcok-d1c5f.firebaseapp.com",
-    databaseURL: "https://blcok-d1c5f.firebaseio.com",
-    projectId: "blcok-d1c5f",
-    storageBucket: "blcok-d1c5f.appspot.com",
-    messagingSenderId: "680002878921"
-  };
-  firebase.initializeApp(config);
+  var secretArrayX=[500, 520,530,545,560,523, 300, 210];
+  var secretArrayY=[200,221,220,211,278,290, 154,209];
+  var tuy = document.getElementById('bluebox');
+var storedx=[];
+var storedy=[];
+  var mousePressed = false;
+var lastX, lastY;
+var ctx;
+ var el = document.getElementById('c');
+var isDown=1;
+var isDrawing;
 
-//activate database
-  var database = firebase.database();
-var querydata='';
-var auset =0; 
+var pluscounter=0; 
+var lastXX;
+  var lastYY;
+  var onlyonce=0;
 
-//global variable
-var guanjianci=[];
-var visualalgo = document.body.appendChild(document.createElement('div'));
+var countseconds =0; 
 
+var pleasestopsound =0;
 
 
-///emotion content
-var posadj = new Array();//forcalculations
- posadj = [ "雄伟", "漂亮", "美丽", "方便", "了不起", "美女", "帅", "高兴", "心情", "激动", "笑", "爱情", "善良", "聪明", "帅哥", "香醇", "透明", "晶莹", "纯净", "典雅", "开朗", "舒适", "清澈", "颓废", "温柔", "惊艳", "淡漠", "淡定", "冷静", "端庄", "时尚", "快乐", "丰盈", "圆滑", "喜欢", "满意", "特别", "厉害", "爱", "好", "良好", "机会", "可能性多大", "礼物", "得好", "尊敬", "激动人心", "感谢", "机会", "信心", "正轨", "鼓励", "支持", "不错", "不错", "运气", "酷炫", "松一口气", "公平", "恻隐", "谢谢", "帮助", "非常理解", "奉献", "无私的", "奖赏", "光辉", "友谊", "壮阔", "放松", "对此略为敏感", "紧张", "紧张", "愉", "保护", "尊敬", "♥", "😄", "😎", "😺", "😸", "😃", "😀", "😆", "☺️", "😊", "😇", "😍", "😘", "😚", "😋", "❤️", "热心", "好人", "出色", "受益", "感到自豪", "聪明", "赢", "乐", "美好", "好吃", "公平", "舒服", "平静", "英雄", "有趣", "对待", "持续", "正确", "治疗", "荣誉", "皆醉我独醒", "利益", "正",  "伟", "美", "幽默", "伟大", "坚持", "赞", "魔性", "清流", "说的👍", "大快人心", "真相了", "真相了", "经济实力", "前提有一定的经济实力", "👏", "超级", "超级棒", "很棒", "很棒", "非常棒", "耿直", "心静", "很亮", "加油", "开心", "身体健康", "积极", "敬佩", "佩服", "天赋", "天赋异禀", "有才", "楼主奶奶这也太牛了吧！大赞！期待下文！好奇问下楼主可是我大南通人", "233333", "666", "平安", "瑕疵", "棒棒", "欣欣向荣", "登高望远", "锦绣前程", "朴素大方", "壮志凌云", "志存高远", "大展身手", "礼貌", "彬彬有礼", "精力充沛", "文质彬彬", "举止庄重", "体魄健壮", "胸怀大志", "任劳任怨", "任劳任怨", "没有礼貌", "腐败", "的好", "作弊", "搞怪", "好交情", "十分", "改善", "改善", "好转", "感到自豪", "扩张", "赢得", "我会受益", "受益", "我喜欢", "很好", "完美的", "热心", "我想你", "我按时", "有趣", "赞同", "最好的", "平等", "了解", "明白我", "好主意", "祝贺", "我们接受", "我接受", "爱哟", "尊重" ];
-var negadj = new Array();//for calculations
-negadj =[ "紧张", "忧虑", "愤怒", "害怕", "野蛮", "隐晦", "阴霾", "恐龙", "伤心", "生气", "伪装", "杀", "我靠", "我操", "傻逼", "哭泣", "哭粗", "笨", "很差", "丑", "沮丧", "郁闷", "悲伤", "悲", "伤害", "吵架", "打架", "讨厌", "艰难", "不好", "帮派成员", "不好", "不好", "迟到", "伤者", "伤", "死", "急", "枪了", "打你", "严重", "事故", "惊吓", "枪击受害者", "受害者", "受害", "死亡", "擦伤", "危险", "射杀", "凶犯", "嫌犯", "破事", "我还没找到", "身亡", "还要", "订单还没", "生你气", "暴怒", "惹人厌", "烦", "颠覆", "诋毁", "吵架", "吵哭", "疾病", "勒瘫", "太坏", "紧张", "搞砸", "损害", "惩罚", "抱怨", "抢走", "牢骚", "可怜", "闭嘴", "争执", "吵闹", "侵蚀", "差劲", "囚牢房", "疼", "累", "紧张", "难", "hate", "😞", "😔", "😟", "😣", "😖", "😫", "😩", "😤", "😠", "😡", "😱", "😨", "😰", "😢", "😥", "😭", "😓", "💔", "仙人板板", "奶奶的腿的", "你冷酷你无情你无理取闹", "遗憾", "挣扎", "恶心", "恶心", "争议", "失去了", "可怕", "粗鲁", "疑问", "打破", "懒", "害怕", "批评", "很差", "悲惨", "愚蠢", "重复了一个错误", "失败", "无法处理", "压力", "被撕破", "撕破", "降级", "孤独", "哭泣", "太久", "病", "生病", "骗", "崩溃", "复杂", "沮丧","恐慌", "饿死", "糟", "讨厌", "太多", "偷了", "罪", "犯", "指控", "犯罪", "恨", "劣势", "莫名其妙", "不爱", "我不爱", "皆醉", "厌恶", "戾气", "浪费", "不舒服", "监", "狱", "不减", "哭", "怀念", "强迫", "怕", "我怕", "我怕", "我想不", "斗争", "很吵", "毒", "没法接受", "很贵的", "超不", "什么鬼", "太恐怖", "恐怖", "这么差", "好生气", "不懂", "疯", "骂", "担心", "消极", "闷骚", "消灭", "泯灭", "嫉妒", "嫉妒", "嫉妒", "坏运气", "说不清", "混蛋", "体罚", "罚款", "很惨", "很惨", "跑题了", "运气差", "理解的狭隘了", "霸气", "瑕疵", "不正确", "冷漠", "无动于衷", "疲乏", "劳累", "无生气", "无礼", "被激怒", "困惑", "不快", "不愉快的", "烦闷", "难受", "难受", "压抑", "郁闷", "沉郁", "阴郁", "抑郁寡欢", "惭愧", "丢脸", "丢人", "亏心", "愧疚", "难堪", "沮丧", "没有好", "很臭", "腐败", "分手", "离婚", "无知", "拉肚子", "没有意义的", "没有意义", "他妈的", "他妈的", "作弊牟取", "作弊", "感染", "无情", "亡", "失去", "后悔", "失望", "我很忙", "我忙", "我看不", "我很痛", "很痛", "痛", "太贵", "很贵", "被撕破", "不满意", "我不", "很弱", "太弱", "虐待", "不准时", "我必须批评你", "我放弃", "我无", "丑陋", "傻", "我不", "太小", "谎", "太严格", "太冷", "很冷", "我不懂", "忽视", "疑虑", "感冒", "堵车", "太慢" ];
 
-var negcounter = ["不"];
-var neutralcounter =["太","非常","很"];
 
 
-  var nounhanzi =["成分","奶粉","乳制品","牛奶","牛","奶油","营养","粉状","巴氏杀菌","茢","婴儿","百分","母乳喂养","低脂","宝宝","宝贝","童年","乳糖","复合","雅培","味道","口味","身体","健康","美素","配方","宝宝配方","问题","雅培喜康宝","牛栏奶粉","雅培亲护", "雅培菁智","奶","燕窝","炖开"];
-var answerArray=[];
-var questionArray=[];
 
-///emotion content end 
 
 
 
-//variables used in some functions
 
-var saveIndex=0;
-var Mostof =[];
-var counter=0;
-var find =[];
-  var input;
-var plus=0;
-var keywordBank=[];
-var keywordindexes=[];
- var Keyword;//gets main key word
- var trueKeyword;
- var clonekeyword;
- var masterKeyword;
 
-var uniqueNames = [];
-var uniqueQuestions =[];
 
-//
 
+  //myMove();
 
-//zhishiku blue side border
- var tupian =document.getElementById('zhishikudiv');
-tupian.style.position="absolute";
-  tupian.style.left = 0+'px';
-  tupian.style.top = 0+'px'; 
 
-//white border 1
- var whitebor =document.getElementById('whiteborder1');
-whitebor.style.position="absolute";
-  whitebor.style.left = 60+'px';
-  whitebor.style.top = 0+'px'; 
+//parcel
 
+  var seconds = 00; 
+  var tens = 00; 
+    var appendTens =  document.createElement("div99");
+  appendTens.style.position="absolute";
+ appendTens.style.left = 420+'px';
+appendTens.style.top = 500+'px';
+appendTens.innerHTML = "00";
+document.body.appendChild(appendTens);
 
+      var appendSeconds =  document.createElement("div98");
+        appendSeconds.style.position="absolute";
+ appendSeconds.style.left = 400+'px';
+appendSeconds.style.top = 500+'px';
+appendSeconds.innerHTML = "00:";
+document.body.appendChild(appendSeconds);
 
-//white border 2
- var whitebor =document.getElementById('whiteborder2');
-whitebor.style.position="absolute";
-  whitebor.style.left = 241+'px';
-  whitebor.style.top = 0+'px'; 
+  var div = document.createElement("div9");
+  div.id = 'someId';
+ div.style.width = "10px";
+div.style.height = "10px";
+div.style.background = "red";
+div.style.color = "white";
 
+div.innerHTML = "Move Calibro with draw on the canvas, don't get hit by the blue square";
+  div.style.left = 399+'px';
+div.style.top = 74+'px';
+ document.body.appendChild(div);
 
-//button1
- var b1 =document.getElementById('bm');
-b1.style.position="absolute";
-  b1.style.left = 120+'px';
-  b1.style.fontSize = "large";
-  b1.style.top = 80+'px'; 
+ //parcel
 
-//button2
- var b2 =document.getElementById('bm2');
-b2.style.position="absolute";
-  b2.style.left = 120+'px';
-  b2.style.fontSize = "large";
-  b2.style.top = 120+'px'; 
+var fx;
+var fy;
+ el.onmousedown = function(e) {
+isDown=1;
+  isDrawing = true;
+console.log('wtf')
+ }
+ var beauty=0;
+el.onmousemove = function(e) {
+  beauty++;
 
+function removeDuplicateUsingFilter(arr){
+    let unique_array = arr.filter(function(elem, index, self) {
+        return index == self.indexOf(elem);
+    });
+    return unique_array
+}
 
-//zhishiku words
-var zhishikuword = document.body.appendChild(document.createElement('div'));
-zhishikuword.style.position="absolute";
-zhishikuword.style.left = 5+'px';
- zhishikuword.style.top = 75+'px'; 
- zhishikuword.style.color='white'; 
-  zhishikuword.innerHTML  ='知识库';
 
 
+  collision($("#animate"), $("#bluebox"));
 
+  InitThis();
+  if (isDrawing==1) {
 
-  //目前知识库收录问题为
-  var tin1 = document.body.appendChild(document.createElement('div2'));
-tin1.style.position="absolute";
-tin1.style.left = 305+'px';
- tin1.style.top = 35+'px'; 
-  tin1.innerHTML  ='目前知识库收录问题为:';
+  //console.log("llo2",e.clientX, e.clientY)
 
 
-  //人工优化问题
-   var tin2 = document.body.appendChild(document.createElement('div3'));
-tin2.style.position="absolute";
-tin2.style.left = 305+'px';
- tin2.style.top = 65+'px'; 
-  tin2.innerHTML  ='人工优化问题:';
 
-  //openmic
-   var mic =document.getElementById('mic');
-mic.style.position="absolute";
-  mic.style.left = 105+'px';
-  mic.style.top = 135+'px'; 
+var checkx= e.clientX-500;
+var checky = e.clientY;
+  for(var i=0; i<storedy.length; i++) {
+   var x= storedx[i];
+   var y=storedy[i];
+
+if (checkx==x && checky == y) {
+  console.log('master collision')
+}
+
+  var div2 = document.createElement("pun");
+  div2.id = 'magicdiv'+beauty+'';
+ div2.style.width = "5px";
+div2.style.height = "5px";
+div2.style.background = "green";
+ div2.style.position="absolute";
+  div2.style.left = x;
+div2.style.top = y;
+ document.body.appendChild(div2);
 
-//input box 1 
-
-   var askbox =document.getElementById('ask');
-askbox.style.position="absolute";
-  askbox.style.left = 160+'px';
-  askbox.style.top = 155+'px'; 
-
-
-     var refresh =document.getElementById('refresh');
-refresh.style.position="absolute";
-  refresh.style.left = 725+'px';
-  refresh.style.top = 155+'px'; 
-
-
-
-  ///guan jian ci
-
-     var tin3 = document.body.appendChild(document.createElement('div4'));
-tin3.style.position="absolute";
-tin3.style.left = 360+'px';
- tin3.style.top = 215+'px'; 
-  tin3.innerHTML  ='关键词:';
-
-//情绪
-
-     var tin4 = document.body.appendChild(document.createElement('div5'));
-tin4.style.position="absolute";
-tin4.style.left = 360+'px';
- tin4.style.top = 255+'px'; 
-  tin4.innerHTML  ='情绪:';//😡, 😃
-
-
-
- // div 6
- var ex1='1Q.)';
-  ex1=ex1.fontcolor("orange");
-   var ex2='2Q.)';
-   ex2=ex2.fontcolor("orange");
-    var ex3='3Q.)';
-    ex3=ex3.fontcolor("orange");
-     var ex4='4Q.)';
-     ex4=ex4.fontcolor("orange");
-      var ex5='5Q.)';
-      ex5=ex5.fontcolor("orange");
-
-var masterquestion1='q1';
-var masterquestion2='q2';
-var masterquestion3='q3';
-var masterquestion4='q4';
-var masterquestion5='q5';
-
-
-var masterAnswer='a1';
-var masterAnswer2='a2';
-var masterAnswer3='a3';
-var masterAnswer4='a4';
-var masterAnswer5='a5';
-
-
-
-  var tin5 = document.body.appendChild(document.createElement('div6'));
-tin5.style.position="absolute";
-tin5.style.left = 300+'px';
- tin5.style.top = 305+'px'; 
-
-
-  tin5.innerHTML  ='相似问题与答案 '+ "<br>"+' '+ex1+''+masterquestion1+'' + "<br>"+ '1A.)'+masterAnswer+'' + "<br>"+ ''+ex2+''+masterquestion2+'' + "<br>"+ '2A.)'+masterAnswer2+'' + "<br>" + ''+ex3+''+masterquestion3+'' + "<br>"+ '3A.)'+masterAnswer3+'' + "<br>" + ''+ex4+''+masterquestion4+'' + "<br>"+ '4A.)'+masterAnswer4+'' + "<br>" + ''+ex5+''+masterquestion5+'' + "<br>"+ '5A.)'+masterAnswer5+'';
-
-
-
-   var tin6 = document.body.appendChild(document.createElement('div6'));
-tin6.style.position="absolute";
-tin6.style.left = 360+'px';
- tin6.style.top = 680+'px'; 
-  tin6.innerHTML  ='最正确的答案是：';
-
-//checks
-   var check1 =document.getElementById('ch1');
-check1.style.position="absolute";
-  check1.style.left = 240+'px';
-  check1.style.top =  680+'px';
-
-   var check1baby = document.body.appendChild(document.createElement('div7'));
-check1baby.style.position="absolute";
-check1baby.style.left = 500+'px';
- check1baby.style.top = 680+'px';
-  check1baby.innerHTML  ='1';
-
-    var check2 =document.getElementById('ch2');
-check2.style.position="absolute";
-  check2.style.left = 270+'px';
-  check2.style.top =  680+'px';
-
-     var check2baby = document.body.appendChild(document.createElement('div8'));
-check2baby.style.position="absolute";
-check2baby.style.left = 530+'px';
- check2baby.style.top = 680+'px';
-  check2baby.innerHTML  ='2';
-
-   var check3 =document.getElementById('ch3');
-check3.style.position="absolute";
-  check3.style.left = 300+'px';
-  check3.style.top =  680+'px';
-
-     var check3baby = document.body.appendChild(document.createElement('div9'));
-check3baby.style.position="absolute";
-check3baby.style.left = 560+'px';
- check3baby.style.top = 680+'px'; 
-  check3baby.innerHTML  ='3';
-
-
-   var check4 =document.getElementById('ch4');
-check4.style.position="absolute";
-  check4.style.left = 330+'px';
-  check4.style.top =  680+'px';
-
-     var check4baby = document.body.appendChild(document.createElement('div10'));
-check4baby.style.position="absolute";
-check4baby.style.left = 590+'px';
- check4baby.style.top = 680+'px';
-  check4baby.innerHTML  ='4';
-
-
-
-  var check5 =document.getElementById('ch5');
-check5.style.position="absolute";
-  check5.style.left = 360+'px';
-  check5.style.top =  680+'px';
-
-     var check5baby = document.body.appendChild(document.createElement('div11'));
-check5baby.style.position="absolute";
-check5baby.style.left = 620+'px';
- check5baby.style.top = 680+'px';
-  check5baby.innerHTML  ='5';
-
-////checks end
-
-
-
-  var tin7 = document.body.appendChild(document.createElement('div12'));
-tin7.style.position="absolute";
-tin7.style.left = 260+'px';
- tin7.style.top = 780+'px'; 
-  tin7.innerHTML  ='以上答案都不对\n输入正确答案:';
-
-
- var submit =document.getElementById('submitbutton');
-submit.style.position="absolute";
-submit.style.left = 650+'px';
-submit.style.top = 680+'px';
-
-
-
-
-var tin8 =document.getElementById('humanteach');
-tin8.style.position="absolute";
-tin8.style.left = 240+'px';
-tin8.style.top =  780+'px';
-
-
- var submit2 =document.getElementById('submitbutton2');
-submit2.style.position="absolute";
-submit2.style.left = 980+'px';
-submit2.style.top =  780+'px';
-
-
-
-//new page
-  function newbutton () {
-
-console.log('new button1')
-  }
-
-
-//new page 2
-  function newbutton2 () {
-
-console.log('new button2')
   }
 
 
 
+//moves calibro
+var tuy = document.getElementById('bluebox');
+tuy.style.position="absolute";
+  tuy.style.left = e.clientX-500+'px';
+ tuy.style.top = e.clientY+'px';
+
+ if (storedx.indexOf(tuy.style.left)>-1 && storedy.indexOf(tuy.style.top)>-1) {
+  console.log('BRUH collision')
+ }
+
+   storedx.push(tuy.style.left);
+  storedy.push(tuy.style.top);
+// document.body.appendChild(tuy);
 
 
+}
 
-//sound, speech to text
-function imagepick () {
-	var recognizer = new webkitSpeechRecognition();
-recognizer.lang = "zh-CN";
-recognizer.onresult = function(event) {
-    if (event.results.length > 0) {
-        var result = event.results[event.results.length-1];
-        if(result.isFinal) {
-            console.log(result[0].transcript);
-            document.getElementById('ask').value= result[0].transcript;
+}
+
+el.onmouseup = function(e) {
+  //console.log(storedx,storedy)
+  //setTimeout(detect,2000);
+    $('#animate').attr('style', 'background-color: blue');
+    isDrawing = false;
+isDown=0;
+  }
+
+
+function detect () {
+
+
+}
+function InitThis() {
+ 
+    ctx = document.getElementById('c').getContext("2d");
+
+    $('#c').mousedown(function (e) {
+        mousePressed = true;
+         //console.log("llo1")
+        Draw(e.pageX - $(this).offset().left, e.pageY - $(this).offset().top, false);
+    });
+
+    $('#c').mousemove(function (e) {
+        if (mousePressed) {
+
+            Draw(e.pageX - $(this).offset().left, e.pageY - $(this).offset().top, true);
+
         }
-    }  
-};
-recognizer.start();
+    });
 
-
-  console.log('nhl');
+    $('#c').mouseup(function (e) {
+        mousePressed = false;
+    });
+      $('#c').mouseleave(function (e) {
+        mousePressed = false;
+    });
 }
 
+function Draw(x, y, isDown) {
+    if (isDown) {
+        ctx.beginPath();
+        ctx.strokeStyle = $('#selColor').val();
+        ctx.lineWidth = $('#selWidth').val();
+        ctx.lineJoin = "round";
+            //console.log( lastX, lastY, x, y)
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        ctx.closePath();
+        ctx.stroke();
+    }
+    lastX = x; lastY = y;
+}
+  
+function clearArea() {
+    // Use the identity matrix while clearing the canvas
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+}
+   var blue =document.getElementById('c');
+blue.style.position="absolute";
+ blue.style.left = 418+'px';
+blue.style.top = 30+'px';
 
 
 
 
 
-///beginning of core functions
-function runScript(e) {
-    if (e.keyCode == 13) {
-        Mostof=[];
-      counter=0;
-      plus=0;
-var input  = document.getElementById('ask').value;
+//  var platfromblue =document.getElementById('bluebox');
+// platfromblue.style.position="absolute";
+//  platfromblue.style.left = 18+'px';
+// platfromblue.style.top = 430+'px';
+//platfromblue.style.visibility ='hidden';
 
-///query
+// }());
 
-var ref = database.ref(input)
-ref.on('value',gotData, errData);
-
-function gotData(data) {
-//console.log(data.val())
-var coordinates =data.val();
-querydata=coordinates;
-//console.log(coordinates)
-var keys = Object.keys(coordinates)
-console.log(coordinates, keys)
-
-for(var i=0; i<keys.length;i++) {
-
-  var p=keys[i];
-
-var shuju=coordinates[p]
-
-
-
- 
+function myMove() {
+  setInterval(startTimer, 10);
+  function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
 }
 
- querydata=data.val();
+  var elem = document.getElementById("animate");   
+  var pos = 0;
+  var id = setInterval(frame, 1000);
+var los =0; 
 
-}
-function errData(err) {
-   console.log(err)
-}
-
-
-
-console.log('error is here bro')
-
-
-
-///count total objects
-
-var ref2 = database.ref()
-ref2.on('value',gotData2, errData2);
-
-function gotData2(data) {
-//console.log(data.val())
-var coordinates =data.val();
-
-//console.log(coordinates)
-var keys = Object.keys(coordinates)
-console.log(coordinates, keys)
-getthekey=keys;
- 
-
-}
-function errData2(err) {
-   console.log(err)
-}
-
- 
-
-
-
-
-///query
-var collectindex ='';
-for(var i=0; i<input.length;++i){
-var cancel=0;
-      var com=input[i];
-      var com2 =input[i]+input[i+1];
-      var com3 =input[i]+input[i+1]+input[i+2];
-      var com4 =input[i]+input[i+1]+input[i+2]+input[i+3];
+  function frame() {
+    if (pos == 350) {
+      clearInterval(id);
+    } else {
+      //pos++; 
+ pos = getRandomInt(260)
+ los = getRandomInt(400)
+ //console.log(pos,los)
      
-  console.log('mju',com,com2)
-    if (nounhanzi.indexOf(com4)> -1) {
-cancel=1;
-       collectindex=com4; 
-       keywordBank.push(collectindex);
-       keywordindexes.push(i);
-      }
-          if (nounhanzi.indexOf(com3)> -1 && cancel==0) {
-cancel=1;
-       collectindex=com3;
-       keywordBank.push(collectindex);
-       keywordindexes.push(i);
-      }
+      elem.style.left = pos + 'px';   //17>    <260
+       elem.style.top = los + 'px';   //>30 <430
+    }
+  }
+}
 
-         if (nounhanzi.indexOf(com2)> - 1 && cancel==0) {
-                 cancel=1;
-                 keywordindexes.push(i);
-       collectindex=com2; 
-        console.log('奶粉 fyy', com2)
-       keywordBank.push(collectindex);
-       console.log(keywordBank)
-      }
 
-      if (nounhanzi.indexOf(com)> -1&& cancel==0) {
-        keywordindexes.push(i);
-cancel=1;
-  console.log('奶粉 fyy 2', com2)
-      collectindex=com;
-      keywordBank.push(collectindex);
 
-      }
 
+
+  function startTimer () {
+
+
+    tens++; 
     
-   
-       
-     
+    if(tens < 9){
+      appendTens.innerHTML = "0" + tens;
+    }
+    
+    if (tens > 9){
+      appendTens.innerHTML = tens;
       
-
-    }//for loop
-
- console.log('final bank',keywordBank)
- guanjianci=keywordBank;
-if (collectindex=='奶粉') {
-  collectindex='naifen'
-}
-    Keyword=collectindex+'.json'
-    console.log('the Keyword',Keyword)
-    //setTimeout(qax,1000)
-    //setTimeout(zhishiku,1000)
-    zhishiku();
-     //begin();
-    }//end of first if statement
-}//end of function
-
-
-var globaljson;
-
-
-//zhishiku();
-
-function zhishiku() {
-//        for (var i = 0; i < nounhanzi.length; i++) {
-//          Keyword =nounhanzi[i]
-var input  = document.getElementById('ask').value;
-var bigclue =0;
-var shenmeIndex;
-
-var saveindex=0;
-var saveindex2 =0;
-var spyarray=[];
-var betterKey=0;
-  //newStr.splice(ind,strr.length);
-   //trueKeyword= keywordBank.pop();
-
-  for(var i=0; i< input.length;i++) {
-    var fuck = input[i];
-    // if (beginadding==1) {
-    //   spyarray.push(fuck);
-    // }
-
-    if (fuck=='的') {
-saveindex2=i;
-}
-
-if (fuck=='么') {
-//beginadding=1;
-saveindex=i;
-}
-
-
-
-  }
-
- var masterindex;
-
- if (saveindex>saveindex2) {
-masterindex = saveindex;
- }
-
-  if (saveindex2>saveindex) {
-masterindex = saveindex2;
- }
-
-var beenhere=0;
-console.log('hjk', masterindex, keywordBank,keywordindexes)
- for(var i=0; i<keywordBank.length;++i) {
-  var kite = keywordBank[i];
-  var realindex= keywordindexes[i];
-
-  //var indexbaby = input.indexOf(kite);
-
-var checkminus = realindex - masterindex;
-
-if (checkminus==2 || checkminus==1) {
-  beenhere=1;
-  trueKeyword=kite;
-betterKey=1;
-  console.log('trueKeyword', checkminus, kite, realindex)
-  break;
-}
-
-
- }
-
-
-
-if (betterKey==0) {
-  console.log('no betterKey')
-  trueKeyword= keywordBank.pop();
-}
-
-
-
-         if (trueKeyword=='奶粉') {
-  //trueKeyword='naifen'
-}
-
-         if (trueKeyword=='成分') {
-  //trueKeyword='成分1'
-}
-
-
-console.log('inside',trueKeyword)
-         Keyword=trueKeyword+'.json'
-       
-     console.log('the keeeeey',Keyword)
-$.getJSON(''+encodeURIComponent(Keyword)+'', 'utf8',function(json) {//成分.json
-     // this will show the info it in firebug console
-     if (json=='成分.json') {
-     console.log('wgh',json);
-   }
-     globaljson=json;
-    if (json.length>1) {
-      setTimeout(iteration,1000)
-    }
-});
-  //}
-
-
-}
-
-function iteration () {
-
-uniqueNames=[];
-uniqueQuestions=[];
-questionArray=[];
-answerArray=[];
-
-
-for(var i =0; i<globaljson.length;i++) {
-
-var phase1 = globaljson[i];
-
-
-questionArray.push(phase1.question);
-answerArray.push(phase1.answer);
-
-
-}//end of globaljson for loop
-
-if (questionArray.length==30690) {
-console.log('question',questionArray);
-console.log('answer',answerArray)
-}
-console.log('question',questionArray);
-console.log('answer',answerArray)
-
-$.each(answerArray, function(i, el){
-    if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
-});
-
-$.each(questionArray, function(i, el){
-    if($.inArray(el, uniqueQuestions) === -1) uniqueQuestions.push(el);
-});
-
-
-
- setTimeout(qax,1000)
-setTimeout(qingxu,2000)
-
-}//end of iteration function
-
-
-////
-
-
-
-
-//emotion
-
-function qingxu () {
-	 tin1.innerHTML  ='目前知识库收录问题为:'+answerArray.length+'条';
-  tin2.innerHTML  ='人工优化问题:'+getthekey.length+'条';
-  var poshao =0;
- var neghao=0;
-var neuhao=0;
-
-var doublenegative=0;
-var budebu=0;
-var makepositive=0;
-var inputs  = document.getElementById('ask').value;
-for(var z=0; z< negadj.length;z++) {
-var compare = negadj[z];
-
-
-if (inputs.indexOf(compare)>-1) {
-  neghao++
-  console.log('nhl',compare)
-
-
-  var index = inputs.indexOf(compare);
-var index2 = inputs.indexOf('但');
-var secondindex = index2 - index;
-
-if (secondindex<=2&&inputs.indexOf('但')>1) {
-  console.log('dan rule');
-  //neghao=neghao-1;
-}
-
-//if bu is after a negative word 无知不是错
-var splitwords = inputs.slice(" ");
-var buindex = splitwords.indexOf("不");
-var meindex = splitwords.indexOf("没");
-var cancel=0;
-var check=compare.slice(" ");
-if (check.indexOf("不")>-1) {
-  console.log('blanket')
-cancel=1;
-}
-if (cancel==0) {
-if (index < buindex || index< meindex) {
-  //neghao=neghao-2;
-  console.log('denzel',splitwords,buindex,meindex,index)
-}
-
-}
-
-}
-
-
-
-}
-
-
-//pos
-
-for(var p=0; p< posadj.length;p++) {
-var compare = posadj[p];
-//console.log(compare)
-
-if (inputs.indexOf(compare)>-1) {
-  console.log('positve 12345',compare, inputs)
-
-  poshao++
-
-  //meiyou rule. 
-
-  if(inputs.indexOf("没有")>-1 ) {
-
-    var checkindex =inputs.split(" "); 
-    var checkindex2 = inputs.indexOf("没");
-      var checkindex3 = inputs.indexOf(compare);
-
-    var tyu= checkindex3-checkindex2;
-console.log('trg',checkindex, tyu,checkindex2,checkindex3)
-    if (tyu<=4) {
-      neghao+=2; 
-      console.log("counter positive")
-    }
-  }
-}
-
-
-}
-
-//negcounter
-var checj=0;
-for(var z=0; z< inputs.length;z++) {
-var compare = inputs[z];
-
-console.log(compare)
-
-
-if (negcounter.indexOf(compare)>-1) {
-
-//   if ((doublenegative==1 && negadj.indexOf(compare)>-1) {
-
-
-//   console.log("WTF positive")
-// }
-doublenegative++;
-
-
-console.log("WTF negative")
-//dan rule
-
+    } 
     
+    if (tens > 99) {
+      console.log("seconds");
+      seconds++;
+      appendSeconds.innerHTML = "0" + seconds + ":";
+      tens = 0;
+      appendTens.innerHTML = "0" + 0;
     }
-  //neghao++
-}
-
-
-
-//double negative section
-
-if (inputs.indexOf("不不")>-1&&doublenegative<3) {
-  doublenegative=2;
-}
-
-
-
-//neutral
-
-for(var z=0; z< neutralcounter.length;z++) {
-var compare = neutralcounter[z];
-//console.log(compare)
-
-if (inputs.indexOf(compare)>-1) {
-  //neuhao++;
-  // neghao-2;
-  // poshao-2;
-}
-
-
-
-
-}
-
-
-
-
-
-for(var i=0; i<neutralcounter.length; i++) {
-  var lop = neutralcounter[i];
-  var pop = inputs.indexOf(lop);
-
-  var index = pop + 1;
-var final = inputs[index];
-console.log('final', final)
-//      if (negadj.indexOf(final) > -1 || negcounter.indexOf(final) > -1) {
-// makepositive=1;
-//      }
-
-}
-var itsneutral;
-
-
-
-
-for(var i=0; i<inputs.length; i++) {
-var compare = inputs[z];
-
-var dontincrease=0; 
-if (posadj.indexOf(compare)>-1||negadj.indexOf(compare)>-1 ) {
-  console.log("WTF")
-dontincrease=1;
-}
-
-if (negadj.indexOf(compare)>-1) {
-   var pop = inputs.indexOf(compare);
-   var before = pop-1;
-   var after = pop + 1;
-
-var stringbefore = inputs[before];
-var stringafter = inputs[after];
-   if (stringbefore==stringafter) {
-    console.log('SAME WORD', stringbefore);
-    neghao=0; 
-    itsneutral=1;
-   }
-}
-if (dontincrease==0) {
-  neuhao+=0.2;
-}
-
-}
-
-//end neutral
-
-
-////check our knowledge
-
-
-
-
-
-
-//brotha
-var checkneutralonot = neuhao-neghao;
-var checkneutralonot2 = neuhao-poshao;
-if (checkneutralonot>=15 ||checkneutralonot2>=15 ) {//|| (makepositive==1 && neghao>poshao)
-  //itsneutral=1;
-  
-}
-
-var negate=0;
-// if(neghao>=1 && (doublenegative==2||doublenegative==3)) {
-// poshao+=3;
-// }
-
-
-if (neghao>=1 && doublenegative==1) {
-  makepositive=1;
-}
-
-if (neghao>=1 && doublenegative==2) {
-  makepositive=0;
-  neghao=11;
-  console.log('why insrf')
-}
-////pos
-
-if (poshao>=1 && doublenegative==1) {
-   makepositive=0;
-  neghao=11;
-}
-
-if (poshao>=1 && doublenegative==2) {
-   makepositive=1;
-  console.log('why insrf')
-}
-
-console.log('WHAT THE HELL', doublenegative)
-
-
-if (doublenegative==1 && inputs.indexOf("不错")>-1) {
-  doublenegative=0; 
-}
-//
-if (poshao==0 && neghao==0 && doublenegative==0) {
-    console.log('caught it2')
-  itsneutral=1;
-}
-var diff = poshao-neghao;
-
-if (diff==0 && neuhao>poshao && neuhao>neghao && neghao>=1) {
-  itsneutral=1;
-  console.log('caught it')
-}
-
-if (budebu==1) {//||inputs.length>10
-  doublenegative=doublenegative-1;
-   console.log('change double')
-}
-if (doublenegative==1||doublenegative==3) {
-  neghao++;
-  console.log('change add')
-  poshao=poshao-1;
-}
-
-if (poshao>=neuhao ||neghao>=neuhao) {
-  negate==1; 
-}
-
-console.log(makepositive)
-console.log('output', poshao,neghao,neuhao,makepositive,doublenegative)
-
-if (poshao>neghao || makepositive==1) {
-console.log('WHjjj', poshao, neghao, makepositive)
-  if (poshao>=1 || doublenegative>=1) {
-  negate=1;
-}
- tin4.innerHTML='';
-      tin4.innerHTML  ='情绪:😃';//😡, 😃
-
-//cumulativeEmotion.push('pos');
-  }
-
-  if (inputs.length<5&&poshao==neghao) {
-  //makepositive=1;
- 
-
-}
- // console.log('他不听我', itsneutral,poshao,neghao,negate)
-if (neghao>=poshao && neghao>=1 && negate==0 ||(doublenegative==1 && itsneutral==0)) {
-  negate=1;
-  
-   
- tin4.innerHTML='';
-      tin4.innerHTML  ='情绪:😡';//😡, 😃
-      //cumulativeEmotion.push('neg');
-  // document.getElementById("image").src="sadcloud.gif";
-}
-
-
-
-if (negate==0 || itsneutral==1) {
-
-if (((neuhao>poshao&&neuhao>neghao)) || itsneutral==1) {
- tin4.innerHTML='';
-      tin4.innerHTML  ='情绪:😶';//😡, 😃
-}
-}
-
-
-
-
-
-}
-
-//emotion
-
-
-
-//qax
-
-function qax () {
-	 input  = document.getElementById('ask').value;
-	 keywordBank=[];
-	for(var i=0; i<input.length;++i){
-var cancel=0;
-      var com=input[i];
-      var com2 =input[i]+input[i+1];
-      var com3 =input[i]+input[i+1]+input[i+2];
-      var com4 =input[i]+input[i+1]+input[i+2]+input[i+3];
-     
-  console.log('mju',com,com2)
-    if (nounhanzi.indexOf(com4)> -1) {
-cancel=1;
-       collectindex=com4; 
-       keywordBank.push(collectindex);
-       keywordindexes.push(i);
-      }
-          if (nounhanzi.indexOf(com3)> -1 && cancel==0) {
-cancel=1;
-       collectindex=com3;
-       keywordBank.push(collectindex);
-       keywordindexes.push(i);
-      }
-
-         if (nounhanzi.indexOf(com2)> - 1 && cancel==0) {
-                 cancel=1;
-                 keywordindexes.push(i);
-       collectindex=com2; 
-        console.log('奶粉 fyy', com2)
-       keywordBank.push(collectindex);
-       console.log(keywordBank)
-      }
-
-      if (nounhanzi.indexOf(com)> -1&& cancel==0) {
-        keywordindexes.push(i);
-cancel=1;
-  console.log('奶粉 fyy 2', com2)
-      collectindex=com;
-      keywordBank.push(collectindex);
-
-      }
-
     
-   
-       
-     
+    if (seconds > 9){
+      appendSeconds.innerHTML = seconds + ":";
+    }
+  
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  function myMove2 () {
+pleasestopsound=1;
+    
       
-
-    }//for loop
-
-	console.log('ghy',keywordBank, guanjianci)
- trueKeyword= keywordBank[0];
-
-if (keywordBank.length>1) {
-  tin3.innerHTML  ='关键词:'+keywordBank+'';
-}
-if (keywordBank.length==1) {
- tin3.innerHTML  ='关键词:'+trueKeyword+'';
-console.log('inside',trueKeyword, querydata)
-}
-
-if (querydata!==null) {
-  auset=1; 
-}
-
-
- input  = document.getElementById('ask').value;
-var arrayinput = [];//input.split(",")
-var arrayquestion=[]; //= input.split(",")
-var questionOutput =[];
-var validity=[];
-var finalanswers=[];
-var saveindex=[];
-var finalFive =[];
-var secretquestions =[];
-var counyorigin=0;
-var couny=0;
-
-
-
-  //5 answers
- 
-console.log('answers', finalanswers,   'questions', finalFive)
-
-
-// tin1='';
-
-//  tin1.innerHTML  ='目前知识库收录问题为:'+answerArray.length+'条';
- console.log(answerArray.length, tin1)
-var cloneAnswerArray= [];
-
-
-
-cloneAnswerArray=uniqueNames;
-questionArray=uniqueQuestions;
-console.log('quest', questionArray)
-
- masterAnswer=cloneAnswerArray[Math.floor(Math.random()*cloneAnswerArray.length)];
-cloneAnswerArray.splice(cloneAnswerArray.indexOf(masterAnswer), 1);
-//console.log(cloneAnswerArray)
-
-  masterAnswer2=cloneAnswerArray[Math.floor(Math.random()*cloneAnswerArray.length)];
-//cloneAnswerArray=answerArray.filter(function(e) { return e !== masterAnswer2 })
-cloneAnswerArray.splice(cloneAnswerArray.indexOf(masterAnswer2), 1);
-  //console.log(cloneAnswerArray)
-
-  masterAnswer3=cloneAnswerArray[Math.floor(Math.random()*cloneAnswerArray.length)];
-  cloneAnswerArray.splice(cloneAnswerArray.indexOf(masterAnswer3), 1);
-// cloneAnswerArray=answerArray.filter(function(e) { return e !== masterAnswer3 })
-  //console.log(cloneAnswerArray)
-
-  masterAnswer4=cloneAnswerArray[Math.floor(Math.random()*cloneAnswerArray.length)];
-  cloneAnswerArray.splice(cloneAnswerArray.indexOf(masterAnswer4), 1);
-//cloneAnswerArray=answerArray.filter(function(e) { return e !== masterAnswer4 })
- // console.log(cloneAnswerArray)
-
-  masterAnswer5=cloneAnswerArray[Math.floor(Math.random()*cloneAnswerArray.length)];
-  cloneAnswerArray.splice(cloneAnswerArray.indexOf(masterAnswer5), 1);
-//cloneAnswerArray=answerArray.filter(function(e) { return e !== masterAnswer5 })
-  //console.log(cloneAnswerArray)
-
-
-  //////question
-
-
-    masterquestion1=questionArray[answerArray.indexOf(masterAnswer)];
- // answerArray.splice(index, 1);
-
-  masterquestion2=questionArray[answerArray.indexOf(masterAnswer2)];
- // questionArray=questionArray.filter(function(e) { return e !== masterquestion2 })
-
-  masterquestion3=questionArray[answerArray.indexOf(masterAnswer3)];
-    //  questionArray=questionArray.filter(function(e) { return e !== masterquestion3 })
-
-  masterquestion4=questionArray[answerArray.indexOf(masterAnswer4)];
-     // questionArray=questionArray.filter(function(e) { return e !== masterquestion4 })
-
-  masterquestion5=questionArray[answerArray.indexOf(masterAnswer5)];
-      //questionArray=questionArray.filter(function(e) { return e !== masterquestion5 })
-
-
-
- console.log( masterquestion1, masterquestion2, masterquestion3, masterquestion4, masterquestion5)
-  masterquestion1= masterquestion1.fontcolor("orange");
-   masterquestion2= masterquestion2.fontcolor("orange");
-    masterquestion3= masterquestion3.fontcolor("orange");
-     masterquestion4= masterquestion4.fontcolor("orange");
-      masterquestion5= masterquestion5.fontcolor("orange");
-    
-
-
-if (auset==1) {
-  masterquestion1 = document.getElementById('ask').value;
-  masterquestion1 =masterquestion1.fontcolor("orange");
-  masterAnswer = querydata;
-}
-
-tin5.innerHTML='';
- tin5.innerHTML  ='相似问题与答案 '+ "<br>"+' '+ex1+''+masterquestion1+'' + "<br>"+ '1A.)'+masterAnswer+'' + "<br>"+ ''+ex2+''+masterquestion2+'' + "<br>"+ '2A.)'+masterAnswer2+'' + "<br>" + ''+ex3+''+masterquestion3+'' + "<br>"+ '3A.)'+masterAnswer3+'' + "<br>" + ''+ex4+''+masterquestion4+'' + "<br>"+ '4A.)'+masterAnswer4+'' + "<br>" + ''+ex5+''+masterquestion5+'' + "<br>"+ '5A.)'+masterAnswer5+'';
-
-
-
-
-
-    var mq1=questionArray[Math.floor(Math.random()*questionArray.length)];
-   var mq2=questionArray[Math.floor(Math.random()*questionArray.length)];
-    var mq3=questionArray[Math.floor(Math.random()*questionArray.length)];
-    var mq4=questionArray[Math.floor(Math.random()*questionArray.length)];
-     var mq5=questionArray[Math.floor(Math.random()*questionArray.length)];
-
-
-
-}//end of qax
-
-
-function tijiao () {
-	var  val =document.getElementById('ask').value;
-	var finalvalue;
-
-	if(document.getElementById("ch1").checked == true) {
-console.log('ch1')
-masterquestion1.fontcolor('red')
- console.log(masterquestion1)
- masterAnswer.fontcolor('red')
-finalvalue=masterAnswer;
-}
-	if(document.getElementById("ch2").checked == true) {
-console.log('ch2')
- masterquestion2.fontcolor('red')
-masterAnswer2.fontcolor('red')
   
-  finalvalue=masterAnswer2;
-}
-	if(document.getElementById("ch3").checked == true) {
-console.log('ch3')
- masterquestion3.fontcolor('red')
-masterAnswer3.fontcolor('red')
-finalvalue=masterAnswer3;
-}
-	if(document.getElementById("ch4").checked == true) {
-console.log('ch4')
-masterquestion4.fontcolor('red')
-masterAnswer4.fontcolor('red')
-finalvalue=masterAnswer4;
-}
-	if(document.getElementById("ch5").checked == true) {
-console.log('ch5')
- masterquestion5.fontcolor('red')
-masterAnswer5.fontcolor('red')
-finalvalue=masterAnswer5;
-}
 
-  tin5.innerHTML = ''+ex1+''+masterquestion1+'' + "<br>"+ '1A.)'+masterAnswer+'' + "<br>"+ ''+ex2+''+masterquestion2+'' + "<br>"+ '2A.)'+masterAnswer2+'' + "<br>" + ''+ex3+''+masterquestion3+'' + "<br>"+ '3A.)'+masterAnswer3+'' + "<br>" + ''+ex4+''+masterquestion4+'' + "<br>"+ '4A.)'+masterAnswer4+'' + "<br>" + ''+ex5+''+masterquestion5+'' + "<br>"+ '5A.)'+masterAnswer5+'' + "<br>"
+    ctx = document.getElementById('c').getContext("2d");
+
+
+  
+  var x = secretArrayX[pluscounter];
+  var y=secretArrayY[pluscounter];
+
+if (onlyonce==0) {
  
-//var finalvalue = savevalue;
-     var matchedinput =val;
-       var ref=database.ref(matchedinput);
-
-ref.set(finalvalue);
+   console.log('its okay', )
+  onlyonce=1;
+  lastXX=x-10;
+  lastYY=y-10;
 }
+     ctx.beginPath();
+        ctx.strokeStyle = $('#selColor').val();
+        ctx.lineWidth = $('#selWidth').val();
+        ctx.lineJoin = "round";
+        ctx.moveTo(lastXX, lastYY);
+        ctx.lineTo(x, y);
+        ctx.closePath();
+        ctx.stroke();
+    console.log( lastXX, lastYY, x, y)
+    lastXX = x; lastYY = y;
 
-function tijiao2 () {
+  pluscounter++;
 
-console.log('f2')
-
-var savevalue = document.getElementById('humanteach').value;
-var  val =document.getElementById('ask').value;
-
-masterAnswer=savevalue;
-masterquestion1 = val;
-masterquestion1 = masterquestion1.fontcolor('red')
-masterAnswer = masterAnswer.fontcolor('red')
-  tin5.innerHTML = ''+ex1+''+masterquestion1+'' + "<br>"+ '1A.)'+masterAnswer+'' + "<br>"+ ''+ex2+''+masterquestion2+'' + "<br>"+ '2A.)'+masterAnswer2+'' + "<br>" + ''+ex3+''+masterquestion3+'' + "<br>"+ '3A.)'+masterAnswer3+'' + "<br>" + ''+ex4+''+masterquestion4+'' + "<br>"+ '4A.)'+masterAnswer4+'' + "<br>" + ''+ex5+''+masterquestion5+'' + "<br>"+ '5A.)'+masterAnswer5+'' + "<br>"
- 
-var finalvalue = savevalue;
-     var matchedinput =val;
-       var ref=database.ref(matchedinput);
-
-ref.set(finalvalue);
-
-}
+  if (pluscounter<secretArrayX.length) {
+    setTimeout(myMove2,2000)
+    myMove2();
+  }
+  }
 
 
 
-function newbuttonalpha () {
 
-document.getElementById('ask').value='';
-masterAnswer='';
-// masterAnswer2='';
-// masterAnswer3='';
-// masterAnswer4='';
-// masterAnswer5='';
+function collision($div1, $div2) {
+  //console.log('in here bro', $div1, $div2)
+        var x1 = $div1.offset().left;
+        var y1 = $div1.offset().top;
+        var h1 = $div1.outerHeight(true);
+        var w1 = $div1.outerWidth(true);
+        var b1 = y1 + h1;
+        var r1 = x1 + w1;
+        var x2 = $div2.offset().left;
+        var y2 = $div2.offset().top;
+        var h2 = $div2.outerHeight(true);
+        var w2 = $div2.outerWidth(true);
+        var b2 = y2 + h2;
+        var r2 = x2 + w2;
 
-// masterquestion1='';
-// masterquestion2='';
-// masterquestion3='';
-// masterquestion4='';
-// masterquestion5='';
-
-keywordBank=[];
-getthekey=null;
-querydata=null;
-
-
-}
-
-
-
-</script>
+        if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) return false;
+        console.log('collide')
+     document.getElementById('c').width = document.getElementById('c').width-20;
+       $('#animate').attr('style', 'background-color: red');
+        clearInterval(startTimer);
+        return true;
+      }
+  
+   
+	</script>
+</html>
