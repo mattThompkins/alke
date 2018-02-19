@@ -23,6 +23,24 @@ position: relative;
  
 }
 
+.dot2 {
+    height: 25px;
+    width: 25px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+ 
+}
+
+.dot3 {
+    height: 25px;
+    width: 25px;
+    background-color: blue;
+    border-radius: 50%;
+    display: inline-block;
+ 
+}
+
 
 </style>
 
@@ -70,10 +88,10 @@ position: relative;
 
 			<button id="valid" onclick="validate()">Was the A.I. wrong?</button>
 
-			<div id="dot6" class="dot"> 
+			<div id="dot6" class="dot2"> 
 </div>
 
-					<div id="dot7" class="dot"> 
+					<div id="dot7" class="dot3"> 
 			</div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -160,8 +178,8 @@ var enternumber =  document.getElementById("gennumber");
  enternumber.style.left = 820+'px';
 enternumber.style.top = 70+'px';
 
-$("#dot6").css("background-color", "red");
-$("#dot7").css("background-color", "blue");
+// $("#dot6").css("background-color", "red");
+// $("#dot7").css("background-color", "blue");
 
 var buttonz =  document.getElementById("dot6");
  buttonz.style.position="absolute";
