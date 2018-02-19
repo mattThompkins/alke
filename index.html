@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Page Title</title>
+<title>Title of the document</title>
 </head>
-<body >
 
-<!-- onload="documentReady();" -->
-</body>
+
 
 <style type="text/css">
 .page-wrap {
@@ -15,404 +13,469 @@ margin: 0 auto;
 position: relative;
 }
 
-  canvas { border: 1px solid #ccc }
-  .ribbon {
-  position:absolute;
-  top:0;
-  right:0;
-}
 
-
-#container {
-  width: 400px;
-  height: 400px;
-  position: relative;
-  background: yellow;
-}
-#animate {
-  width: 50px;
-  height: 50px;
-  position: absolute;
-  background-color: blue;
+.dot {
+    height: 25px;
+    width: 25px;
+    background-color: green;
+    border-radius: 50%;
+    display: inline-block;
+ 
 }
 
 
 </style>
-<canvas id="c" width="500" height="400" style="border:2px solid black"></canvas>
-<button onclick="myMove()">Start</button>
 
-
-<div id ="container">
-<div id ="animate"></div>
+<div >
+	<img src="zhejiang.png" width="600" height="600" id="beijing">
 </div>
-<!-- <div id= "bluebox" class="box" style="background-color:#00FFFF;width:10px;height:5px;padding:10px;"> -->
-  <div id= "bluebox"> 
-     <img src="hero.png" height="40" width="40">
-  </div>
+
+<div id="relay1"> 
+<img src="gencontrol.png" height="40" width="40">
+<div id="dot1" class="dot"> 
+</div>
+	</div>
+
+
+<div id="relay2"> 
+<img src="gencontrol.png" height="40" width="40">
+<div id="dot2" class="dot"> 
+</div>
+	</div>
+
+
+
+<div id="relay3"> 
+<img src="gencontrol.png" height="40" width="40">
+<div id="dot3" class="dot"> 
+</div>
+	</div>
+
+	<div id="relay4"> 
+<img src="gencontrol.png" height="40" width="40">
+<div id="dot4" class="dot"> 
+</div>
+	</div>
+
+
+	<div id="relay5"> 
+<img src="gencontrol.png" height="40" width="40">
+<div id="dot5" class="dot"> 
+</div>
+	</div>
+
+	<input type="text" id="gennumber" size="5">
+	<button id="legend" onclick="selectgen()">Test A.I.</button>
+		<button id="reset" onclick="resetsample()">Reset</button>
+
+			<button id="valid" onclick="validate()">Was the A.I. wrong?</button>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	var aianwser;
+	var aipick;
+	var govalidate=0;
+	var fromLearneddata=[];
+	var fromLearneddata2=[];
+setInterval(checkState, 2000);
+var learndone1=0;
+var learndone2=0;
+var learndone3=0;
+var learndone4=0;
+var learndone5=0;
+
+var redcell;
+var errorpop=0;
+
+var data = ['1','2','3','4','5'];
+
+var countError=0;
+
+var valid =  document.getElementById("valid");
+ valid.style.position="absolute";
+valid.style.left = 860+'px';
+valid.style.top = 340+'px';
+valid.style.visibility='hidden';
+
+var bb =  document.getElementById("beijing");
+ bb.style.position="absolute";
+ bb.style.left = 200+'px';
+bb.style.top = 10+'px';
+bb.style.zIndex = "-1";
+
+//gen1
+
+var relay1 =  document.getElementById("relay1");
+ relay1.style.position="absolute";
+ relay1.style.left = 400+'px';
+relay1.style.top = 140+'px';
+
+//gen2
+
+var relay2 =  document.getElementById("relay2");
+ relay2.style.position="absolute";
+ relay2.style.left = 600+'px';
+relay2.style.top = 140+'px';
+
+
+var relay3 =  document.getElementById("relay3");
+ relay3.style.position="absolute";
+ relay3.style.left = 390+'px';
+relay3.style.top = 40+'px';
+
+
+
+var dot3 =  document.getElementById("dot3");
+ dot3.style.position="absolute";
+ dot3.style.left = 20+'px';
+dot3.style.top = 20+'px';
+
+
+var relay4 =  document.getElementById("relay4");
+ relay4.style.position="absolute";
+ relay4.style.left = 530+'px';
+relay4.style.top = 40+'px';
+
+
+
+var relay5 =  document.getElementById("relay5");
+ relay5.style.position="absolute";
+ relay5.style.left = 480+'px';
+relay5.style.top = 300+'px';
+
+
+
+var enternumber =  document.getElementById("gennumber");
+ enternumber.style.position="absolute";
+ enternumber.style.left = 820+'px';
+enternumber.style.top = 70+'px';
+
+var buttonz =  document.getElementById("legend");
+ buttonz.style.position="absolute";
+ buttonz.style.left = 880+'px';
+buttonz.style.top = 70+'px';
+
+var resetz =  document.getElementById("reset");
+resetz.style.position="absolute";
+resetz.style.left = 940+'px';
+resetz.style.top = 70+'px';
 
 
 
 
 
-<!-- <canvas id="c" width="1000" height="500" style="border: 1px solid black;"></canvas> -->
-<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script>
-  var secretArrayX=[500, 520,530,545,560,523, 300, 210];
-  var secretArrayY=[200,221,220,211,278,290, 154,209];
-  var tuy = document.getElementById('bluebox');
-var storedx=[];
-var storedy=[];
-  var mousePressed = false;
-var lastX, lastY;
-var ctx;
- var el = document.getElementById('c');
-var isDown=1;
-var isDrawing;
+//////////////
 
-var pluscounter=0; 
-var lastXX;
-  var lastYY;
-  var onlyonce=0;
-
-var countseconds =0; 
-
-var pleasestopsound =0;
+//ns
+      var networkstate =  document.createElement("div1");
+       networkstate.style.position="absolute";
+networkstate.style.left = 30+'px';
+networkstate.style.top = 70+'px';
+networkstate.innerHTML = "State of Network:";
+document.body.appendChild(networkstate);
 
 
+//ns2
+ var machinereasoning =  document.createElement("div2");
+       machinereasoning.style.position="absolute";
+machinereasoning.style.left = 30+'px';
+machinereasoning.style.top = 170+'px';
+machinereasoning.innerHTML = "Machine's Action:";
+document.body.appendChild(machinereasoning);
 
 
+//ns3
 
-
+ var mq =  document.createElement("div3");
+       mq.style.position="absolute";
+mq.style.left = 30+'px';
+mq.style.top = 270+'px';
+mq.innerHTML = "Error Rate:";
+document.body.appendChild(mq);
 
 
 
+ var instructions =  document.createElement("div4");
+       instructions.style.position="absolute";
+instructions.style.left = 630+'px';
+instructions.style.top = 30+'px';
+instructions.innerHTML = "Write the number of a generator the generator that would go out. The A.I. would then chose the best back-up generator(s)";
+document.body.appendChild(instructions);
 
 
+//
+//box
+//
+
+//////////
+
+function checkState (){
+
+if ($("#dot1").css("background-color") === 'rgb(0, 128, 0)' && $("#dot2").css("background-color") === 'rgb(0, 128, 0)' && $("#dot3").css("background-color") === 'rgb(0, 128, 0)' && $("#dot4").css("background-color") === 'rgb(0, 128, 0)' && $("#dot5").css("background-color") === 'rgb(0, 128, 0)' ) {
+	
+	networkstate.innerHTML = "State of Network:1";
+}
+if (countError>=1) {
+    var totalerror = countError/5;
+    totalerror = 1- totalerror;
+    totalerror=totalerror*100;
+
+var string = 'State of Network is running at  '+totalerror+'%'
+	networkstate.innerHTML = string;
+}
 
 
-  //myMove();
+	
+}
 
 
-//parcel
+function resetsample () {
+	data = ['1','2','3','4','5'];
+	countError=0;
+	$("#dot1").css("background-color", "green");
+	$("#dot2").css("background-color", "green");
+	$("#dot3").css("background-color", "green");
+	$("#dot4").css("background-color", "green");
+	$("#dot5").css("background-color", "green");
+}
 
-  var seconds = 00; 
-  var tens = 00; 
-    var appendTens =  document.createElement("div99");
-  appendTens.style.position="absolute";
- appendTens.style.left = 420+'px';
-appendTens.style.top = 500+'px';
-appendTens.innerHTML = "00";
-document.body.appendChild(appendTens);
+setTimeout(selectgen,1000)
+function selectgen () {
 
-      var appendSeconds =  document.createElement("div98");
-        appendSeconds.style.position="absolute";
- appendSeconds.style.left = 400+'px';
-appendSeconds.style.top = 500+'px';
-appendSeconds.innerHTML = "00:";
-document.body.appendChild(appendSeconds);
+var inputvalue = document.getElementById("gennumber").value
+inputvalue=data[Math.floor(Math.random()*data.length)];//Math.floor(Math.random() * 5) + 1;
+document.getElementById("gennumber").value=inputvalue
+aipick=inputvalue;
+if (inputvalue.length<1) {
+alert("Please enter the number of the generator that is hypothetically down")
 
-  var div = document.createElement("div9");
-  div.id = 'someId';
- div.style.width = "10px";
-div.style.height = "10px";
-div.style.background = "red";
-div.style.color = "white";
+}
+redcell=inputvalue;
+console.log(fromLearneddata,fromLearneddata2)
+// var vf= inputvalue.toString();
+// var index = data.indexOf(vf);
+// data.splice(1, index)
+// console.log('n', data)
+if (inputvalue=='1') {
+	$("#dot1").css("background-color", "red");
+countError++;
+}
 
-div.innerHTML = "Move Calibro with draw on the canvas, don't get hit by the blue square";
-  div.style.left = 399+'px';
-div.style.top = 74+'px';
- document.body.appendChild(div);
+if (inputvalue=='2') {
+	$("#dot2").css("background-color", "red");
+	countError++;
+}
+if (inputvalue=='3') {
+	$("#dot3").css("background-color", "red");
+	countError++;
+}
+if (inputvalue=='4') {
+	$("#dot4").css("background-color", "red");
+	countError++;
+}
+if (inputvalue=='5') {
+	$("#dot5").css("background-color", "red");
+	countError++;
+}
 
- //parcel
 
-var fx;
-var fy;
- el.onmousedown = function(e) {
-isDown=1;
-  isDrawing = true;
-console.log('wtf')
- }
- var beauty=0;
-el.onmousemove = function(e) {
-  beauty++;
-
-function removeDuplicateUsingFilter(arr){
-    let unique_array = arr.filter(function(elem, index, self) {
-        return index == self.indexOf(elem);
-    });
-    return unique_array
+setTimeout(choosegen,2000)
 }
 
 
 
-  collision($("#animate"), $("#bluebox"));
-
-  InitThis();
-  if (isDrawing==1) {
-
-  //console.log("llo2",e.clientX, e.clientY)
 
 
 
-var checkx= e.clientX-500;
-var checky = e.clientY;
-  for(var i=0; i<storedy.length; i++) {
-   var x= storedx[i];
-   var y=storedy[i];
+function choosegen () {
+var numberOfoptions = 5; //total number of generators. 
 
-if (checkx==x && checky == y) {
-  console.log('master collision')
+//console.log(data)
+
+var choice = data[Math.floor(Math.random()*data.length)];
+aianwser=choice;
+//console.log('yoyoy',fromLearneddata,fromLearneddata2)
+var checkinde;
+// if (fromLearneddata.length==5) {
+// 	console.log('fully learned!!!!!!!!!!!!')
+//  checkinde = fromLearneddata.indexOf(choice);
+// // console.log('yoyoy',checkinde,fromLearneddata)
+// }
+machinereasoning.innerHTML='';
+machinereasoning.innerHTML = "Choose random generator";
+
+if (learndone1==1 && redcell=='1') {
+		checkinde=fromLearneddata.indexOf('1');
+		choice=fromLearneddata2[checkinde];
+		console.log('for 1', checkinde, fromLearneddata, choice)
+		machinereasoning.innerHTML = "Choose learned generator";
+
+	}
+	if (learndone2==1 && redcell=='2') {
+		checkinde=fromLearneddata.indexOf('2');
+		choice=fromLearneddata2[checkinde];
+		console.log('for 2', checkinde, fromLearneddata, choice)
+			machinereasoning.innerHTML = "Choose learned generator";
+
+	}
+
+		if (learndone3==1 && redcell=='3') {
+		checkinde=fromLearneddata.indexOf('3');
+		choice=fromLearneddata2[checkinde];
+		console.log('for 3', checkinde, fromLearneddata, choice)
+		 	machinereasoning.innerHTML = "Choose learned generator";
+
+	}
+
+
+		if (learndone4==1 && redcell=='4') {
+		checkinde=fromLearneddata.indexOf('4');
+		choice=fromLearneddata2[checkinde];
+		console.log('for 4', checkinde, fromLearneddata,choice)
+			machinereasoning.innerHTML = "Choose learned generator";
+
+	}
+
+		if (learndone5==1 && redcell=='5') {
+		checkinde=fromLearneddata.indexOf('5');
+		choice=fromLearneddata2[checkinde];
+		console.log('for 5', choice,checkinde, fromLearneddata)
+			machinereasoning.innerHTML = "Choose learned generator";
+
+	}
+console.log('final',choice,redcell)
+if (choice=='1') {
+	$("#dot1").css("background-color", "blue");
+
 }
 
-//   var div2 = document.createElement("pun");
-//   div2.id = 'magicdiv'+beauty+'';
-//  div2.style.width = "5px";
-// div2.style.height = "5px";
-// div2.style.background = "green";
-//  div2.style.position="absolute";
-//   div2.style.left = x;
-// div2.style.top = y;
-//  document.body.appendChild(div2);
-
-  }
-
-
-
-//moves calibro
-var tuy = document.getElementById('bluebox');
-tuy.style.position="absolute";
-  tuy.style.left = e.clientX-500+'px';
- tuy.style.top = e.clientY+'px';
-
- if (storedx.indexOf(tuy.style.left)>-1 && storedy.indexOf(tuy.style.top)>-1) {
-  console.log('BRUH collision')
- }
-
-   storedx.push(tuy.style.left);
-  storedy.push(tuy.style.top);
-// document.body.appendChild(tuy);
-
-
+if (choice=='2') {
+	$("#dot2").css("background-color", "blue");
+	
 }
-
+if (choice=='3') {
+	$("#dot3").css("background-color", "blue");
+	
 }
-
-el.onmouseup = function(e) {
-  //console.log(storedx,storedy)
-  //setTimeout(detect,2000);
-    $('#animate').attr('style', 'background-color: blue');
-    isDrawing = false;
-isDown=0;
-  }
-
-
-function detect () {
-
-
+if (choice=='4') {
+	$("#dot4").css("background-color", "blue");
+	
 }
-function InitThis() {
- 
-    ctx = document.getElementById('c').getContext("2d");
-
-    $('#c').mousedown(function (e) {
-        mousePressed = true;
-         //console.log("llo1")
-        Draw(e.pageX - $(this).offset().left, e.pageY - $(this).offset().top, false);
-    });
-
-    $('#c').mousemove(function (e) {
-        if (mousePressed) {
-
-            Draw(e.pageX - $(this).offset().left, e.pageY - $(this).offset().top, true);
-
-        }
-    });
-
-    $('#c').mouseup(function (e) {
-        mousePressed = false;
-    });
-      $('#c').mouseleave(function (e) {
-        mousePressed = false;
-    });
-}
-
-function Draw(x, y, isDown) {
-    if (isDown) {
-        ctx.beginPath();
-        ctx.strokeStyle = $('#selColor').val();
-        ctx.lineWidth = $('#selWidth').val();
-        ctx.lineJoin = "round";
-            //console.log( lastX, lastY, x, y)
-        ctx.moveTo(lastX, lastY);
-        ctx.lineTo(x, y);
-        ctx.closePath();
-        ctx.stroke();
-    }
-    lastX = x; lastY = y;
-}
-  
-function clearArea() {
-    // Use the identity matrix while clearing the canvas
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-}
-   var blue =document.getElementById('c');
-blue.style.position="absolute";
- blue.style.left = 418+'px';
-blue.style.top = 30+'px';
-
-
-
-
-
-//  var platfromblue =document.getElementById('bluebox');
-// platfromblue.style.position="absolute";
-//  platfromblue.style.left = 18+'px';
-// platfromblue.style.top = 430+'px';
-//platfromblue.style.visibility ='hidden';
-
-// }());
-
-function myMove() {
-  setInterval(startTimer, 10);
-  function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
-
-  var elem = document.getElementById("animate");   
-  var pos = 0;
-  var id = setInterval(frame, 1000);
-var los =0; 
-
-  function frame() {
-    if (pos == 350) {
-      clearInterval(id);
-    } else {
-      //pos++; 
- pos = getRandomInt(260)
- los = getRandomInt(400)
- //console.log(pos,los)
-     
-      elem.style.left = pos + 'px';   //17>    <260
-       elem.style.top = los + 'px';   //>30 <430
-    }
-  }
+if (choice=='5') {
+	$("#dot5").css("background-color", "blue");
+	
 }
 
 
 
 
 
-  function startTimer () {
-
-
-    tens++; 
-    
-    if(tens < 9){
-      appendTens.innerHTML = "0" + tens;
-    }
-    
-    if (tens > 9){
-      appendTens.innerHTML = tens;
-      
-    } 
-    
-    if (tens > 99) {
-      console.log("seconds");
-      seconds++;
-      appendSeconds.innerHTML = "0" + seconds + ":";
-      tens = 0;
-      appendTens.innerHTML = "0" + 0;
-    }
-    
-    if (seconds > 9){
-      appendSeconds.innerHTML = seconds + ":";
-    }
-  
-  }
-  
 
 
 
 
+//valid.style.visibility='visible';
 
+setTimeout(supercheck,2000)
 
-
-
-
-
-
-
-
-
-
-
-  function myMove2 () {
-pleasestopsound=1;
-    
-      
-  
-
-    ctx = document.getElementById('c').getContext("2d");
-
-
-  
-  var x = secretArrayX[pluscounter];
-  var y=secretArrayY[pluscounter];
-
-if (onlyonce==0) {
- 
-   console.log('its okay', )
-  onlyonce=1;
-  lastXX=x-10;
-  lastYY=y-10;
 }
-     ctx.beginPath();
-        ctx.strokeStyle = $('#selColor').val();
-        ctx.lineWidth = $('#selWidth').val();
-        ctx.lineJoin = "round";
-        ctx.moveTo(lastXX, lastYY);
-        ctx.lineTo(x, y);
-        ctx.closePath();
-        ctx.stroke();
-    console.log( lastXX, lastYY, x, y)
-    lastXX = x; lastYY = y;
 
-  pluscounter++;
+function validate () {
+	for(var i=0; i<data.length;i++) {
+		var m= data[i];
 
-  if (pluscounter<secretArrayX.length) {
-    setTimeout(myMove2,2000)
-    myMove2();
-  }
-  }
+		if (m==1) {
+			$("#dot1").css("background-color", "green");
+		}
+		if (m==2) {
+			$("#dot2").css("background-color", "green");
+		}
+		if (m==3) {
+			$("#dot3").css("background-color", "green");
+		}
+		if (m==4) {
+			$("#dot4").css("background-color", "green");
+		}
+		if (m==5) {
+			$("#dot5").css("background-color", "green");
+		}
+
+	}
+choosegen();
+}
 
 
+function supercheck () {
+
+	var answers =[1,2,3,4,5]
+	var huida =[3,5,4,3,2]
+	var checkerror=0;
+if (aipick=='1' && aianwser=='3' && learndone1==0) {
+
+	console.log('correct1')
+	fromLearneddata.push('1')
+	fromLearneddata2.push('3')
+	learndone1=1;
+	checkerror=1;
+
+}
+
+if (aipick=='2' && aianwser=='5' && learndone2==0) {
+
+	console.log('correct2')
+	fromLearneddata.push('2')
+	fromLearneddata2.push('5')
+	learndone2=1;
+	checkerror=1;
+
+}
+
+if (aipick=='3' && aianwser=='4' && learndone3==0) {
+
+	console.log('correct3')
+	fromLearneddata.push('3')
+	fromLearneddata2.push('4')
+	learndone3=1;
+	checkerror=1;
+
+}
+if (aipick=='4' && aianwser=='3' && learndone4==0) {
+
+	console.log('correct4')
+	fromLearneddata.push('4')
+	fromLearneddata2.push('3')
+	learndone4=1;
+	checkerror=1;
+
+}
+if (aipick=='5' && aianwser=='2' && learndone5==0) {
+
+	console.log('correct5')
+	fromLearneddata.push('5')
+	fromLearneddata2.push('2')
+	learndone5=1;
+	checkerror=1;
+
+}
+errorpop++
+if (checkerror==0) {
+var trueerror = 100/errorpop;
+var string = 'Error Rate = '+trueerror+''
+if (fromLearneddata.length==5) {
+string='No Error'
+}
+mq.innerHTML = string;
+}
+resetsample();
+setTimeout(selectgen,2000)
+
+}
 
 
-function collision($div1, $div2) {
-  //console.log('in here bro', $div1, $div2)
-        var x1 = $div1.offset().left;
-        var y1 = $div1.offset().top;
-        var h1 = $div1.outerHeight(true);
-        var w1 = $div1.outerWidth(true);
-        var b1 = y1 + h1;
-        var r1 = x1 + w1;
-        var x2 = $div2.offset().left;
-        var y2 = $div2.offset().top;
-        var h2 = $div2.outerHeight(true);
-        var w2 = $div2.outerWidth(true);
-        var b2 = y2 + h2;
-        var r2 = x2 + w2;
+</script>
 
-        if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) return false;
-        console.log('collide')
-     document.getElementById('c').width = document.getElementById('c').width-20;
-       $('#animate').attr('style', 'background-color: red');
-        clearInterval(startTimer);
-        return true;
-      }
-  
-   
-	</script>
 </html>
