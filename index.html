@@ -65,10 +65,16 @@ position: relative;
 	</div>
 
 	<input type="text" id="gennumber" size="5">
-	<button id="legend" onclick="selectgen()">Test A.I.</button>
-		<button id="reset" onclick="resetsample()">Reset</button>
+	<!-- <button id="legend" onclick="selectgen()">Test A.I.</button>
+		<button id="reset" onclick="resetsample()">Reset</button> -->
 
 			<button id="valid" onclick="validate()">Was the A.I. wrong?</button>
+
+			<div id="dot6" class="dot"> 
+</div>
+
+					<div id="dot7" class="dot"> 
+			</div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
@@ -154,18 +160,33 @@ var enternumber =  document.getElementById("gennumber");
  enternumber.style.left = 820+'px';
 enternumber.style.top = 70+'px';
 
-var buttonz =  document.getElementById("legend");
+$("#dot6").css("background-color", "red");
+$("#dot7").css("background-color", "blue");
+
+var buttonz =  document.getElementById("dot6");
  buttonz.style.position="absolute";
  buttonz.style.left = 880+'px';
-buttonz.style.top = 70+'px';
+buttonz.style.top = 240+'px';
 
-var resetz =  document.getElementById("reset");
+var resetz =  document.getElementById("dot7");
 resetz.style.position="absolute";
-resetz.style.left = 940+'px';
-resetz.style.top = 70+'px';
+resetz.style.left = 1000+'px';
+resetz.style.top = 240+'px';
+
+ var x1 =  document.createElement("div34");
+      x1.style.position="absolute";
+x1.style.left = 830+'px';
+x1.style.top = 270+'px';
+x1.innerHTML = "Generator down";
+document.body.appendChild(x1);
 
 
-
+var x2 =  document.createElement("div35");
+      x2.style.position="absolute";
+x2.style.left = 970+'px';
+x2.style.top = 270+'px';
+x2.innerHTML = "Helper generator";
+document.body.appendChild(x2);
 
 
 //////////////
@@ -204,7 +225,7 @@ document.body.appendChild(mq);
 instructions.style.left = 630+'px';
 instructions.style.top = 30+'px';
 instructions.innerHTML = "Write the number of a generator the generator that would go out. The A.I. would then chose the best back-up generator(s)";
-document.body.appendChild(instructions);
+//document.body.appendChild(instructions);
 
 
 //
