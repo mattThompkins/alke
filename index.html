@@ -4,517 +4,329 @@
 <title>Title of the document</title>
 </head>
 
-
-
 <style type="text/css">
 .page-wrap {
 width: 1000px;
 margin: 0 auto;
 position: relative;
 }
+	  .dragme{
+			position:relative;
+			width: 40px;
+			height: 40px;
+			cursor: move;
+		}
+	#draggable {
+			background-color: #ccc;
+			border: 1px solid #000;
+		}
 
-
-.dot {
-    height: 25px;
-    width: 25px;
-    background-color: green;
-    border-radius: 50%;
-    display: inline-block;
- 
-}
-
-.dot2 {
-    height: 25px;
-    width: 25px;
-    background-color: red;
-    border-radius: 50%;
-    display: inline-block;
- 
-}
-
-.dot3 {
-    height: 25px;
-    width: 25px;
-    background-color: blue;
-    border-radius: 50%;
-    display: inline-block;
- 
+  #container {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  background: pink;
+ border: 1px solid black;
+  z-index: -1;
 }
 
 
+.bb {
+  width: 580px;
+  height: 600px;
+  position: relative;
+ border: 1px solid black;
+  z-index: -1;
+}
 </style>
 
-<div >
-	<img src="zhejiang.png" width="600" height="600" id="beijing">
+<div  id="1">
+	<img src="uparrow.png"  class="dragme" id="shang" >
 </div>
 
-<div id="relay1"> 
-<img src="gencontrol.png" height="40" width="40">
-<div id="dot1" class="dot"> 
+<div  id="2">
+	<img src="leftarrow.png"  class="dragme" id="zuo" >
 </div>
-	</div>
-
-
-<div id="relay2"> 
-<img src="gencontrol.png" height="40" width="40">
-<div id="dot2" class="dot"> 
-</div>
-	</div>
-
-
-
-<div id="relay3"> 
-<img src="gencontrol.png" height="40" width="40">
-<div id="dot3" class="dot"> 
-</div>
-	</div>
-
-	<div id="relay4"> 
-<img src="gencontrol.png" height="40" width="40">
-<div id="dot4" class="dot"> 
-</div>
-	</div>
-
-
-	<div id="relay5"> 
-<img src="gencontrol.png" height="40" width="40">
-<div id="dot5" class="dot"> 
-</div>
-	</div>
-
-	<input type="text" id="gennumber" size="5">
-	<!-- <button id="legend" onclick="selectgen()">Test A.I.</button>
-		<button id="reset" onclick="resetsample()">Reset</button> -->
-
-			<button id="valid" onclick="validate()">Was the A.I. wrong?</button>
-
-			<div id="dot6" class="dot2"> 
+<div  id="3">
+	<img src="rightarrow.png"  class="dragme" id="you" >
 </div>
 
-					<div id="dot7" class="dot3"> 
-			</div>
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
-
-
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-<script type="text/javascript">
-	var aianwser;
-	var aipick;
-	var govalidate=0;
-	var fromLearneddata=[];
-	var fromLearneddata2=[];
-setInterval(checkState, 2000);
-var learndone1=0;
-var learndone2=0;
-var learndone3=0;
-var learndone4=0;
-var learndone5=0;
-
-var redcell;
-var errorpop=0;
-
-var data = ['1','2','3','4','5'];
-
-var countError=0;
-
-var valid =  document.getElementById("valid");
- valid.style.position="absolute";
-valid.style.left = 860+'px';
-valid.style.top = 340+'px';
-valid.style.visibility='hidden';
-
-var bb =  document.getElementById("beijing");
- bb.style.position="absolute";
- bb.style.left = 200+'px';
-bb.style.top = 10+'px';
-bb.style.zIndex = "-1";
-
-//gen1
-
-var relay1 =  document.getElementById("relay1");
- relay1.style.position="absolute";
- relay1.style.left = 400+'px';
-relay1.style.top = 140+'px';
-
-//gen2
-
-var relay2 =  document.getElementById("relay2");
- relay2.style.position="absolute";
- relay2.style.left = 600+'px';
-relay2.style.top = 140+'px';
-
-
-var relay3 =  document.getElementById("relay3");
- relay3.style.position="absolute";
- relay3.style.left = 390+'px';
-relay3.style.top = 40+'px';
+<div  id="4">
+	<img src="downarrow.png"  class="dragme" id="xia" >
+</div>
 
 
 
-var dot3 =  document.getElementById("dot3");
- dot3.style.position="absolute";
- dot3.style.left = 20+'px';
-dot3.style.top = 20+'px';
+<div id="bean">
+	<img src="bean.png" width="20"; height="20">
+</div>
+
+<div id="vessel2">
+	<img src="bean.png" width="20"; height="20">
+</div>
+
+<div id="vessel3">
+	<img src="bean.png" width="20"; height="20">
+</div>
+<div id="vessel4">
+	<img src="bean.png" width="20"; height="20">
+</div>
+<div id="vessel5">
+	<img src="bean.png" width="20"; height="20">
+</div>
+
+<div id="thecase">
+	<img src="nes.png" width="60"; height="60" >
+</div>
 
 
-var relay4 =  document.getElementById("relay4");
- relay4.style.position="absolute";
- relay4.style.left = 530+'px';
-relay4.style.top = 40+'px';
+<div id="border"   class="bb">
+</div>
+<!-- <div id ="container1" class="container">
 
+</div>
+<div id ="container">
+<div id ="container2"></div>
+</div>
+<div id ="container">
+<div id ="container3"></div>
+</div>
+<div id ="container">
+<div id ="container4"></div>
+</div>
+<div id ="container">
+<div id ="container5"></div>
+</div>
+<div id ="container">
+<div id ="container6"></div>
+</div> -->
 
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script>
 
-var relay5 =  document.getElementById("relay5");
- relay5.style.position="absolute";
- relay5.style.left = 480+'px';
-relay5.style.top = 300+'px';
-
-
-
-var enternumber =  document.getElementById("gennumber");
- enternumber.style.position="absolute";
- enternumber.style.left = 820+'px';
-enternumber.style.top = 70+'px';
-
-// $("#dot6").css("background-color", "red");
-// $("#dot7").css("background-color", "blue");
-
-var buttonz =  document.getElementById("dot6");
- buttonz.style.position="absolute";
- buttonz.style.left = 880+'px';
-buttonz.style.top = 240+'px';
-
-var resetz =  document.getElementById("dot7");
-resetz.style.position="absolute";
-resetz.style.left = 1000+'px';
-resetz.style.top = 240+'px';
-
- var x1 =  document.createElement("div34");
-      x1.style.position="absolute";
-x1.style.left = 830+'px';
-x1.style.top = 270+'px';
-x1.innerHTML = "Generator down";
-document.body.appendChild(x1);
-
-
-var x2 =  document.createElement("div35");
-      x2.style.position="absolute";
-x2.style.left = 970+'px';
-x2.style.top = 270+'px';
-x2.innerHTML = "Helper generator";
-document.body.appendChild(x2);
-
-
-//////////////
-
-//ns
-      var networkstate =  document.createElement("div1");
-       networkstate.style.position="absolute";
-networkstate.style.left = 30+'px';
-networkstate.style.top = 70+'px';
-networkstate.innerHTML = "State of Network:";
-document.body.appendChild(networkstate);
-
-
-//ns2
- var machinereasoning =  document.createElement("div2");
-       machinereasoning.style.position="absolute";
-machinereasoning.style.left = 30+'px';
-machinereasoning.style.top = 170+'px';
-machinereasoning.innerHTML = "Machine's Action:";
-document.body.appendChild(machinereasoning);
-
-
-//ns3
-
- var mq =  document.createElement("div3");
-       mq.style.position="absolute";
-mq.style.left = 30+'px';
-mq.style.top = 270+'px';
-mq.innerHTML = "Error Rate:";
-document.body.appendChild(mq);
-
-
-
- var instructions =  document.createElement("div4");
-       instructions.style.position="absolute";
-instructions.style.left = 630+'px';
-instructions.style.top = 30+'px';
-instructions.innerHTML = "Write the number of a generator the generator that would go out. The A.I. would then chose the best back-up generator(s)";
-//document.body.appendChild(instructions);
-
-
-//
-//box
+var left =0;
+var right =0;
+var up =0;
+var down=0; 
+	//organize UI
+	var yaxis=90;
+ var submitbuz =document.getElementById('bean');
+submitbuz.style.position="absolute";
+submitbuz.style.left = 540+'px';
+submitbuz.style.top = yaxis+'px';
 //
 
-//////////
 
-function checkState (){
-
-if ($("#dot1").css("background-color") === 'rgb(0, 128, 0)' && $("#dot2").css("background-color") === 'rgb(0, 128, 0)' && $("#dot3").css("background-color") === 'rgb(0, 128, 0)' && $("#dot4").css("background-color") === 'rgb(0, 128, 0)' && $("#dot5").css("background-color") === 'rgb(0, 128, 0)' ) {
-	
-	networkstate.innerHTML = "State of Network:1";
-}
-if (countError>=1) {
-    var totalerror = countError/5;
-    totalerror = 1- totalerror;
-    totalerror=totalerror*100;
-
-var string = 'State of Network is running at  '+totalerror+'%'
-	networkstate.innerHTML = string;
-}
+ var ase =document.getElementById('thecase');
+ase.style.position="absolute";
+ase.style.left = 540+'px';
+ase.style.top = 520+'px';
 
 
-	
-}
+var bigbox=document.getElementById('border');
+bigbox.style.position="absolute";
+bigbox.style.left = 540+'px';
+bigbox.style.top = 10+'px';
 
+//
+fall();
+ function fall () {
+ 	var determineimage= Math.floor(Math.random() * 15) + 1;
 
-function resetsample () {
-	data = ['1','2','3','4','5'];
-	countError=0;
-	$("#dot1").css("background-color", "green");
-	$("#dot2").css("background-color", "green");
-	$("#dot3").css("background-color", "green");
-	$("#dot4").css("background-color", "green");
-	$("#dot5").css("background-color", "green");
-}
+ 	var determineimage2= Math.floor(Math.random() * 15) + 1;
 
-setTimeout(selectgen,1000)
-function selectgen () {
-
-var inputvalue = document.getElementById("gennumber").value
-inputvalue=data[Math.floor(Math.random()*data.length)];//Math.floor(Math.random() * 5) + 1;
-document.getElementById("gennumber").value=inputvalue
-aipick=inputvalue;
-if (inputvalue.length<1) {
-alert("Please enter the number of the generator that is hypothetically down")
-
-}
-redcell=inputvalue;
-console.log(fromLearneddata,fromLearneddata2)
-// var vf= inputvalue.toString();
-// var index = data.indexOf(vf);
-// data.splice(1, index)
-// console.log('n', data)
-if (inputvalue=='1') {
-	$("#dot1").css("background-color", "red");
-countError++;
-}
-
-if (inputvalue=='2') {
-	$("#dot2").css("background-color", "red");
-	countError++;
-}
-if (inputvalue=='3') {
-	$("#dot3").css("background-color", "red");
-	countError++;
-}
-if (inputvalue=='4') {
-	$("#dot4").css("background-color", "red");
-	countError++;
-}
-if (inputvalue=='5') {
-	$("#dot5").css("background-color", "red");
-	countError++;
-}
-
-
-setTimeout(choosegen,2000)
-}
+ 	var determineimage3= Math.floor(Math.random() * 15) + 1;
+ 	var determineimage4= Math.floor(Math.random() * 15) + 1;
+ 	var determineimage5= Math.floor(Math.random() * 15) + 1;
 
 
 
+ 	if (determineimage<=5) {
+ 		$("#bean").attr("src", "salt.png");
+ 		console.log('what the hell')
+ 	}
+
+ 	if (determineimage2<=5) {
+ 		$("#vessel2").attr("src", "salt.png");
+ 			console.log('what the hell')
+ 	}
+
+ 	if (determineimage3<=5) {
+ 		 $("#vessel3").attr("src", "salt.png");
+ 		 	console.log('what the hell')
+ 	}
+
+ 		if (determineimage4<=5) {
+ 		 $("#vessel4").attr("src", "salt.png");
+ 		 	console.log('what the hell')
+ 	}
+
+
+	if (determineimage5<=5) {
+ 		$("#vessel5").attr("src", "salt.png");
+ 	}
+
+//
+
+ 	if (determineimage<=10 &&determineimage>5) {
+ 		 document.getElementById("bean").src="salt.png";
+ 	}
+
+ 	 	if (determineimage2<=10 &&determineimage2>5) {
+ 		 document.getElementById("vessel2").src="salt.png";
+ 	}
+
+ 	 	if (determineimage3<=10 &&determineimage3>5) {
+ 		 document.getElementById("vessel3").src="salt.png";
+ 	}
+
+ 		 	if (determineimage4<=10 &&determineimage4>5) {
+ 		 document.getElementById("vessel4").src="salt.png";
+ 	}
+
+
+	 	if (determineimage5<=10 &&determineimage5>5) {
+ 		 document.getElementById("vessel5").src="salt.png";
+ 	}
+
+ 	//
 
 
 
-function choosegen () {
-var numberOfoptions = 5; //total number of generators. 
-
-//console.log(data)
-
-var choice = data[Math.floor(Math.random()*data.length)];
-aianwser=choice;
-//console.log('yoyoy',fromLearneddata,fromLearneddata2)
-var checkinde;
-// if (fromLearneddata.length==5) {
-// 	console.log('fully learned!!!!!!!!!!!!')
-//  checkinde = fromLearneddata.indexOf(choice);
-// // console.log('yoyoy',checkinde,fromLearneddata)
-// }
-machinereasoning.innerHTML='';
-machinereasoning.innerHTML = "Choose random generator";
-
-if (learndone1==1 && redcell=='1') {
-		checkinde=fromLearneddata.indexOf('1');
-		choice=fromLearneddata2[checkinde];
-		console.log('for 1', checkinde, fromLearneddata, choice)
-		machinereasoning.innerHTML = "Choose learned generator";
-
-	}
-	if (learndone2==1 && redcell=='2') {
-		checkinde=fromLearneddata.indexOf('2');
-		choice=fromLearneddata2[checkinde];
-		console.log('for 2', checkinde, fromLearneddata, choice)
-			machinereasoning.innerHTML = "Choose learned generator";
-
-	}
-
-		if (learndone3==1 && redcell=='3') {
-		checkinde=fromLearneddata.indexOf('3');
-		choice=fromLearneddata2[checkinde];
-		console.log('for 3', checkinde, fromLearneddata, choice)
-		 	machinereasoning.innerHTML = "Choose learned generator";
-
-	}
-
-
-		if (learndone4==1 && redcell=='4') {
-		checkinde=fromLearneddata.indexOf('4');
-		choice=fromLearneddata2[checkinde];
-		console.log('for 4', checkinde, fromLearneddata,choice)
-			machinereasoning.innerHTML = "Choose learned generator";
-
-	}
-
-		if (learndone5==1 && redcell=='5') {
-		checkinde=fromLearneddata.indexOf('5');
-		choice=fromLearneddata2[checkinde];
-		console.log('for 5', choice,checkinde, fromLearneddata)
-			machinereasoning.innerHTML = "Choose learned generator";
-
-	}
-console.log('final',choice,redcell)
-if (choice=='1') {
-	$("#dot1").css("background-color", "blue");
-
-}
-
-if (choice=='2') {
-	$("#dot2").css("background-color", "blue");
-	
-}
-if (choice=='3') {
-	$("#dot3").css("background-color", "blue");
-	
-}
-if (choice=='4') {
-	$("#dot4").css("background-color", "blue");
-	
-}
-if (choice=='5') {
-	$("#dot5").css("background-color", "blue");
-	
+  var elem = document.getElementById("bean");   
+  var pos = 0;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (pos == 550) {
+    	pos=0;
+    	elem.style.position="absolute";
+    	elem.style.left= Math.floor(Math.random() * 530) + 500+'px';
+    	console.log('wo cao', determineimage5)
+      //clearInterval(id);
+    } else {
+      pos++; 
+      elem.style.top = pos + 'px'; 
+      // elem.style.left = pos + 'px'; 
+    }
+  
 }
 
 
-
-
-
-
-
-
-
-//valid.style.visibility='visible';
-
-setTimeout(supercheck,2000)
-
 }
+   
 
-function validate () {
-	for(var i=0; i<data.length;i++) {
-		var m= data[i];
+   //move coffee 
+    function coffee () {
+ 	
 
-		if (m==1) {
-			$("#dot1").css("background-color", "green");
-		}
-		if (m==2) {
-			$("#dot2").css("background-color", "green");
-		}
-		if (m==3) {
-			$("#dot3").css("background-color", "green");
-		}
-		if (m==4) {
-			$("#dot4").css("background-color", "green");
-		}
-		if (m==5) {
-			$("#dot5").css("background-color", "green");
-		}
+      if (up==1) {
+      	 $("#thecase").animate({top: "-=100"}, 1000); 
+      }
+     
+     if (down==1) {
+     $("#thecase").animate({top: "+=100"}, 1000);
+     	
+     
+     }
 
-	}
-choosegen();
-}
+     if (left==1) {
+     	$("#thecase").animate({left: "-=100"}, 1000);
+     }
+     if (right==1) {
+     	$("#thecase").animate({left: "+=100"}, 1000);
+     }
+      
+    
+  
 
 
-function supercheck () {
-
-	var answers =[1,2,3,4,5]
-	var huida =[3,5,4,3,2]
-	var checkerror=0;
-if (aipick=='1' && aianwser=='3' && learndone1==0) {
-
-	console.log('correct1')
-	fromLearneddata.push('1')
-	fromLearneddata2.push('3')
-	learndone1=1;
-	checkerror=1;
-
-}
-
-if (aipick=='2' && aianwser=='5' && learndone2==0) {
-
-	console.log('correct2')
-	fromLearneddata.push('2')
-	fromLearneddata2.push('5')
-	learndone2=1;
-	checkerror=1;
-
-}
-
-if (aipick=='3' && aianwser=='4' && learndone3==0) {
-
-	console.log('correct3')
-	fromLearneddata.push('3')
-	fromLearneddata2.push('4')
-	learndone3=1;
-	checkerror=1;
-
-}
-if (aipick=='4' && aianwser=='3' && learndone4==0) {
-
-	console.log('correct4')
-	fromLearneddata.push('4')
-	fromLearneddata2.push('3')
-	learndone4=1;
-	checkerror=1;
-
-}
-if (aipick=='5' && aianwser=='2' && learndone5==0) {
-
-	console.log('correct5')
-	fromLearneddata.push('5')
-	fromLearneddata2.push('2')
-	learndone5=1;
-	checkerror=1;
-
-}
-errorpop++
-if (checkerror==0) {
-var trueerror = 100/errorpop;
-var string = 'Error Rate = '+trueerror+''
-if (fromLearneddata.length==5) {
-string='No Error'
-}
-mq.innerHTML = string;
-}
-resetsample();
-setTimeout(selectgen,2000)
 
 }
 
 
+	///Organize UI
+   function startDrag(e) {
+   	up=0;
+   	left=0;
+   	right=0;
+   	down=0;
+            // determine event object
+            console.log(e)
+            if (!e) {
+                var e = window.event;
+            }
+            if(e.preventDefault) e.preventDefault();
+
+            // IE uses srcElement, others use target
+            targ = e.target ? e.target : e.srcElement;
+ console.log(targ.id)
+ up=0;
+ down=0;
+ left=0;
+ right=0;
+
+if (targ.id=='shang') {
+up=1;
+coffee();
+}
+
+if (targ.id=='xia') {
+	down=1;
+	coffee();
+}
+
+if (targ.id=='zuo') {
+	left=1;
+	coffee();
+}
+
+if (targ.id=='you') {
+	right=1;
+	coffee();
+}
+            if (targ.className != 'dragme') {return};
+            // calculate event X, Y coordinates
+                offsetX = e.clientX;
+                offsetY = e.clientY;
+
+            // assign default values for top and left properties
+            if(!targ.style.left) { targ.style.left='0px'};
+            if (!targ.style.top) { targ.style.top='0px'};
+
+            // calculate integer values for top and left 
+            // properties
+            coordX = parseInt(targ.style.left);
+            coordY = parseInt(targ.style.top);
+            drag = true;
+
+            // move div element
+                document.onmousemove=dragDiv;
+            return false;
+
+        }
+        function dragDiv(e) {
+            if (!drag) {return};
+            if (!e) { var e= window.event};
+            // var targ=e.target?e.target:e.srcElement;
+            // move div element
+            targ.style.left=coordX+e.clientX-offsetX+'px';
+            targ.style.top=coordY+e.clientY-offsetY+'px';
+            return false;
+        }
+        function stopDrag() {
+            drag=false;
+        }
+        window.onload = function() {
+            document.onmousedown = startDrag;
+            document.onmouseup = stopDrag;
+        }
+
+
+function myMove () {
+
+}
 </script>
+
+
 
 </html>
