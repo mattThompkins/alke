@@ -129,98 +129,67 @@ bigbox.style.left = 540+'px';
 bigbox.style.top = 10+'px';
 
 //
+	var determineimage;
+	var determineimage2;		
+	var determineimage3;			
+	var determineimage4;
+	var determineimage5;
 fall();
- function fall () {
- 	var determineimage=Math.floor(Math.random() * 15) + 1;
 
- 	var determineimage2=Math.floor(Math.random() * 15) + 1;
+var pickfunction = Math.floor(Math.random() * 10) + 1;
+var pickfunction2 = Math.floor(Math.random() * 10) + 1;
+var pickfunction3 = Math.floor(Math.random() * 10) + 1;
+var pickfunction4 = Math.floor(Math.random() * 10) + 1;
 
- 	var determineimage3= Math.floor(Math.random() * 15) + 1;
- 	var determineimage4= Math.floor(Math.random() * 15) + 1;
- 	var determineimage5= Math.floor(Math.random() * 15) + 1;
+if (pickfunction<=5) {
+	fall2();
+}
+if (pickfunction<=5) {
+	fall3();
+}
+if (pickfunction<=5) {
+	fall4();
+}
+if (pickfunction<=5) {
+	fall5();
+}
 
-
-
+function changeImage () {
+determineimage=Math.floor(Math.random() * 15) + 1;
  	if (determineimage<=5) {
+ 		document.getElementById("v1").src= 'bean.png'
+ 	
+ 		console.log('what the hell')
+ 	}
+
+
+ 	if (determineimage>5 && determineimage<10) {
  		document.getElementById("v1").src= 'salt.png'
  	
  		console.log('what the hell')
  	}
 
- 	if (determineimage2<=5) {
- 		document.getElementById("v2").src= 'salt.png'
- 			console.log('what the hell')
+
+
+ 	if (determineimage>=10) {
+ 		document.getElementById("v1").src= 'cream.png'
+ 	
+ 		
  	}
-
- 	if (determineimage3<=5) {
- 		console.log('what the hell')
- 			document.getElementById("v3").src= 'salt.png'
- 	}
-
- 		if (determineimage4<=5) {
- 			document.getElementById("v4").src= 'salt.png'
- 	}
-
-
-	if (determineimage5<=5) {
-		document.getElementById("v5").src= 'salt.png'
- 	}
-
-//
-
- 	if (determineimage<=10 &&determineimage>5) {
- 		document.getElementById("v1").src= 'bean.png';
- 	}
-
- 	 	if (determineimage2<=10 &&determineimage2>5) {
- 		 document.getElementById("v2").src= 'bean.png';
- 	}
-
- 	 	if (determineimage3<=10 &&determineimage3>5) {
- 		 document.getElementById("v3").src= 'bean.png';
- 	}
-
- 		 	if (determineimage4<=10 &&determineimage4>5) {
- 		 document.getElementById("v4").src= 'bean.png';
- 	}
-
-
-	 	if (determineimage5<=10 &&determineimage5>5) {
- 		 document.getElementById("v5").src= 'bean.png';
- 	}
-
- 	////////
- 	if (determineimage>10) {
- 		document.getElementById("v1").src= 'cream.png';
- 	}
-
- 	 	if (determineimage2>10) {
- 		 document.getElementById("v2").src= 'cream.png';
- 	}
-
- 	 	if (determineimage3>10) {
- 		 document.getElementById("v3").src= 'cream.png';
- 	}
-
- 		 	if (determineimage4>10) {
- 		 document.getElementById("v4").src= 'cream.png';
- 	}
-
-
-	 	if (determineimage5>10) {
- 		 document.getElementById("v5").src= 'cream.png';
- 	}
-
-
+}
+ function fall () {
+ 
   var elem = document.getElementById("bean");   
   var pos = 0;
   var id = setInterval(frame, 10);
   function frame() {
     if (pos == 550) {
+
     	pos=0;
     	elem.style.position="absolute";
-    	elem.style.left= Math.floor(Math.random() * 530) + 500+'px';
-    	console.log('wo cao', determineimage5)
+    	elem.style.left= Math.floor(Math.random() * 510) + 500+'px';
+    	console.log('wo cao', determineimage)
+    	changeImage();
       //clearInterval(id);
     } else {
       pos++; 
@@ -231,6 +200,96 @@ fall();
 }
 
 
+}
+
+
+
+function fall2 () {
+  var elem = document.getElementById("vessel2");   
+  var pos = 0;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (pos == 550) {
+
+    	pos=0;
+    	elem.style.position="absolute";
+    	elem.style.left= Math.floor(Math.random() * 510) + 500+'px';
+    	console.log('wo cao', determineimage2)
+    	changeImage();
+      //clearInterval(id);
+    } else {
+      pos++; 
+      elem.style.top = pos + 'px'; 
+      // elem.style.left = pos + 'px'; 
+    }
+  
+}
+
+}
+function fall3 () {
+	  var elem = document.getElementById("vessel3");   
+  var pos = 0;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (pos == 550) {
+
+    	pos=0;
+    	elem.style.position="absolute";
+    	elem.style.left= Math.floor(Math.random() * 510) + 500+'px';
+    	console.log('wo cao', determineimage3)
+    	changeImage();
+      //clearInterval(id);
+    } else {
+      pos++; 
+      elem.style.top = pos + 'px'; 
+      // elem.style.left = pos + 'px'; 
+    }
+  
+}
+	
+}
+function fall4 () {
+	  var elem = document.getElementById("vessel4");   
+  var pos = 0;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (pos == 550) {
+
+    	pos=0;
+    	elem.style.position="absolute";
+    	elem.style.left= Math.floor(Math.random() * 510) + 500+'px';
+    	console.log('wo cao', determineimage2)
+    	changeImage();
+      //clearInterval(id);
+    } else {
+      pos++; 
+      elem.style.top = pos + 'px'; 
+      // elem.style.left = pos + 'px'; 
+    }
+  
+}
+	
+}
+function fall5 () {
+		  var elem = document.getElementById("vessel5");   
+  var pos = 0;
+  var id = setInterval(frame, 10);
+  function frame() {
+    if (pos == 550) {
+
+    	pos=0;
+    	elem.style.position="absolute";
+    	elem.style.left= Math.floor(Math.random() * 510) + 500+'px';
+    	console.log('wo cao', determineimage2)
+    	changeImage();
+      //clearInterval(id);
+    } else {
+      pos++; 
+      elem.style.top = pos + 'px'; 
+      // elem.style.left = pos + 'px'; 
+    }
+  
+}
 }
    
 
