@@ -58,21 +58,21 @@ position: relative;
 
 
 <div id="bean">
-	<img src="bean.png" width="20"; height="20">
+	<img src="bean.png" id="v1" width="20"; height="20">
 </div>
 
 <div id="vessel2">
-	<img src="bean.png" width="20"; height="20">
+	<img src="bean.png" id="v2" width="20"; height="20">
 </div>
 
 <div id="vessel3">
-	<img src="bean.png" width="20"; height="20">
+	<img src="bean.png" id="v3" width="20"; height="20">
 </div>
 <div id="vessel4">
-	<img src="bean.png" width="20"; height="20">
+	<img src="bean.png" id="v4" width="20"; height="20">
 </div>
 <div id="vessel5">
-	<img src="bean.png" width="20"; height="20">
+	<img src="bean.png" id="v5" width="20"; height="20">
 </div>
 
 <div id="thecase">
@@ -131,9 +131,9 @@ bigbox.style.top = 10+'px';
 //
 fall();
  function fall () {
- 	var determineimage= Math.floor(Math.random() * 15) + 1;
+ 	var determineimage=Math.floor(Math.random() * 15) + 1;
 
- 	var determineimage2= Math.floor(Math.random() * 15) + 1;
+ 	var determineimage2=Math.floor(Math.random() * 15) + 1;
 
  	var determineimage3= Math.floor(Math.random() * 15) + 1;
  	var determineimage4= Math.floor(Math.random() * 15) + 1;
@@ -142,55 +142,74 @@ fall();
 
 
  	if (determineimage<=5) {
- 		$("#bean").attr("src", "salt.png");
+ 		document.getElementById("v1").src= 'salt.png'
+ 	
  		console.log('what the hell')
  	}
 
  	if (determineimage2<=5) {
- 		$("#vessel2").attr("src", "salt.png");
+ 		document.getElementById("v2").src= 'salt.png'
  			console.log('what the hell')
  	}
 
  	if (determineimage3<=5) {
- 		 $("#vessel3").attr("src", "salt.png");
- 		 	console.log('what the hell')
+ 		console.log('what the hell')
+ 			document.getElementById("v3").src= 'salt.png'
  	}
 
  		if (determineimage4<=5) {
- 		 $("#vessel4").attr("src", "salt.png");
- 		 	console.log('what the hell')
+ 			document.getElementById("v4").src= 'salt.png'
  	}
 
 
 	if (determineimage5<=5) {
- 		$("#vessel5").attr("src", "salt.png");
+		document.getElementById("v5").src= 'salt.png'
  	}
 
 //
 
  	if (determineimage<=10 &&determineimage>5) {
- 		 document.getElementById("bean").src="salt.png";
+ 		document.getElementById("v1").src= 'bean.png';
  	}
 
  	 	if (determineimage2<=10 &&determineimage2>5) {
- 		 document.getElementById("vessel2").src="salt.png";
+ 		 document.getElementById("v2").src= 'bean.png';
  	}
 
  	 	if (determineimage3<=10 &&determineimage3>5) {
- 		 document.getElementById("vessel3").src="salt.png";
+ 		 document.getElementById("v3").src= 'bean.png';
  	}
 
  		 	if (determineimage4<=10 &&determineimage4>5) {
- 		 document.getElementById("vessel4").src="salt.png";
+ 		 document.getElementById("v4").src= 'bean.png';
  	}
 
 
 	 	if (determineimage5<=10 &&determineimage5>5) {
- 		 document.getElementById("vessel5").src="salt.png";
+ 		 document.getElementById("v5").src= 'bean.png';
  	}
 
- 	//
+ 	////////
+ 	if (determineimage>10) {
+ 		document.getElementById("v1").src= 'cream.png';
+ 	}
 
+ 	 	if (determineimage2>10) {
+ 		 document.getElementById("v2").src= 'cream.png';
+ 	}
+
+ 	 	if (determineimage3>10) {
+ 		 document.getElementById("v3").src= 'cream.png';
+ 	}
+
+ 		 	if (determineimage4>10) {
+ 		 document.getElementById("v4").src= 'cream.png';
+ 	}
+
+
+	 	if (determineimage5>10) {
+ 		 document.getElementById("v5").src= 'cream.png';
+ 	}
 
 
   var elem = document.getElementById("bean");   
