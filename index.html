@@ -21,7 +21,7 @@
     var inquire =["哪一个", "哪", "哪个", "是什么", "为什么"];
     var inquirecount=0;
 
-    var compare = ["还是", "或者", "哪个好"];
+    var compare = ["还是", "或者", "哪个好", "比"];
     var comparecount=0;
 
 
@@ -31,15 +31,19 @@
     var quality =["怎么样", "好", "好吗"];
     var qualitycount=0;
 
-    var howto=["如何", "怎么","怎样"];
+    var howto=["如何", "怎么","怎样", "怎么办"];
     var howtocount=0;
 
     var instructions =["应该"];
     var instructionscount=0;
 
+    var howmuch =["多少", "多少钱"];
+    var howmuchcount=0;
+
     var countarray=[];
 
-
+var bucounter='不';
+var counterthenegative =0; 
 
     var zhishikuword = document.body.appendChild(document.createElement('div'));
 zhishikuword.style.position="absolute";
@@ -49,6 +53,7 @@ zhishikuword.style.left = 525+'px';
   zhishikuword.innerHTML  ='知识库';
 
     function myMove() {
+        counterthenegative =0;
         urgentcount=0;
         havecount=0;
         inquirecount=0;
@@ -65,10 +70,37 @@ zhishikuword.style.left = 525+'px';
        for(var i=0; i<input.length; i++) {
 
     var p=input[i];
+    var checkcounter = input[i-1];
     var p2 =p+input[i+1];
- var p3 =p+p2+input[i+2];
+ var p3 =p+input[i+1]+input[i+2];
 
-console.log(p, p2,p3)
+console.log(p)
+console.log('mm',p2)
+
+if (checkcounter==bucounter) {
+    counterthenegative=1;
+    console.log('我跑！！！！！！！！')
+}
+
+
+///
+   if (howmuch.indexOf(p3)>-1) {
+    howmuchcount+=3;
+
+          console.log('more!+++')
+       }
+        if (howmuch.indexOf(p2)>-1 && howmuchcount==0) {
+            howmuchcount+=2;
+          console.log('more!++',p2)
+       }
+       if (howmuch.indexOf(p)>-1 && howmuchcount==0){
+       howmuchcount++
+        console.log('more!')
+       }
+
+
+
+///
 //
    if (urgent.indexOf(p3)>-1) {
     urgentcount+=3;
@@ -208,7 +240,8 @@ console.log(p, p2,p3)
        countarray.push(qualitycount);
        countarray.push(howtocount);
        countarray.push(instructionscount);
-console.log(urgentcount, havecount,inquirecount,comparecount,validationcount,qualitycount,howtocount,instructionscount)
+         countarray.push(howmuchcount);
+console.log(urgentcount, havecount,inquirecount,comparecount,validationcount,qualitycount,howtocount,instructionscount,howmuchcount)
 
 console.log('meen',countarray)
 
@@ -220,39 +253,81 @@ var index = countarray.indexOf(largest);
 
 if (index==0) {
    zhishikuword.innerHTML  ='Intention: The customer wants something'; 
+   if (counterthenegative==1) {
+     zhishikuword.innerHTML  ='Intention: The customer does not want something';
+   }
 }
 
 
 if (index==1) {
    zhishikuword.innerHTML  ='Intention: The customer wants to know if the product has something'; 
+      if (counterthenegative==1) {
+    zhishikuword.innerHTML  ='Intention: The customer wants to know if the product does not have something??'; 
+   }
 }
 
 if (index==2) {
    zhishikuword.innerHTML  ='Intention: The customer wants to be informed about something/ wants to be informed about the product'; 
+
+        if (counterthenegative==1) {
+     zhishikuword.innerHTML  ='Intention: The customer does not want to be informed??';  
+   }
+
 }
 
 
 if (index==3) {
    zhishikuword.innerHTML  ='Intention: The customer wants to compare the product'; 
+           if (counterthenegative==1) {
+     zhishikuword.innerHTML  ='Intention: The customer does not want to compare the product'; 
+   }
 }
 
 if (index==4) {
    zhishikuword.innerHTML  ='Intention: The customer wants a kind of validation, wants to know if the product can do X. '; 
+
+           if (counterthenegative==1) {
+      zhishikuword.innerHTML  ='Intention: The customer does not want validation??? '; 
+   }
 }
 
 
 if (index==5) {
    zhishikuword.innerHTML  ='Intention: The customer wants to know about the quality of the product, or if the product is good. '; 
+
+              if (counterthenegative==1) {
+      zhishikuword.innerHTML  ='Intention: The customer does not want validation??? '; 
+   }
 }
 
 
 if (index==6) {
    zhishikuword.innerHTML  ='Intention: The customer wants information about the product. The customer wants to know how the product does X. '; 
+
+
+              if (counterthenegative==1) {
+      zhishikuword.innerHTML  ='Intention: The customer seems to want something else. '; 
+   }
 }
 
 if (index==7) {
-   zhishikuword.innerHTML  ='Intention: The customer kind wants instructions or information about the product. '; 
+   zhishikuword.innerHTML  ='Intention: The customer wants instructions or information about the product. ';
+                 if (counterthenegative==1) {
+     zhishikuword.innerHTML  ='Intention: The customer seems to want something else. '; 
+   } 
 }
+
+
+
+///
+
+if (index==8) {
+   zhishikuword.innerHTML  ='Intention: The customer wants to know how much.';
+                 if (counterthenegative==1) {
+     zhishikuword.innerHTML  ='Intention: The customer seems unsure. '; 
+   } 
+}
+
 
 
 }
