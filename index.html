@@ -252,68 +252,78 @@ console.log(largest)
 var index = countarray.indexOf(largest);
 
 if (index==0) {
-   zhishikuword.innerHTML  ='Intention: The customer wants something'; 
+   zhishikuword.innerHTML  ='意图: 客户要这个。'; //'Intention: The customer wants something'; 
    if (counterthenegative==1) {
-     zhishikuword.innerHTML  ='Intention: The customer does not want something';
+     zhishikuword.innerHTML  ='意图: 客户不要这个？';
+
+     //'Intention: The customer does not want something';
+   }
    }
 }
 
 
 if (index==1) {
-   zhishikuword.innerHTML  ='Intention: The customer wants to know if the product has something'; 
+   zhishikuword.innerHTML  ='意图: 客户想知道如果这个产品有一个家伙。'; 
+   //'Intention: The customer wants to know if the product has something'; 
       if (counterthenegative==1) {
-    zhishikuword.innerHTML  ='Intention: The customer wants to know if the product does not have something??'; 
+    zhishikuword.innerHTML  ='意图: 客户想知道如果这个东西没有那个家伙??'; 
+    //Intention: The customer wants to know if the product does not have something??
    }
 }
 
 if (index==2) {
-   zhishikuword.innerHTML  ='Intention: The customer wants to be informed about something/ wants to be informed about the product'; 
+   zhishikuword.innerHTML  ='意图: 这个客户要信息/ 要产品的信息。'; //'Intention: The customer wants to be informed about something/ wants to be informed about the product'; 
 
         if (counterthenegative==1) {
-     zhishikuword.innerHTML  ='Intention: The customer does not want to be informed??';  
+     zhishikuword.innerHTML  ='意图：客户不要信息？？';  
    }
 
 }
 
 
 if (index==3) {
-   zhishikuword.innerHTML  ='Intention: The customer wants to compare the product'; 
+   zhishikuword.innerHTML  ='意图: 客户要比较产品'; 
+   //'Intention: The customer wants to compare the product';
            if (counterthenegative==1) {
-     zhishikuword.innerHTML  ='Intention: The customer does not want to compare the product'; 
+     zhishikuword.innerHTML  ='意图: 客户不要比较产品'; 
+     //'Intention: The customer does not want to compare the product'; 
    }
 }
 
 if (index==4) {
-   zhishikuword.innerHTML  ='Intention: The customer wants a kind of validation, wants to know if the product can do X. '; 
+   zhishikuword.innerHTML  ='意图: 客户想产品的验证。他想知道如果这个产品能做 X '; //'Intention: The customer wants a kind of validation, wants to know if the product can do X. '; 
 
            if (counterthenegative==1) {
-      zhishikuword.innerHTML  ='Intention: The customer does not want validation??? '; 
+      zhishikuword.innerHTML  ='意图:客户不需要验证??? ';
+      //'Intention: The customer does not want validation??? '; 
    }
 }
 
 
 if (index==5) {
-   zhishikuword.innerHTML  ='Intention: The customer wants to know about the quality of the product, or if the product is good. '; 
+   zhishikuword.innerHTML  ='意图: 客户想知道产品的质量.这个产品好吗? ';
+   //'Intention: The customer wants to know about the quality of the product, or if the product is good. '; 
 
               if (counterthenegative==1) {
-      zhishikuword.innerHTML  ='Intention: The customer does not want validation??? '; 
+      zhishikuword.innerHTML  ='意图:客户不需要验证??? '; 
+      //'Intention: The customer does not want validation??? '; 
    }
 }
 
 
 if (index==6) {
-   zhishikuword.innerHTML  ='Intention: The customer wants information about the product. The customer wants to know how the product does X. '; 
+   zhishikuword.innerHTML  ='意图: 客户要产品的信息。客户想知道产品怎么做"X"'''; //Intention: The customer wants information about the product. The customer wants to know how the product does X.
 
 
               if (counterthenegative==1) {
-      zhishikuword.innerHTML  ='Intention: The customer seems to want something else. '; 
+      zhishikuword.innerHTML  ='意图: 客户要别的东西。 '; //Intention: The customer seems to want something else.
    }
 }
 
 if (index==7) {
-   zhishikuword.innerHTML  ='Intention: The customer wants instructions or information about the product. ';
+   zhishikuword.innerHTML  ='意图:客户要描述会着产品的信息 ';//The customer wants instructions or information about the product. 
                  if (counterthenegative==1) {
-     zhishikuword.innerHTML  ='Intention: The customer seems to want something else. '; 
+     zhishikuword.innerHTML  ='意图: 客户要别的东西。 '; //The customer seems to want something else.
    } 
 }
 
@@ -322,9 +332,9 @@ if (index==7) {
 ///
 
 if (index==8) {
-   zhishikuword.innerHTML  ='Intention: The customer wants to know how much.';
+   zhishikuword.innerHTML  ='意图: 客户要知道多少.'//The customer wants to know how much.;
                  if (counterthenegative==1) {
-     zhishikuword.innerHTML  ='Intention: The customer seems unsure. '; 
+     zhishikuword.innerHTML  ='意图:客户不确定'; //Intention: The customer seems unsure. 
    } 
 }
 
