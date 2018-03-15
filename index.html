@@ -1,350 +1,483 @@
 <!DOCTYPE html>
 <html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <head>
-	<meta charset="UTF-8">
-</head>
-<body>
+ <meta charset="UTF-8">
+	<a href="#" id = "by" class="btn">Enter</a>
+<!-- <video playsinline autoplay muted loop poster="polina.jpg" id="bgvid">
+    <source src="Turn Up" type="mp3">
+    <source src="shipin.mp4" type="video/mp4">
+</video> -->
+<div class="Container">
+  <img src="qrcode.jpeg" id ="qr1" height="200" width="200" class="img">
+ <!--  <img src="qrcode.jpeg" id ="qr2" height="30" width="30"> -->
+<div id ="album name">
+  <h3>
+    Busman 4.0 The Promotional Album
+  </h3>
+</div>
+<div id="listT">
+  <h2>Tracklist</h2>
+  <ul>
+    <li><a id="sepsong" href="#">Separated</a></li>
+    <li><a id = "skitsong" href="#">Crash</a></li>
+     <li><a id = "autobot" href="#">Busman Autobot</a></li>
+    <li><a id = "turnupsong" href="#">Turn Up</a></li>
+  </ul>
+</div>
+<!-- <video autoplay loop id="video-background" muted plays-inline>
+  <source src="shipin.mp4" type="video/mp4"">
+</video> -->
 
-  <input type="text" placeholder="请写你的问题"  id="c1">
-<button onclick="myMove()">Start</button>
+
+<div id="pol">
+<p class ="p11">
+BUSMAN 4.0</p>
+<p>
+
+Internationally known under the Rhythm and Blues moniker, Uniquesoul, an established Hip Hip artist and performer in Shanghai, is known for playing with some of the best musicians and emcees in China. 
+</p>
+<p>
+Uniquesoal was born in Washington, D.C. and lived most of his adult life in Columbus, Ohio. During his 10 years in the Midwest he enjoyed life, started a family and soon after decided to pursue his musical and artistic endeavors as a singer songwriter. 
+</p>
+<p>
+Since then, he has moved to Shanghai, China (2013) where he has built a recognizable name for himself as a leading entertainer within the new Hip Hop and Rhythm and Blues community that he himself helped create and nurture in the city. In the past he has produced or contributed to several staple events and collaborations including Iron Mic, Come Correct, Ninja Radio and The Movement, now The Foundation. With the addition of new talents who come into the city they now have many outlets and venue opportunities to do what they love to do: make music and share it with the world. 
+</p>
+
+<p>
+Distinctly different from Uniquesoul stands a charismatic Busman 4.0, a gritty alter ego to his softer side. Busman is currently, working on the completion of his latest album 'ONE', anticipating his new music video and the release of his tell all book 'I'm crawling, but I'm almost there'. Truly a gifted artist, Busman also regularity intrigues the city with colorful, hand painted art. As the end of 2018 approaches, you can expect to hear a lot more from this artist in music, art and fashion. Stay tuned for his feature performance at Shanghai's Black Fashion Week and an installation of his latest art series.
+</p>
+
+<p>
+For more information, stay tuned to the website as it will be updated soon. Until then, scan the QR CODE to contact Uniquesoul/Busman 4.0, to support the shows and. Thanks for visiting the website. 
+</p>
+
+<p>
+Bless Up
+</p>
 
 
-<script type="text/javascript">
+  </div>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+
+<style> 
+
+.page-wrap {
+width: 960px;
+margin: 0 auto;
+position: relative;
+}
+
+
+.WebContainer{
+    width:100%;
+    min-width:1000px;
+    height:auto;
+} 
+.img:hover{
+    color: #424242; 
+  -webkit-transition: all .3s ease-in;
+  -moz-transition: all .3s ease-in;
+  -ms-transition: all .3s ease-in;
+  -o-transition: all .3s ease-in;
+  transition: all .3s ease-in;
+  opacity: 1;
+  transform: scale(1.15);
+  -ms-transform: scale(1.15); /* IE 9 */
+  -webkit-transform: scale(1.15); /* Safari and Chrome */
+
+}
+body {
+    background-image:    url("Front Cover.jpg");
+    background-size:     cover;                     
+    background-repeat:   no-repeat;
+          
+}
+
+
+div {
+  width: 200px;
+}
+
+h3 {
+  font: 400 40px/1.5 Helvetica, Verdana, sans-serif;
+  margin: 0;
+  color:#fff;
+  padding: 0;
+ border-bottom: 10px solid black;
+}
+ 
+h2 {
+  font: 400 30px/1.5 Helvetica, Verdana, sans-serif;
+  margin: 0;
+  color:#fff;
+  padding: 0;
+}
+ 
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+ 
+li {
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+  /*border-bottom: 1px solid #ccc;*/
+  border-bottom: 2px solid yellow;
+}
+ 
+li:last-child {
+  border: none;
+}
+ 
+li a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+
+  width: 200px;
+ 
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+ 
+li a:hover {
+  font-size: 30px;
+  background: #f6f6f6;
+}
+#pol { 
+  font-family: Agenda-Light, Agenda Light, Agenda, Arial Narrow, sans-serif;
+  font-weight:100; 
+  background: rgba(0,0,0,0.3);
+  color: white;
+  padding: 2rem;
+  width: 33%;
+  margin:2rem;
+  float: right;
+  font-size: 1.2rem;
+}
+#p11 {
+  font-size: 3rem;
+  text-transform: uppercase;
+  margin-top: 0;
+  letter-spacing: .3rem;
+}
+
+/*@brown : #8B623C;
+@white: #fff;*/
+/* The only rule that matters */
+#video-background {
+/*  making the video fullscreen  */
+  position: fixed;
+  right: 0; 
+  bottom: 0;
+  min-width: 100%; 
+  min-height: 100%;
+  width: auto; 
+  height: auto;
+  z-index: -100;
+}
+
+/* These just style the content */
+article {
+/*  just a fancy border  */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 10px solid rgba(255, 255, 255, 0.5);
+  margin: 10px;
+}
+
+h1 {
+  position: absolute;
+  top: 60%;
+  width: 100%;
+  font-size: 36px;
+  letter-spacing: 3px;
+  color: #fff;
+  font-family: Oswald, sans-serif;
+  text-align: center;
+}
+
+h1 span {
+  font-family: sans-serif;
+  letter-spacing: 0;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+h1 span a {
+  color: #fff;
+}
+
+
+
+/*below is button*/
+
+.transition (@transition) {
+    -webkit-transition: @transition;  
+    -moz-transition:    @transition;
+    -ms-transition:     @transition; 
+    -o-transition:      @transition;
+    transition:      @transition;
+}
+
+body {
+	padding: 40px;
+	text-align: center;
+	font-family: Arial;
+	font-size: 14px;
+}
+
+a { text-decoration: none; }
+
+.btn {
+    .transition(all .5s);
+    display: inline-block;
+    padding: 16px 34px;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    border: 1px solid #F08080;
+    color :#F08080;
+    &:hover {
+        .transition(all .3s);
+         border-color: darken(#F08080, 20%);
+         color: darken(#F08080, 20%);
+    }
+    &.lighter {
+        border-color: darken(#fff, 40%);
+        color: darken(#fff, 40%);
+        &:hover {
+            border-color: darken(#fff, 0%);
+            color: darken(#fff, 0%);
+        }
+    }
+}
+
+.btn {
+	position: relative;
+	z-index: 2;
 	
+	&:after {
+		content: "";
+		display: block;
+		position: absolute;
+		top: -16px;
+		right: -16px;
+		bottom: -16px;
+		left: -16px;
+		z-index: -1;
+		opacity: 0;
+		border: 1px solid #F08080;
+		.transition(all .4s);
+	}
+	
+	&:hover {
+		&:after {
+			top: -6px;
+			right: -6px;
+			bottom: -6px;
+			left: -6px;
+			opacity: 1;
+			// border-color: darken(#F08080, 20%);
+			.transition(all .4s);
+		}
+	}
+}
+/*body {
+    background: url("Front Cover.jpg");
+     background-size:100% 100vh;
+    background-repeat: no-repeat;
+    padding-top: 40px;
+}*/
 
-	var urgent = ["要","想","需要"];
-    var urgentcount=0;
+/* Style the buttons inside the tab */
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+div.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
 
-	var have  = ["有","具有","拥有"];
-    var havecount=0;
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #ddd;
+}
 
-    var inquire =["哪一个", "哪", "哪个", "是什么", "为什么"];
-    var inquirecount=0;
-
-    var compare = ["还是", "或者", "哪个好", "比"];
-    var comparecount=0;
-
-
-    var validation =["可以", "会", "是否"];
-    var validationcount=0;
-
-    var quality =["怎么样", "好", "好吗"];
-    var qualitycount=0;
-
-    var howto=["如何", "怎么","怎样", "怎么办"];
-    var howtocount=0;
-
-    var instructions =["应该"];
-    var instructionscount=0;
-
-    var howmuch =["多少", "多少钱"];
-    var howmuchcount=0;
-
-    var countarray=[];
-
-var bucounter='不';
-var counterthenegative =0; 
-
-    var zhishikuword = document.body.appendChild(document.createElement('div'));
-zhishikuword.style.position="absolute";
-zhishikuword.style.left = 525+'px';
- zhishikuword.style.top = 225+'px'; 
- zhishikuword.style.color='red'; 
-  zhishikuword.innerHTML  ='知识库';
-
-    function myMove() {
-        counterthenegative =0;
-        urgentcount=0;
-        havecount=0;
-        inquirecount=0;
-        comparecount=0;
-        validationcount=0;
-        qualitycount=0;
-        howtocount=0;
-        instructionscount=0;
-        countarray=[];
-       var input = document.getElementById('c1').value;
-
-       console.log(input)
-
-       for(var i=0; i<input.length; i++) {
-
-    var p=input[i];
-    var checkcounter = input[i-1];
-    var p2 =p+input[i+1];
- var p3 =p+input[i+1]+input[i+2];
-
-console.log(p)
-console.log('mm',p2)
-
-if (checkcounter==bucounter) {
-    counterthenegative=1;
-    console.log('我跑！！！！！！！！')
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #ccc;
+}
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
 }
 
 
-///
-   if (howmuch.indexOf(p3)>-1) {
-    howmuchcount+=3;
+@media screen and (max-width: 320px) { @viewport { width: 320px; } }   @media screen and (min-width: 768px) and (max-width: 959px) { @viewport { width: 768px; } }
+</style>
+</head>
+<div class="tab" id="buttons">
+  <button class="tablinks" onclick="tracks()">Album</button>
+  <button class="tablinks" onclick="bios()">Bio</button>
+</div>
 
-          console.log('more!+++')
-       }
-        if (howmuch.indexOf(p2)>-1 && howmuchcount==0) {
-            howmuchcount+=2;
-          console.log('more!++',p2)
-       }
-       if (howmuch.indexOf(p)>-1 && howmuchcount==0){
-       howmuchcount++
-        console.log('more!')
-       }
+<body>
+</div>
+<img src="download.png" id = "download icon">
+<script type="text/javascript">
 
 
-
-///
-//
-   if (urgent.indexOf(p3)>-1) {
-    urgentcount+=3;
-
-          console.log('more!+++')
-       }
-        if (urgent.indexOf(p2)>-1 && urgentcount==0) {
-            urgentcount+=2;
-          console.log('more!++',p2)
-       }
-       if (urgent.indexOf(p)>-1 && urgentcount==0){
-        urgentcount++
-        console.log('more!')
-       }
-      //
-
-//
-        if (have.indexOf(p3)>-1) {
-   havecount+=3;
-          console.log('more!+++')
-       }
-        if (have.indexOf(p2)>-1 && havecount==0) {
-            havecount+=2;
-          console.log('more!++',p2)
-       }
-       if (have.indexOf(p)>-1 && havecount==0){
-        havecount++
-        console.log('more!')
-       }
-     //
-
-//in
-       if (inquire.indexOf(p3)>-1) {
-    inquirecount+=3;
-          console.log('more!+++')
-       }
-        if (inquire.indexOf(p2)>-1 && inquirecount==0) {
-            inquirecount+=2;
-          console.log('more!++',p2)
-       }
-       if (inquire.indexOf(p)>-1 && inquirecount==0){
-        inquirecount++
-        console.log('more!')
-       }
-//
-
-
-//comp
-
-    if (compare.indexOf(p3)>-1) {
-    comparecount+=3;
-          console.log('more!+++')
-       }
-        if (compare.indexOf(p2)>-1 && comparecount==0) {
-           comparecount+=2;
-          console.log('more!++',p2)
-       }
-       if (compare.indexOf(p)>-1 && comparecount==0){
-        comparecount++
-        console.log('more!')
-       }
-//
-
-
-//val
-    if (validation.indexOf(p3)>-1) {
-    validationcount+=3;
-          console.log('more!+++',p3)
-       }
-        if (validation.indexOf(p2)>-1 && validationcount==0) {
-            validationcount+=2;
-          console.log('more!++',p2)
-       }
-       if (validation.indexOf(p)>-1 && validationcount==0){
-        validationcount++
-        console.log('more!')
-       }
-
-//q
-    if (quality.indexOf(p3)>-1) {
-    qualitycount+=3;
-          console.log('more!+++')
-       }
-        if (quality.indexOf(p2)>-1 && qualitycount==0) {
-            qualitycount+=2;
-          console.log('more!++',p2)
-       }
-       if (quality.indexOf(p)>-1 && qualitycount==0){
-        qualitycount++
-        console.log('more!')
-       }
+//$('.polina').hide();
+document.getElementById('pol').style.display = "none";
+document.getElementById('buttons').style.display = "none";
+document.getElementById('listT').style.display = "none";
+document.getElementById('album name').style.display = "none";
+document.getElementById('download icon').style.display = "none";
+document.getElementById('qr1').style.display = "none";
+//document.getElementById('qr2').style.display = "none";
+	//home page
+	
+	 //#F08080
+	//   var audiomain = new Audio('Separated.mp3');
+ // audiomain.play();
 
 
 
-//how
-
-   if (howto.indexOf(p3)>-1) {
-    howtocount+=3;
-          console.log('more!+++')
-       }
-        if (howto.indexOf(p2)>-1 && howtocount==0) {
-           howtocount+=2;
-          console.log('more!++',p2)
-       }
-       if (howto.indexOf(p)>-1 && howtocount==0){
-        howtocount++
-        console.log('more!')
-       }
+ var oBtn = document.getElementById('by');
 
 
+oBtn.style.position="absolute";
+oBtn.style.left = 560+'px';
+ oBtn.style.top = 450+'px'; 
+  // z-index:1;
+    oBtn.onclick = function(){
+        stop();
+        //setTimeout(stop,2000);
+       
+    };
 
 
-
-       //instrusctions
-          if (instructions.indexOf(p3)>-1) {
-    instructionscount+=3;
-          console.log('more!+++')
-       }
-        if (instructions.indexOf(p2)>-1 && instructionscount==0) {
-          instructionscount+=2;
-          console.log('more!++',p2)
-       }
-       if (instructions.indexOf(p)>-1 && instructionscount==0){
-        instructionscount++
-        console.log('more!')
-       }
-
-     
-
-    }//for end
-
-  countarray.push(urgentcount);
-       countarray.push(havecount);
-       countarray.push(inquirecount);
-       countarray.push(comparecount);
-       countarray.push(validationcount);
-       countarray.push(qualitycount);
-       countarray.push(howtocount);
-       countarray.push(instructionscount);
-         countarray.push(howmuchcount);
-console.log(urgentcount, havecount,inquirecount,comparecount,validationcount,qualitycount,howtocount,instructionscount,howmuchcount)
-
-console.log('meen',countarray)
-
-var largest = Math.max.apply(Math, countarray); // 306
-
-console.log(largest)
-
-var index = countarray.indexOf(largest);
-
-if (index==0) {
-   zhishikuword.innerHTML  ='意图: 客户要这个。'; //'Intention: The customer wants something'; 
-   if (counterthenegative==1) {
-     zhishikuword.innerHTML  ='意图: 客户不要这个？';
-
-     //'Intention: The customer does not want something';
-   }
-   }
+function stop () {
+document.body.style.backgroundImage='none';
+document.body.style.backgroundImage='url(onelight.jpg)';
+//document.body.style.opacity = "0.5";
+document.getElementById('buttons').style.visibility = "visible";
 
 
+// audiomain.pause();
+// audiomain.currentTime = 0;
 
-if (index==1) {
-   zhishikuword.innerHTML  ='意图: 客户想知道如果这个产品有一个家伙。'; 
-   //'Intention: The customer wants to know if the product has something'; 
-      if (counterthenegative==1) {
-    zhishikuword.innerHTML  ='意图: 客户想知道如果这个东西没有那个家伙??'; 
-    //Intention: The customer wants to know if the product does not have something??
-   }
-}
+//document.getElementById('video-background').style.display = "none";
+document.getElementById('by').style.display = "none";
 
-if (index==2) {
-   zhishikuword.innerHTML  ='意图: 这个客户要信息/ 要产品的信息。'; //'Intention: The customer wants to be informed about something/ wants to be informed about the product'; 
-
-        if (counterthenegative==1) {
-     zhishikuword.innerHTML  ='意图：客户不要信息？？';  
-   }
-
-}
+console.log('should show')
+ 
 
 
-if (index==3) {
-   zhishikuword.innerHTML  ='意图: 客户要比较产品'; 
-   //'Intention: The customer wants to compare the product';
-           if (counterthenegative==1) {
-     zhishikuword.innerHTML  ='意图: 客户不要比较产品'; 
-     //'Intention: The customer does not want to compare the product'; 
-   }
-}
+ //page 2
 
-if (index==4) {
-   zhishikuword.innerHTML  ='意图: 客户想产品的验证。他想知道如果这个产品能做 X '; //'Intention: The customer wants a kind of validation, wants to know if the product can do X. '; 
+ document.getElementById('pol').style.display = "block";
+ document.getElementById('listT').style.display = "block";
 
-           if (counterthenegative==1) {
-      zhishikuword.innerHTML  ='意图:客户不需要验证??? ';
-      //'Intention: The customer does not want validation??? '; 
-   }
-}
+document.getElementById('album name').style.display = "block";
+document.getElementById('qr1').style.display = "block";
+//document.getElementById('qr2').style.display = "block";
+ //organize bio page
+var bio = document.getElementById('pol');
+ bio.style.position="absolute";
+bio.style.left = 750+'px';
+ bio.style.top = -40+'px'; 
 
+ var tabs = document.getElementById('listT');
+ tabs.style.position="absolute";
+tabs.style.left = 100+'px';
+ tabs.style.top =300+'px'; 
 
-if (index==5) {
-   zhishikuword.innerHTML  ='意图: 客户想知道产品的质量.这个产品好吗? ';
-   //'Intention: The customer wants to know about the quality of the product, or if the product is good. '; 
-
-              if (counterthenegative==1) {
-      zhishikuword.innerHTML  ='意图:客户不需要验证??? '; 
-      //'Intention: The customer does not want validation??? '; 
-   }
-}
+ var qr1 = document.getElementById('qr1');
+ qr1.style.position="absolute";
+qr1.style.left = 440+'px';
+ qr1.style.top =310+'px';
 
 
-if (index==6) {
-   zhishikuword.innerHTML  ='意图: 客户要产品的信息。客户想知道产品怎么做 X'; //Intention: The customer wants information about the product. The customer wants to know how the product does X.
+   var audio = new Audio('Separated.mp3');
+  var audio2 = new Audio('Skit FX.mp3');
+    var audio3 = new Audio('Turn Up.mp3');
 
+$( "#sepsong" ).on( "click", function() {
+  console.log('seperated')
 
-              if (counterthenegative==1) {
-      zhishikuword.innerHTML  ='意图: 客户要别的东西。 '; //Intention: The customer seems to want something else.
-   }
-}
+    audio.play();
+    audio2.pause();
+audio2.currentTime = 0;
+    audio3.pause();
+audio3.currentTime = 0;
 
-if (index==7) {
-   zhishikuword.innerHTML  ='意图:客户要描述会着产品的信息 ';//The customer wants instructions or information about the product. 
-                 if (counterthenegative==1) {
-     zhishikuword.innerHTML  ='意图: 客户要别的东西。 '; //The customer seems to want something else.
-   } 
-}
+});
 
+$( "#skitsong" ).on( "click", function() {
+  console.log('skit song')
+ 
+    audio2.play();
+        audio.pause();
+audio.currentTime = 0;
+    audio3.pause();
+audio3.currentTime = 0;
+});
 
-
-///
-
-if (index==8) {
-   zhishikuword.innerHTML  ='意图: 客户要知道多少.'//The customer wants to know how much.;
-                 if (counterthenegative==1) {
-     zhishikuword.innerHTML  ='意图:客户不确定'; //Intention: The customer seems unsure. 
-   } 
-}
-
+$( "#turnupsong" ).on( "click", function() {
+  console.log('turn up')
+ 
+    audio3.play();
+        audio2.pause();
+audio2.currentTime = 0;
+    audio.pause();
+audio.currentTime = 0;
+});
 
 
 }
 
 
+function popup () {
 
 
+}
+function tracks () {
+
+
+}
+
+function bios () {
+
+}
+
+
+
+///track page
 
 </script>
 
