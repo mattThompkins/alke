@@ -1,116 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Page Title</title>
-</head>
-<textarea id="myText">
-    I think Outborn has serious potential!
-</textarea>
-<button onclick="sendMail(); return false">Send</button>
-<body>
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <meta charset="ISO-8859-1"> 
+    <title>Online Student Portal</title> 
+</head> 
+<body> 
+    <form action="">
+         <input type="button" value="Warriors" onclick="window.location.href='warriorfrorians.html';"/>
+         <input type="button" value="Farmers" onclick="window.location.href='farmerfrorians.html';"/>
+         <input type="button" value="Merchants" onclick="window.location.href='merchantfrorians.html';"/>
+          <input type="button" value="Hazards" onclick="window.location.href='hazards.html';"/>
+          <input type="button" value="Shaman Spells" onclick="window.location.href='shamanspells.html';"/>
+           <input type="button" value="Tribe Spells" onclick="window.location.href='tribespells.html';"/>
+              <input type="button" value="Element Spells" onclick="window.location.href='elementspells.html';"/>
+              <input type="button" value="Herbal Spells" onclick="window.location.href='herbalspells.html';"/>
+    </form> 
 
-<h1>MoBsid Comics</h1>
-<br>
-</br>
-<br>
-<input type= "image" id="Rightbutton " style="height:20px;width:20px;position:relative;right:-780px;top:2px" onclick="Rbutton()" class="rbutton" src="right.png" >
-
-<textarea id="pagenumber" style="height:20px;width:20px;position:relative;right:-380px;top:2px">
-</textarea>
-
-<input type= "image" id="Leftbutton" style="height:20px;width:20px;position:relative;left:0px;top:2px" onclick="Lbutton()" class="lbutton" src="left.png" >
-</br>
-
-
-
-</style>
-<br>
-<div>
-<img src="1.png" id="mainimage" style="width:304px;height:228px;position:relative;right:-360px;top:2px">	
-</div>
-</br>
+    <img src="cover.jpg" height="340", width="240" id="cover">
+</body> 
+</html>
 
 <script type="text/javascript">
-
-var pageHaoma = 0; 
-	
-function Rbutton () {
-		console.log('love');
-		
-		if (pageHaoma <20) {
-			pageHaoma +=1;
-			var translation= pageHaoma.toString(); 
-			document.getElementById("pagenumber").value = translation;
-
-		}
-		if (pageHaoma == 1) {
-			document.getElementById('mainimage').src = "1.png";
-			console.log('equals 1');
-		}
-		if (pageHaoma == 2) {
-			document.getElementById('mainimage').src = "2.png";
-			console.log('equals 2');
-		}
-		if (pageHaoma == 3) {
-			document.getElementById('mainimage').src = "3.png";
-			console.log('equals 3');
-		}
-		if (pageHaoma == 4) {
-			document.getElementById('mainimage').src = "4.png";
-		}
-		if (pageHaoma == 5) {
-			document.getElementById('mainimage').src = "5.png";
-		}
-		if (pageHaoma > 5) {
-			document.getElementById('mainimage').src = "kenan.png";
-		}
-
-	}
-
-	function Lbutton () {
-		console.log('bliss');
-		
-		if (pageHaoma >0) {
-			pageHaoma -=1;
-			var translation= pageHaoma.toString(); 
-			document.getElementById("pagenumber").value = translation;
-
-		}
-		if (pageHaoma == 1) {
-			document.getElementById('mainimage').src = "1.png";
-		}
-		if (pageHaoma == 2) {
-			document.getElementById('mainimage').src = "2.png";
-		}
-		if (pageHaoma == 3) {
-			document.getElementById('mainimage').src = "3.png";
-		}
-		if (pageHaoma == 4) {
-			document.getElementById('mainimage').src = "4.png";
-		}
-		if (pageHaoma == 5) {
-			document.getElementById('mainimage').src = "5.png";
-		}
-if (pageHaoma > 5) {
-			document.getElementById('mainimage').src = "kenan.png";
-		}
+	var getDeck = document.getElementById('cover'); 
+getDeck.style.position="absolute";
+getDeck.style.left = 310+'px';
+getDeck.style.top = 200+'px';
+getDeck.style.zIndex = "0";
 
 
-	}
+var creaters=document.body.appendChild(document.createElement('div'));
+creaters.style.position="absolute";
+creaters.style.left = 615+'px';
+creaters.style.top = 340+'px';
+creaters.style.color = 'Black';
+creaters.innerHTML = "Creators: Matthew Quaine Thompkins, Ejea Fields: Copyright 2018";
 
 
-
-	function sendMail() {
-    var link = "mailto:mattaculer@gmail.com"
-             + "?cc=ejeafields@gmail.com"
-             + "&subject=" + escape("This is my subject")
-             + "&body=" + escape(document.getElementById('myText').value)
-    ;
-
-    window.location.href = link;
-}
-
+var creaters2=document.body.appendChild(document.createElement('div'));
+creaters2.style.position="absolute";
+creaters2.style.left = 405+'px';
+creaters2.style.top = 140+'px';
+creaters2.style.color = 'Black';
+creaters2.innerHTML = "Froz";
 </script>
-</body>
-
-</html>
