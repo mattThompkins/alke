@@ -2,25 +2,77 @@
 <html> 
 <head> 
     <meta charset="ISO-8859-1"> 
-    <title>Online Student Portal</title> 
+    <title>Home</title> 
 </head> 
 <body> 
+	<input  id ="username" type="text" placeholder="username" size ="30">
+
+<input  id ="password" type="text" placeholder="password" size ="30">
     <form action="">
-         <input type="button" value="Warriors" onclick="window.location.href='warriorfrorians.html';"/>
-         <input type="button" value="Farmers" onclick="window.location.href='farmerfrorians.html';"/>
-         <input type="button" value="Merchants" onclick="window.location.href='merchantfrorians.html';"/>
-          <input type="button" value="Hazards" onclick="window.location.href='hazards.html';"/>
-          <input type="button" value="Shaman Spells" onclick="window.location.href='shamanspells.html';"/>
-           <input type="button" value="Tribe Spells" onclick="window.location.href='tribespells.html';"/>
-              <input type="button" value="Element Spells" onclick="window.location.href='elementspells.html';"/>
-              <input type="button" value="Herbal Spells" onclick="window.location.href='herbalspells.html';"/>
+         <input type="button" id="1" value="Enter"   onclick="window.location.href='selectionpage.html';"/>
+      
+
     </form> 
+    <button id ="signup"  onclick="signup()">Sign-Up</button>
+
+<button id ="login"  onclick="login()">Login</button>
 
     <img src="cover.jpg" height="340", width="240" id="cover">
 </body> 
 </html>
 
+  <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script> 
+
 <script type="text/javascript">
+localStorage.clear();
+
+  var config = {
+    apiKey: "AIzaSyA7Zgc_qr9vmoi2Zil7NtY8ho2w6n2LwVs",
+    authDomain: "kora-d8e4d.firebaseapp.com",
+    databaseURL: "https://kora-d8e4d.firebaseio.com",
+    projectId: "kora-d8e4d",
+    storageBucket: "",
+    messagingSenderId: "703169856987"
+  };
+  firebase.initializeApp(config);
+   var database = firebase.database();
+
+
+
+//enter app 
+	var enterapp = document.getElementById('1'); 
+
+enterapp.style.position="absolute";
+enterapp.style.left = 610+'px';
+enterapp.style.top = 100+'px';
+enterapp.style.visibility='hidden';
+//
+
+var getusername = document.getElementById('username'); 
+getusername.style.position="absolute";
+getusername.style.left = 610+'px';
+getusername.style.top = 100+'px';
+
+var getpassword = document.getElementById('password'); 
+getpassword.style.position="absolute";
+getpassword.style.left = 610+'px';
+getpassword.style.top = 130+'px';
+
+
+var signupbutton = document.getElementById('signup'); 
+signupbutton.style.position="absolute";
+signupbutton.style.left = 610+'px';
+signupbutton.style.top = 160+'px';
+
+var loginbutton = document.getElementById('login'); 
+loginbutton.style.position="absolute";
+loginbutton.style.left = 690+'px';
+loginbutton.style.top = 160+'px';
+
+
+
+
+
 	var getDeck = document.getElementById('cover'); 
 getDeck.style.position="absolute";
 getDeck.style.left = 310+'px';
@@ -42,4 +94,128 @@ creaters2.style.left = 405+'px';
 creaters2.style.top = 140+'px';
 creaters2.style.color = 'Black';
 creaters2.innerHTML = "Froz";
+
+var u = document.getElementById('username').value; 
+var p = document.getElementById('password').value; 
+
+function signup () {
+	u = document.getElementById('username').value; 
+	 p = document.getElementById('password').value; 
+if (u.length==0||p.length==0) {
+alert("Please create a username and password")
+console.log(u,p)
+}
+
+
+if (u.length>1 && p.length>1) {
+var array =["test"]
+var array2 =["test"];
+
+var databaseRef = firebase.database().ref('Users');
+//deck, card gallery
+
+
+databaseRef.child(u).update({
+    Password:p,
+    Deck: array,
+    Cards: array2
+});
+
+// databaseRef.set({
+
+
+//     Password:p,
+//     Deck: array,
+//     Cards: array2
+
+
+// });
+
+}
+
+}
+
+function login () {
+
+	u = document.getElementById('username').value; 
+	 p = document.getElementById('password').value; 
+if (u.length==0||p.length==0) {
+alert("Please create a username and password")
+console.log(u,p)
+}
+
+
+
+if (u.length>1 && p.length>1) {
+	///query
+  var database = firebase.database();
+var querydata;
+var ref =database.ref('Users')//document.getElementById('username').value
+var allusernames=[];
+ref.on('value',gotData, errData);
+
+function gotData(data) {
+
+ querydata=data.val();
+
+var keys = Object.keys(querydata)
+ console.log(querydata.Cards, querydata.Deck, querydata.Password,keys)
+
+
+//deck, card gallery
+if (keys.indexOf(document.getElementById('username').value) >-1) {
+	// alert('WELCOME')
+	var users = ref.child(document.getElementById('username').value)
+users.on('value', function(snapshot) {
+    var val = snapshot.val();
+    //console.log(val.Cards, val.Deck, val.Password)
+ localStorage.setItem("username",document.getElementById('username').value);
+    if (document.getElementById('password').value==val.Password) {
+    	//alert('password is correct');
+
+    	//begin applicaion 
+
+
+
+enterapp.style.position="absolute";
+enterapp.style.left = 610+'px';
+enterapp.style.top = 100+'px';
+enterapp.style.visibility='visible';
+
+
+
+
+getusername.style.visibility = 'hidden';
+getpassword.style.visibility = 'hidden';
+signupbutton.style.visibility = 'hidden';
+loginbutton.style.visibility = 'hidden';
+
+
+
+
+
+
+
+
+    }
+    else
+    	alert('Please re-enter your password')
+  
+});
+
+
+}
+else
+alert('Please re-enter your username')
+
+
+
+}
+
+}
+function errData(err) {
+   console.log('not right')
+}
+
+}
 </script>
