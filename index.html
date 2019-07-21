@@ -2,6 +2,7 @@
 <html lang="en">
 <title>Mobsid Games</title>
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
@@ -43,21 +44,23 @@ body {font-family: "Lato", sans-serif}
 
   <!-- Automatic Slideshow Images -->
   <div class="mySlides w3-display-container w3-center">
-    <img src="story2.png" style="width:100%">
+  <!--   <img src="story2.png" style="width:100%"> -->
+    <img class="asyncImage" src="story2.png" data-src="story2.jpg" style="width:100%">
     <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
       <h3></h3>
       <p><b></b></p>   
     </div>
   </div>
   <div class="mySlides w3-display-container w3-center">
-    <img src="mmm.png" style="width:100%">
+
+     <img class="asyncImage" src="mmm.png" data-src="mmm2.png" style="width:100%">
     <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
       <h3><!-- Alke is a fast-paced card game --></h3>
       <!-- <p><b>Elegance and strength.Powerful combo.</b></p>   -->  
     </div>
   </div>
   <div class="mySlides w3-display-container w3-center">
-    <img src="menu.png" style="width:100%">
+    <img class="asyncImage" src="menu.png" data-src="menu.jpg" style="width:100%">
     <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
       <h3>  Plenty of wonderful cards to collect  </h3>
      <!--  <p><b>Joker inspired. Very powerful card.</b></p>  -->   
@@ -231,6 +234,8 @@ body {font-family: "Lato", sans-serif}
   <i class="fa fa-linkedin w3-hover-opacity"></i>
   <p class="w3-medium">Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p> -->
 </footer>
+
+
 
 <script>
 // Automatic Slideshow - change image every 4 seconds
